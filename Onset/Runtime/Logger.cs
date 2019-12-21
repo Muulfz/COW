@@ -47,8 +47,7 @@ namespace Onset.Runtime
 
         private void Print(string label, string message)
         {
-            Wrapper.PrintToConsole(_prefix + label + " > " + message);
-            //Wrapper.ExecuteLua("log-message", true, _prefix + label + " > " + message);
+            Wrapper.ExecuteLUA("cow-log-message", Wrapper.Escape(new {message = _prefix + label + " > " + message}));
         }
     }
 }

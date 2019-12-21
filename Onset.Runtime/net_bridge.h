@@ -1,5 +1,5 @@
-#ifndef __NET_BRIDGE_H__
-#define __NET_BRIDGE_H__
+
+#pragma once
 #include <string>
 #include <stdio.h>  /* defines FILENAME_MAX */
 #ifdef _WIN32
@@ -17,7 +17,6 @@
 
 // https://github.com/dotnet/coreclr/blob/master/src/coreclr/hosts/inc/coreclrhost.h
 #include "coreclrhost.h"
-#include "net_bridge.h"
 
 #define MANAGED_ASSEMBLY "Onset.dll"
 #define NO_ERROR 0
@@ -49,6 +48,8 @@
 // Function pointer types for the managed call and callback
 typedef int (*report_callback_ptr)(int progress);
 typedef void (*load_ptr)();
+typedef void (*unload_ptr)();
+typedef bool (*execute_event_ptr)(const char* name, const char* data);
 
 #if defined(_WIN32)
 void BuildTpaList(const char* directory, const char* extension, std::string& tpaList)
@@ -166,6 +167,8 @@ private:
 	coreclr_initialize_ptr initializeCoreClr;
 	coreclr_create_delegate_ptr createManagedDelegate;
 	coreclr_shutdown_ptr shutdownCoreClr;
+	execute_event_ptr executeEvent;
+	unload_ptr unload;
 	
 public:
 	int last_error = NO_ERROR;
@@ -270,7 +273,45 @@ public:
 		}
 		else
 		{
-			printf("coreclr_create_delegate failed - status: 0x%08x\n", hr);
+			printf("load delegate failed - status: 0x%08x\n", hr);
+			last_error = CONSOLE_ERROR;
+			return;
+		}
+
+		hr = createManagedDelegate(
+			hostHandle,
+			domainId,
+			"Onset",
+			"Onset.Runtime.Wrapper",
+			"Unload",
+			(void**)&unload);
+
+		if (hr >= 0)
+		{
+			printf("Managed delegate created\n");
+		}
+		else
+		{
+			printf("unload delegate failed - status: 0x%08x\n", hr);
+			last_error = CONSOLE_ERROR;
+			return;
+		}
+
+		hr = createManagedDelegate(
+			hostHandle,
+			domainId,
+			"Onset",
+			"Onset.Runtime.Wrapper",
+			"ExecuteEvent",
+			(void**)&executeEvent);
+
+		if (hr >= 0)
+		{
+			printf("Managed delegate created\n");
+		}
+		else
+		{
+			printf("execute_event delegate failed - status: 0x%08x\n", hr);
 			last_error = CONSOLE_ERROR;
 			return;
 		}
@@ -290,6 +331,7 @@ public:
 	
 	void stop()
 	{
+		unload();
 		int hr = shutdownCoreClr(hostHandle, domainId);
 		if (hr >= 0)
 		{
@@ -302,13 +344,15 @@ public:
 			last_error = CONSOLE_ERROR;
 		}
 	}
-	bool execute_event(const char* name, const char* data);
+	
+	bool execute_event(const char* name, const char* data)
+	{
+		return executeEvent(name, data);
+	}
 };
 
 
 
 #ifdef __cplusplus
 }
-#endif
-	
 #endif

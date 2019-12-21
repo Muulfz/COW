@@ -18,24 +18,24 @@
     <ClInclude Include="net_bridge.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="coreclr_delegates.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="hostfxr.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="coreclrhost.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="cs_interface.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Plugin.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="working_class.cpp">
+    <ClCompile Include="Plugin.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="cs_interface.cpp">
+    <ClCompile Include="PluginInterface.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
