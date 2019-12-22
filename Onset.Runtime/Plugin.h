@@ -11,7 +11,6 @@ see https://bluemountains.io/Onset_OpenSourceSoftware_License.txt
 
 #pragma once
 
-#include "net_bridge.h"
 #include <PluginSDK.h>
 
 #include "Singleton.h"
@@ -19,6 +18,7 @@ see https://bluemountains.io/Onset_OpenSourceSoftware_License.txt
 #include <vector>
 #include <tuple>
 #include <functional>
+#include "net_bridge.h"
 
 
 class Plugin : public Singleton<Plugin>

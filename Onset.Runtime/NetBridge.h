@@ -1,7 +1,4 @@
-
 #pragma once
-#ifndef __NET_BRIDGE_H__
-#define __NET_BRIDGE_H__
 #include <string>
 #include <stdio.h>  /* defines FILENAME_MAX */
 #ifdef _WIN32
@@ -53,12 +50,108 @@ typedef void (*load_ptr)();
 typedef void (*unload_ptr)();
 typedef bool (*execute_event_ptr)(const char* name, const char* data);
 
+#if defined(_WIN32)
+void BuildTpaList(const char* directory, const char* extension, std::string& tpaList)
+{
+	std::string searchPath(directory);
+	searchPath.append(FS_SEPARATOR);
+	searchPath.append("*");
+	searchPath.append(extension);
 
-/*int ReportProgressCallback(int progress)
+	WIN32_FIND_DATAA findData;
+	HANDLE fileHandle = FindFirstFileA(searchPath.c_str(), &findData);
+
+	if (fileHandle != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			tpaList.append(directory);
+			tpaList.append(FS_SEPARATOR);
+			tpaList.append(findData.cFileName);
+			tpaList.append(PATH_DELIMITER);
+		} while (FindNextFileA(fileHandle, &findData));
+		FindClose(fileHandle);
+	}
+}
+#elif defined(__linux__)
+void BuildTpaList(const char* directory, const char* extension, std::string& tpaList)
+{
+	DIR* dir = opendir(directory);
+	struct dirent* entry;
+	int extLength = strlen(extension);
+
+	while ((entry = readdir(dir)) != NULL)
+	{
+		std::string filename(entry->d_name);
+		int extPos = filename.length() - extLength;
+		if (extPos <= 0 || filename.compare(extPos, extLength, extension) != 0)
+		{
+			continue;
+		}
+		tpaList.append(directory);
+		tpaList.append(FS_SEPARATOR);
+		tpaList.append(filename);
+		tpaList.append(PATH_DELIMITER);
+	}
+}
+#endif
+
+int ReportProgressCallback(int progress)
 {
 	printf("Received status from managed code: %d\n", progress);
 	return -progress;
-}*/
+}
+
+std::string get_coreclr_path()
+{
+	char cCurrentPath[FILENAME_MAX];
+
+	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
+	{
+		return NULL;
+	}
+
+	cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
+#if defined(_WIN32)
+	return std::string(cCurrentPath) + "\\cow\\coreclr.dll";
+#else	
+	return std::string(cCurrentPath) + "\\cow\\libcoreclr.so";
+#endif
+}
+
+std::string get_runtime_dir()
+{
+	char cCurrentPath[FILENAME_MAX];
+
+	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
+	{
+		return NULL;
+	}
+
+	cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
+#if defined(_WIN32)
+	return std::string(cCurrentPath) + "\\cow\\";
+#else	
+	return std::string(cCurrentPath) + "\\cow\\";
+#endif
+}
+
+std::string get_wrapper_path()
+{
+	char cCurrentPath[FILENAME_MAX];
+
+	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
+	{
+		return NULL;
+	}
+
+	cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
+#if defined(_WIN32)
+	return std::string(cCurrentPath) + "\\cow\\Onset.dll";
+#else	
+	return std::string(cCurrentPath) + "\\cow\\Onset.dll";
+#endif
+}
 
 #ifdef __cplusplus
 extern "C"
@@ -81,53 +174,9 @@ public:
 	
 	NetBridge()
 	{
-		char gCurrentPath[FILENAME_MAX];
-
-		if (!GetCurrentDir(gCurrentPath, sizeof(gCurrentPath)))
-		{
-			printf("ERROR: No coreclr path found!");
-			last_error = CONSOLE_ERROR;
-			return;
-		}
-
-		gCurrentPath[sizeof(gCurrentPath) - 1] = '\0';
-#if defined(_WIN32)
-		std::string coreClrPath = std::string(gCurrentPath) + "\\cow\\coreclr.dll";
-#else	
-		std::string coreClrPath = std::string(cCurrentPath) + "\\cow\\libcoreclr.so";
-#endif
-		char cCurrentPath[FILENAME_MAX];
-
-		if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
-		{
-			printf("ERROR: No Wrapper path found!");
-			last_error = CONSOLE_ERROR;
-			return;
-		}
-
-		cCurrentPath[sizeof(cCurrentPath) - 1] = '\0';
-#if defined(_WIN32)
-		std::string wrapperPath = std::string(cCurrentPath) + "\\cow\\Onset.dll";
-#else	
-		std::string wrapperPath = std::string(cCurrentPath) + "\\cow\\Onset.dll";
-#endif
-
-		char rCurrentPath[FILENAME_MAX];
-
-		if (!GetCurrentDir(rCurrentPath, sizeof(rCurrentPath)))
-		{
-			printf("ERROR: No Runtime path found!");
-			last_error = CONSOLE_ERROR;
-			return;
-		}
-
-		rCurrentPath[sizeof(rCurrentPath) - 1] = '\0';
-		#if defined(_WIN32)
-		std::string runtimePath = std::string(rCurrentPath) + "\\cow\\";
-		#else	
-		std::string runtimePath = std::string(rCurrentPath) + "\\cow\\";
-		#endif
-	
+		std::string coreClrPath = get_coreclr_path();
+		std::string wrapperPath = get_wrapper_path();
+		std::string runtimePath = get_runtime_dir();
 #if defined(_WIN32)
 		HMODULE coreClr = LoadLibraryExA(coreClrPath.c_str(), NULL, 0);
 #elif defined(__linux__)
@@ -176,48 +225,7 @@ public:
 		}
 
 		std::string tpaList;
-
-		//
-#if defined(_WIN32)
-			std::string searchPath(runtimePath.c_str());
-			searchPath.append(FS_SEPARATOR);
-			searchPath.append("*");
-			searchPath.append(".dll");
-
-			WIN32_FIND_DATAA findData;
-			HANDLE fileHandle = FindFirstFileA(searchPath.c_str(), &findData);
-
-			if (fileHandle != INVALID_HANDLE_VALUE)
-			{
-				do
-				{
-					tpaList.append(runtimePath.c_str());
-					tpaList.append(FS_SEPARATOR);
-					tpaList.append(findData.cFileName);
-					tpaList.append(PATH_DELIMITER);
-				} while (FindNextFileA(fileHandle, &findData));
-				FindClose(fileHandle);
-			}
-#elif defined(__linux__)
-			DIR* dir = opendir(runtimePath.c_str());
-			struct dirent* entry;
-			int extLength = strlen(".dll");
-
-			while ((entry = readdir(dir)) != NULL)
-			{
-				std::string filename(entry->d_name);
-				int extPos = filename.length() - extLength;
-				if (extPos <= 0 || filename.compare(extPos, extLength, extension) != 0)
-				{
-					continue;
-				}
-				tpaList.append(runtimePath.c_str());
-				tpaList.append(FS_SEPARATOR);
-				tpaList.append(filename);
-				tpaList.append(PATH_DELIMITER);
-			}
-#endif
-		//
+		BuildTpaList(runtimePath.c_str(), ".dll", tpaList);
 
 		const char* propertyKeys[] = {
 			"TRUSTED_PLATFORM_ASSEMBLIES"      
@@ -346,5 +354,4 @@ public:
 
 #ifdef __cplusplus
 }
-#endif
 #endif
