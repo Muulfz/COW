@@ -1,11 +1,10 @@
 {
   "author": "COW Team",
   "version": "1.0:0",
-  "files": [
-    ".vscode/settings.json"
-  ],
+  "files": [],
   "server_scripts": [
-    "server/cow.lua"
+    "server/cow.lua",
+    "server/library/json.lua"
   ],
   "client_scripts": []
 }
