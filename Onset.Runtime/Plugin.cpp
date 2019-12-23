@@ -1,7 +1,6 @@
 #include "Plugin.h"
 #include <string>
 #include "cs_interface.h"
-#include <codecvt>
 
 #ifdef LUA_DEFINE
 # undef LUA_DEFINE
