@@ -18,8 +18,12 @@ namespace Onset.Runtime
         internal static extern string ExecuteLua(string name, bool simple, string data);*/
 
         [DllImport(RuntimeName, EntryPoint = "execute_lua", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.BStr)]
-        internal static extern string ExecuteLUA([MarshalAs(UnmanagedType.LPStr)]string name, [MarshalAs(UnmanagedType.LPStr)]string data = "");
+        private static extern IntPtr ExecuteLuaPtr([MarshalAs(UnmanagedType.LPStr)]string name, [MarshalAs(UnmanagedType.LPStr)]string data);
+
+        internal static string ExecuteLUA(string name, string data = "")
+        {
+            return Marshal.PtrToStringUTF8(ExecuteLuaPtr(name, data));
+        }
 
         [DllImport(RuntimeName, EntryPoint = "log_to_console", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void LogConsole([MarshalAs(UnmanagedType.LPStr)]string message);

@@ -1,6 +1,7 @@
 #include "Plugin.h"
 #include <string>
 #include "cs_interface.h"
+#include <codecvt>
 
 #ifdef LUA_DEFINE
 # undef LUA_DEFINE
@@ -9,30 +10,16 @@
 
 lua_State* L;
 
-BSTR ANSItoBSTR(char* input)
-{
-	BSTR result = NULL;
-	int lenA = lstrlenA(input);
-	int lenW = ::MultiByteToWideChar(CP_ACP, 0, input, lenA, NULL, 0);
-	if (lenW > 0)
-	{
-		result = ::SysAllocStringLen(0, lenW);
-		::MultiByteToWideChar(CP_ACP, 0, input, lenA, result, lenW);
-	}
-	return result;
-}
-
-EXPORTED BSTR execute_lua(const char* name, const char* data)
+EXPORTED const char* execute_lua(const char* name, const char* data)
 {
 	lua_getglobal(L, name);
 	lua_pushstring(L, data);
 	int state = lua_pcall(L, 1, 1, 0);
-	std::string ret = "failed";
 	if (state == LUA_OK)
 	{
-		ret = std::string(lua_tostring(L, -1));
+		return lua_tostring(L, -1);
 	}
-	return ANSItoBSTR(ret.data());
+	return "failed";
 }
 
 EXPORTED void log_to_console(const char* mesg)

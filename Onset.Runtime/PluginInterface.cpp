@@ -1,6 +1,5 @@
 #include <PluginSDK.h>
 #include "Plugin.h"
-#include "cs_interface.h"
 
 Onset::IServerPlugin* Onset::Plugin::_instance = nullptr;
 
