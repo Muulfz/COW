@@ -1,21 +1,56 @@
 #include "Plugin.h"
 #include <string>
+#include "cs_interface.h"
 
 #ifdef LUA_DEFINE
 # undef LUA_DEFINE
 #endif
 #define LUA_DEFINE(name) Define(#name, [](lua_State *L) -> int
 
+lua_State* L;
+
+BSTR ANSItoBSTR(char* input)
+{
+	BSTR result = NULL;
+	int lenA = lstrlenA(input);
+	int lenW = ::MultiByteToWideChar(CP_ACP, 0, input, lenA, NULL, 0);
+	if (lenW > 0)
+	{
+		result = ::SysAllocStringLen(0, lenW);
+		::MultiByteToWideChar(CP_ACP, 0, input, lenA, result, lenW);
+	}
+	return result;
+}
+
+EXPORTED BSTR execute_lua(const char* name, const char* data)
+{
+	lua_getglobal(L, name);
+	lua_pushstring(L, data);
+	int state = lua_pcall(L, 1, 1, 0);
+	std::string ret = "failed";
+	if (state == LUA_OK)
+	{
+		ret = std::string(lua_tostring(L, -1));
+	}
+	return ANSItoBSTR(ret.data());
+}
+
+EXPORTED void log_to_console(const char* mesg)
+{
+	Onset::Plugin::Get()->Log(mesg);
+}
 
 Plugin::Plugin()
 {
 	bridge = NULL;
-	LUA_DEFINE(executeNET)
+	LUA_DEFINE(ExecuteNET)
 	{
 		std::string name;
 		std::string data;
 		Lua::ParseArguments(L, name, data);
-		return Lua::ReturnValues(L, Plugin::Get()->bridge->execute_event(name.c_str(), data.c_str()));
+		bool r = Plugin::Get()->bridge->execute_event(name.c_str(), data.c_str());
+		Lua::ReturnValues(L, r);
+		return 1;
 	});
 	LUA_DEFINE(setCowReturn)
 	{
@@ -29,6 +64,7 @@ Plugin::Plugin()
 
 void Plugin::startPackage(lua_State* lua)
 {
+	L = lua;
 	bridge = new NetBridge();
 }
 

@@ -4,17 +4,6 @@
 
 Onset::IServerPlugin* Onset::Plugin::_instance = nullptr;
 
-EXPORTED const char* execute_lua(const char* name, const char* data)
-{
-	auto args = new Lua::LuaArgs_t();
-	int id = Plugin::Get()->get_rval_id();
-	args->push_back(id);
-	args->push_back(data);
-	Onset::Plugin::Get()->CallEvent(name, args);
-	return Plugin::Get()->GetRval(id).c_str();
-}
-
-
 EXPORT(int) OnPluginGetApiVersion()
 {
 	return PLUGIN_API_VERSION;
@@ -45,13 +34,19 @@ EXPORT(void) OnPluginTick(float DeltaSeconds)
 
 EXPORT(void) OnPackageLoad(const char* PackageName, lua_State* L)
 {
-	(void)PackageName; // unused
-
-	for (auto const& f : Plugin::Get()->GetFunctions())
-		Lua::RegisterPluginFunction(L, std::get<0>(f), std::get<1>(f));
+	auto pn = new std::string(PackageName);
+	if (*pn == "cow_lua") {
+		for (auto const& f : Plugin::Get()->GetFunctions())
+			Lua::RegisterPluginFunction(L, std::get<0>(f), std::get<1>(f));
+		Plugin::Get()->startPackage(L);
+		Onset::Plugin::Get()->Log("COW: v1.0:0 successfully loaded.");
+	}
 }
 
 EXPORT(void) OnPackageUnload(const char* PackageName)
 {
-	(void)PackageName; // unused
+	auto pn = new std::string(PackageName);
+	if (*pn == "cow_lua") {
+		Plugin::Get()->stopPackage();
+	}
 }
