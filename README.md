@@ -13,7 +13,7 @@ COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wr
 
 
 ## Requirements
-  - .NET Core 3.0 or higher
+  - .NET Core =3.0
   - Onset Server
   - One package slot available (keep in mind, there is a package limitation, and COW is an own package)
   - For developers: C# knowledge and NUGET
