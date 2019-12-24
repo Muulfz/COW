@@ -18,7 +18,7 @@ EXPORTED const char* execute_lua(const char* name, const char* data)
 	{
 		return lua_tostring(L, -1);
 	}
-	return "failed";
+	return "";
 }
 
 EXPORTED void log_to_console(const char* mesg)

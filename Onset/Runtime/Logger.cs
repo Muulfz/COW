@@ -12,11 +12,11 @@ namespace Onset.Runtime
         {
             if (prefix != null)
             {
-                _prefix = "[" + prefix + "] ";
+                _prefix = "[COW: " + prefix + "] ";
             }
             else
             {
-                _prefix = "";
+                _prefix = "[COW] ";
             }
         }
 
@@ -47,7 +47,7 @@ namespace Onset.Runtime
 
         private void Print(string label, string message)
         {
-            Wrapper.ExecuteLUA("cow-log-message", Wrapper.Escape(new {message = _prefix + label + " > " + message}));
+            Wrapper.LogConsole(_prefix + label + " > " + message);
         }
     }
 }

@@ -16,6 +16,9 @@ namespace Onset
         /// </summary>
         IPluginManager PluginManager { get; }
 
+        /// <summary>
+        /// Returns the main logger of current COW instance.
+        /// </summary>
         ILogger Logger { get; }
     }
 }

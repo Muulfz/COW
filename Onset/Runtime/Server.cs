@@ -13,7 +13,7 @@ namespace Onset.Runtime
 
         internal Server()
         {
-            Logger = new Logger("C#");
+            Logger = new Logger();
             PluginManager = new PluginManager();
         }
 

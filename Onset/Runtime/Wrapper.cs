@@ -20,9 +20,9 @@ namespace Onset.Runtime
         [DllImport(RuntimeName, EntryPoint = "execute_lua", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ExecuteLuaPtr([MarshalAs(UnmanagedType.LPStr)]string name, [MarshalAs(UnmanagedType.LPStr)]string data);
 
-        internal static string ExecuteLUA(string name, string data = "")
+        internal static ReturnData ExecuteLUA(string name, string data = "")
         {
-            return Marshal.PtrToStringUTF8(ExecuteLuaPtr(name, data));
+            return new ReturnData(Marshal.PtrToStringUTF8(ExecuteLuaPtr(name, data)));
         }
 
         [DllImport(RuntimeName, EntryPoint = "log_to_console", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -34,7 +34,6 @@ namespace Onset.Runtime
             {
                 Server.Start();
                 LogConsole("COW: Finish-Trigger received! Wrapper has been finished and is now completely functional!");
-                LogConsole("COW: Test Ping?: " + ExecuteLUA("OnTest"));
                 return false;
             }
             return false;
@@ -58,39 +57,6 @@ namespace Onset.Runtime
         internal static string Escape(object obj)
         {
             return JsonConvert.SerializeObject(obj);
-        }
-
-        private class ConstCharPtrMarshaler : ICustomMarshaler
-        {
-            public object MarshalNativeToManaged(IntPtr pNativeData)
-            {
-                return Marshal.PtrToStringAnsi(pNativeData);
-            }
-
-            public IntPtr MarshalManagedToNative(object ManagedObj)
-            {
-                return IntPtr.Zero;
-            }
-
-            public void CleanUpNativeData(IntPtr pNativeData)
-            {
-            }
-
-            public void CleanUpManagedData(object ManagedObj)
-            {
-            }
-
-            public int GetNativeDataSize()
-            {
-                return IntPtr.Size;
-            }
-
-            static readonly ConstCharPtrMarshaler instance = new ConstCharPtrMarshaler();
-
-            public static ICustomMarshaler GetInstance(string cookie)
-            {
-                return instance;
-            }
         }
     }
 }
