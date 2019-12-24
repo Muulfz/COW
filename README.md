@@ -29,5 +29,10 @@ Das Darki  | Project Lead & Dev Lead | [Github](https://github.com/DasDarki/)
 ### License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 COW is licensed under the **MIT** License.
 
+## ToDo
+- Client-Side API (*maybe not possible*, workaround?)
+- Async Support
+- Dependency Loading / Prior Loading
+
 ## Documentaion
 *coming soon*
