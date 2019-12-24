@@ -26,9 +26,8 @@ Name  | Role | Link
 ------------- | -------------| -------------
 Das Darki  | Project Lead & Dev Lead | [Github](https://github.com/DasDarki/)
 
-### License
+### License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 COW is licensed under the **MIT** License.
-https://github.com/DasDarki/COW/blob/master/LICENSE
 
 ## Documentaion
 *coming soon*
