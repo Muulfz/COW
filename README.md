@@ -1,4 +1,4 @@
-# Project COW ![Version](https://img.shields.io/badge/version-1.0%3A0-green)
+# Project COW [![Version](https://img.shields.io/badge/version-1.0%3A0-green)](https://github.com/DasDarki/COW)
 
 COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wrapper for the LUA API for Onset Servers.
 
