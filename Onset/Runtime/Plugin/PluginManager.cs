@@ -20,7 +20,15 @@ namespace Onset.Runtime.Plugin
         internal PluginManager()
         {
             Plugins = new List<OnsetPlugin>();
-            PluginsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "plugins");
+            string currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            PluginsPath = Path.Combine(currentPath, "plugins");
+            foreach (string file in Directory.GetFiles(currentPath))
+            {
+                if (Path.GetExtension(file).ToLower().Contains("dll") && Path.GetFileNameWithoutExtension(file).ToLower() != "Onset")
+                {
+                    TryLoadLibrary(file);
+                }
+            }
             if (!Directory.Exists(PluginsPath))
             {
                 Directory.CreateDirectory(PluginsPath);
@@ -37,105 +45,18 @@ namespace Onset.Runtime.Plugin
                 Payload result = LoadPayload(file);
                 if (result == null)
                 {
-                    //Native.getServer().getLogger().warn("Could not extract classes from \"" + file.getAbsolutePath() + "\"");
+                    Wrapper.Server.Logger.Warn("Could not load DLL \"" + Path.GetFileName(file) + "\"! Maybe it was a Library?!");
                     continue;
                 }
 
                 if (GetPlugin(result.Meta.ID) != null)
                 {
-                    //Error!
+                    Wrapper.Server.Logger.Warn("Found a Plugin with the ID \"" + result.Meta.ID + "\" but there is Plugin loaded with the same ID!");
                     return;
                 }
+                Wrapper.Server.Logger.Info("Found and created Plugin: \"" + result.Meta.ID + "\"! Starting it...");
                 StartPlugin(result.CreatePlugin());
-            }/*
-            while (plugins.Count > 0)
-            {
-                bool missingDependency = true;
-                Iterator<Tuple<string, Payload>> pluginIterator = plugins.Entries().Iterator();
-                while (pluginIterator.HasNext())
-                {
-                    Tuple<string, Payload> entry = pluginIterator.Next();
-                    string plugin = entry.Item1;
-                    if (dependencies.ContainsKey(plugin))
-                    {
-                        Iterator<string> dependencyIterator = dependencies[plugin].Iterator();
-                        while (dependencyIterator.HasNext())
-                        {
-                            string dependency = dependencyIterator.Next();
-                            if (dependency == null) break;
-                            if (loadedPlugins.Contains(dependency))
-                            {
-                                dependencyIterator.Remove();
-                            }
-                            else if (!plugins.ContainsKey(dependency))
-                            {
-                                missingDependency = false;
-                                pluginIterator.Remove();
-                                dependencies.Remove(plugin);
-                                //Native.getServer().getLogger().fatal("Could not load '" + entry.getValue().getMeta().id() + "' because of a missing dependency!");
-                            }
-                        }
-
-                        if (dependencies.ContainsKey(plugin) && dependencies[plugin].Count == 0)
-                        {
-                            dependencies.Remove(plugin);
-                        }
-                    }
-                    if (!dependencies.ContainsKey(plugin) && plugins.ContainsKey(plugin))
-                    {
-                        Payload result = plugins[plugin];
-                        pluginIterator.Remove();
-                        missingDependency = false;
-                        try
-                        {
-                            StartPlugin(result.CreatePlugin());
-                            loadedPlugins.Add(plugin);
-                        }
-                        catch (Exception ex)
-                        {
-                            //Native.getServer().getLogger().error("Could not load plugin '" + result.getMeta().id() + "'!", ex);
-                        }
-                    }
-                }
-                if (missingDependency)
-                {
-                    pluginIterator = plugins.Entries().Iterator();
-                    while (pluginIterator.HasNext())
-                    {
-                        Tuple<string, Payload> entry = pluginIterator.Next();
-                        string plugin = entry.Item1;
-                        if (!dependencies.ContainsKey(plugin))
-                        {
-                            missingDependency = false;
-                            Payload result = entry.Item2;
-                            pluginIterator.Remove();
-
-                            try
-                            {
-                                StartPlugin(result.CreatePlugin());
-                                loadedPlugins.Add(plugin);
-                                break;
-                            }
-                            catch (Exception ex)
-                            {
-                                //Native.getServer().getLogger().error("Could not load plugin '" + result.getMeta().id() + "'!", ex);
-                            }
-                        }
-                    }
-                    if (missingDependency)
-                    {
-                        dependencies.Clear();
-                        Iterator<Payload> failedPluginIterator = plugins.Values.ToList().Iterator();
-                        while (failedPluginIterator.HasNext())
-                        {
-                            Payload file = failedPluginIterator.Next();
-                            if (file == null) break;
-                            failedPluginIterator.Remove();
-                            //Native.getServer().getLogger().fatal("Could not load plugin '" + file.getMeta().id() + "': circular dependency detected");
-                        }
-                    }
-                }
-            }*/
+            }
         }
 
         public OnsetPlugin GetPlugin(string id)
@@ -156,9 +77,11 @@ namespace Onset.Runtime.Plugin
                 plugin.Load();
                 Plugins.Add(plugin);
                 plugin.State = PluginState.Enabled;
+                plugin.Logger.Success("Loaded Plugin successfully!");
             }
-            catch
+            catch(Exception e)
             {
+                Wrapper.Server.Logger.Error("An error occurred while starting Plugin \"" + plugin.Meta.ID + "\"!", e);
                 plugin.State = PluginState.Failed;
             }
         }
@@ -167,10 +90,12 @@ namespace Onset.Runtime.Plugin
         {
             try
             {
+                plugin.Logger.Info("Disabling this Plugin...");
                 plugin.State = PluginState.Disabling;
                 plugin.Unload();
                 Plugins.Remove(plugin);
                 plugin.State = PluginState.Disabled;
+                plugin.Logger.Success("Plugin disabled!");
             }
             catch
             {

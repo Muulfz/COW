@@ -11,7 +11,7 @@ namespace Onset.Test
     {
         public override void Load()
         {
-            Logger.Info("Hallo von Onset Test!");
+            Logger.Info("Game Version: " + Server.GameVersion);
         }
 
         public override void Unload()

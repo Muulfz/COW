@@ -17,8 +17,13 @@ namespace Onset
         IPluginManager PluginManager { get; }
 
         /// <summary>
-        /// Returns the main logger of current COW instance.
+        /// The main logger of current COW instance.
         /// </summary>
         ILogger Logger { get; }
+
+        /// <summary>
+        /// The game version of the current running server.
+        /// </summary>
+        int GameVersion { get; }
     }
 }

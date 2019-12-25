@@ -1,4 +1,5 @@
 ﻿using System;
+using Onset.Helper;
 using Onset.Plugin;
 using Onset.Runtime.Plugin;
 
@@ -11,6 +12,10 @@ namespace Onset.Runtime
 
         public ILogger Logger { get; }
 
+        public int GameVersion => Wrapper.ExecuteLUA("COW_GetGameVersion").Value<int>("version");
+
+        public string GameVersionAsString => Wrapper.ExecuteLUA("COW_GetGameVersionString").Value<string>("version");
+
         internal Server()
         {
             Logger = new Logger();
@@ -19,15 +24,13 @@ namespace Onset.Runtime
 
         internal void Start()
         {
+            Logger.Info("Found game version: " + GameVersionAsString);
             ((PluginManager) PluginManager).LoadPlugins();
         }
 
         internal void Stop()
         {
-            foreach (OnsetPlugin plugin in PluginManager.Plugins)
-            {
-                PluginManager.StopPlugin(plugin);
-            }
+            PluginManager.Plugins.SafeForEach(plugin => PluginManager.StopPlugin(plugin));
         }
     }
 }

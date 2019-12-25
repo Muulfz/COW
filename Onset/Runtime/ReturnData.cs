@@ -24,13 +24,22 @@ namespace Onset.Runtime
             }
             else
             {
-                IsFailed = false;
-                _content = JObject.Parse(data);
+                try
+                {
+                    IsFailed = false;
+                    _content = JObject.Parse(data);
+                }
+                catch(Exception ex)
+                {
+                    IsFailed = true;
+                    Wrapper.Server.Logger.Error("An error occurred while JSON deserialize on \"" + data + "\"", ex);
+                }
             }
         }
 
         internal T Value<T>(string name = null)
         {
+            if (IsFailed) return default;
             return name == null ? _content.Value<T>() : _content.Value<T>(name);
         }
 

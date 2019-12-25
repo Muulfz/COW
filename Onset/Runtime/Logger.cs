@@ -25,6 +25,11 @@ namespace Onset.Runtime
             Print("INFO", message);
         }
 
+        public void Warn(string message)
+        {
+            Print("WARN", message);
+        }
+
         public void Success(string message)
         {
             Print("SUCCESS", message);
@@ -42,7 +47,7 @@ namespace Onset.Runtime
 
         public void Error(string message, Exception exception)
         {
-            Print("ERROR", message + "\n" + exception);
+            Print("ERROR", message + "\n" + message + "\n" + exception.Message + "\n" + exception.StackTrace + (exception.InnerException != null ? "\n" + exception.InnerException.Message + "\n" + exception.InnerException.StackTrace : ""));
         }
 
         private void Print(string label, string message)

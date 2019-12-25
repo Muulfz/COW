@@ -2,8 +2,12 @@ print('COW: Loading LUA Backend...')
 Json = require('packages/'..GetPackageName()..'/server/library/json');
 -- START LUA API --
 
-function OnTest(data)
-    return 'Test'
+function COW_GetGameVersion(data)
+    return Json.encode({version = GetGameVersion()})
+end
+
+function COW_GetGameVersionString(data)
+    return Json.encode({version = GetGameVersionString()})
 end
 
 

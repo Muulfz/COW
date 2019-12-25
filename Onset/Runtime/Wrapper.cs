@@ -14,9 +14,6 @@ namespace Onset.Runtime
         internal static Server Server { get; private set; }
 
 
-        /*[DllImport("Onset.Runtime.dll", EntryPoint = "execute_lua")] //maybe change name?
-        internal static extern string ExecuteLua(string name, bool simple, string data);*/
-
         [DllImport(RuntimeName, EntryPoint = "execute_lua", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ExecuteLuaPtr([MarshalAs(UnmanagedType.LPStr)]string name, [MarshalAs(UnmanagedType.LPStr)]string data);
 
@@ -43,7 +40,6 @@ namespace Onset.Runtime
         {
             LogConsole("COW: Loading Wrapper...");
             Server = new Server();
-            Server.Start();
             LogConsole("COW: Wrapper loaded!");
         }
 
