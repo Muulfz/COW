@@ -33,7 +33,7 @@ namespace Onset.Runtime.Plugin
             OnsetPlugin plugin = (OnsetPlugin) Activator.CreateInstance(PluginType);
             plugin.Meta = Meta;
             plugin.Server = Wrapper.Server;
-            plugin.Logger = new Logger(Meta.Name);
+            plugin.Logger = new Logger(Meta.Name, Meta.IsDebug);
             return plugin;
         }
     }

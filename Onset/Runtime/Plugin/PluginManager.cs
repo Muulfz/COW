@@ -17,8 +17,11 @@ namespace Onset.Runtime.Plugin
 
         public string PluginsPath { get; }
 
-        internal PluginManager()
+        private readonly Server _server;
+
+        internal PluginManager(Server server)
         {
+            _server = server;
             Plugins = new List<OnsetPlugin>();
             string currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             PluginsPath = Path.Combine(currentPath, "plugins");
@@ -76,8 +79,10 @@ namespace Onset.Runtime.Plugin
                 plugin.State = PluginState.Enabling;
                 plugin.Load();
                 Plugins.Add(plugin);
+                _server.CommandRegistry.Register(plugin);
                 plugin.State = PluginState.Enabled;
                 plugin.Logger.Success("Loaded Plugin successfully!");
+                plugin.Logger.Warn("This plugin is in DEBUG mode!");
             }
             catch(Exception e)
             {

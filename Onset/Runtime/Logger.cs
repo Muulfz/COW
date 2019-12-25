@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Onset.Plugin;
 
 namespace Onset.Runtime
 {
     internal class Logger : ILogger
     {
         private readonly string _prefix;
+        private readonly bool _isDebug;
 
-        internal Logger(string prefix = null)
+        internal Logger(string prefix = null, bool isDebug = false)
         {
+            _isDebug = isDebug;
             if (prefix != null)
             {
                 _prefix = "[COW: " + prefix + "] ";
@@ -37,6 +40,7 @@ namespace Onset.Runtime
 
         public void Debug(string message)
         {
+            if(!_isDebug) return;
             Print("DEBUG", message);
         }
 

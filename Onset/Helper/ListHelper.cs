@@ -21,6 +21,19 @@ namespace Onset.Helper
             return list;
         }
 
+        public static List<T> SelectAll<T>(this List<T> list, Predicate<T> select)
+        {
+            List<T> newList = new List<T>();
+            list.SafeForEach(obj =>
+            {
+                if (select.Invoke(obj))
+                {
+                    newList.Add(obj);
+                }
+            });
+            return newList;
+        }
+
         public static T SelectFirst<T>(this IList<T> list, Predicate<T> select, T @default = default)
         {
             T value = @default;
