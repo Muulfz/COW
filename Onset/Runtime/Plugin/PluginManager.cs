@@ -80,6 +80,7 @@ namespace Onset.Runtime.Plugin
                 plugin.Load();
                 Plugins.Add(plugin);
                 _server.CommandRegistry.Register(plugin);
+                _server.ServerEventRegistry.Register(plugin);
                 plugin.State = PluginState.Enabled;
                 plugin.Logger.Success("Loaded Plugin successfully!");
                 plugin.Logger.Warn("This plugin is in DEBUG mode!");
@@ -128,7 +129,11 @@ namespace Onset.Runtime.Plugin
                 Assembly assembly = Assembly.LoadFile(file);
                 Type pluginType = assembly.GetExportedTypes().SelectFirst(type => _pluginType.IsAssignableFrom(type));
                 Meta meta = pluginType.GetCustomAttribute<Meta>();
-                if (meta.ApiVersion < Wrapper.ApiVersion) return null;
+                if (meta.ApiVersion < Wrapper.ApiVersion)
+                {
+                    _server.Logger.Fatal("The plugin \"" + meta.ID + "\" could not be loaded because it doesn't use the latest API version! (needed: " + Wrapper.ApiVersion + "; has: " + meta.ApiVersion + ")!");
+                    return null;
+                }
                 return new Payload(file, assembly, meta, pluginType);
             }
             catch

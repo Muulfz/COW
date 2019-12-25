@@ -27,12 +27,11 @@ namespace Onset.Runtime.Pools
             }
         }
 
-        internal void RemovePlayer(int id)
+        internal void RemovePlayer(IPlayer player)
         {
             lock (Players)
             {
-                IPlayer player = SearchPlayer(id);
-                if (player != null)
+                if (Players.Contains(player))
                 {
                     Players.Remove(player);
                 }

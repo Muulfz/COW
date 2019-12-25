@@ -11,9 +11,16 @@ function COW_GetGameVersionString(data)
 end
 
 
+-- START SERVER EVENTS --
+AddEvent("OnPlayerQuit", function(playerId)
+    ExecuteNET('trigger-event', Json.encode({type = 0, player = playerId}))
+end)
 
+AddEvent("OnPlayerChat", function(playerId, text_)
+    ExecuteNET('trigger-event', Json.encode({type = 0, player = playerId, text = text_}))
+end)
 
-
+-- END SERVER EVENTS --
 
 -- END LUA API --
 print('COW: LUA Backend loaded!')

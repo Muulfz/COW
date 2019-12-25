@@ -17,7 +17,7 @@ namespace Onset.Runtime
         [DllImport(RuntimeName, EntryPoint = "execute_lua", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ExecuteLuaPtr([MarshalAs(UnmanagedType.LPStr)]string name, [MarshalAs(UnmanagedType.LPStr)]string data);
 
-        internal static ReturnData ExecuteLUA(string name, string data = "")
+        internal static ReturnData ExecuteLua(string name, string data = "")
         {
             return new ReturnData(Marshal.PtrToStringUTF8(ExecuteLuaPtr(name, data)));
         }
@@ -32,6 +32,11 @@ namespace Onset.Runtime
                 Server.Start();
                 LogConsole("COW: Finish-Trigger received! Wrapper has been finished and is now completely functional!");
                 return false;
+            }
+
+            if (name == "trigger-event")
+            {
+                return Server.ExecuteServerEvent(new ReturnData(data));
             }
             return false;
         }

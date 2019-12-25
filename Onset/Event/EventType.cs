@@ -9,5 +9,7 @@ namespace Onset.Event
     /// </summary>
     public enum EventType
     {
+        //Never change the order of the enum!
+        PlayerQuit, PlayerChat
     }
 }

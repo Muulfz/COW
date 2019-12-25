@@ -15,7 +15,7 @@ namespace Onset.Runtime
 
         public ILogger Logger { get; }
 
-        public int GameVersion => Wrapper.ExecuteLUA("COW_GetGameVersion").Value<int>("version");
+        public int GameVersion => Wrapper.ExecuteLua("COW_GetGameVersion").Value<int>("version");
 
         public List<IPlayer> Players => PlayerPool.Players;
 
@@ -27,7 +27,7 @@ namespace Onset.Runtime
 
         internal PlayerPool PlayerPool { get; }
 
-        public string GameVersionAsString => Wrapper.ExecuteLUA("COW_GetGameVersionString").Value<string>("version");
+        public string GameVersionAsString => Wrapper.ExecuteLua("COW_GetGameVersionString").Value<string>("version");
 
         internal Server()
         {
@@ -86,15 +86,23 @@ namespace Onset.Runtime
             {
                 EventType type = (EventType) data.Value<int>("type");
                 object[] args;
+                IPlayer associatedPlayer = type.IsPlayerEvent() ? PlayerPool.GetPlayer(data.Value<int>("player")) : null;
                 switch (type)
                 {
+                    case EventType.PlayerQuit:
+                        args = new object[] { associatedPlayer };
+                        break;
+                    case EventType.PlayerChat:
+                        string pcText = data.Value<string>("text");
+                        if (ExecuteCommand(associatedPlayer, pcText)) return true;
+                        args = new object[] { associatedPlayer, pcText };
+                        break;
                     default:
                         args = new object[0];
                         break;
                 }
 
                 bool cancel = false;
-
                 foreach (Registry<ServerEvent>.Item item in ServerEventRegistry.GetAll(item => item.Data.Type == type))
                 {
                     object @return = item.Invoke(args);
@@ -104,6 +112,11 @@ namespace Onset.Runtime
                     }
                 }
 
+                if (type == EventType.PlayerQuit)
+                {
+                    PlayerPool.RemovePlayer(associatedPlayer);
+                }
+
                 return cancel;
             }
             catch(Exception e)
@@ -111,6 +124,11 @@ namespace Onset.Runtime
                 Logger.Error("Tried to execute a server event but couldn't", e);
                 return false;
             }
+        }
+
+        private bool ExecuteCommand(IPlayer player, string text)
+        {
+            return false;
         }
     }
 }
