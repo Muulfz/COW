@@ -1,4 +1,4 @@
-# Project COW
+# Project COW [![Version](https://img.shields.io/badge/version-1.0%3A0-green)](https://github.com/DasDarki/COW)
 
 COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wrapper for the LUA API for Onset Servers.
 
@@ -13,7 +13,7 @@ COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wr
 
 
 ## Requirements
-  - .NET Core 3.0 or higher
+  - .NET Core =3.0
   - Onset Server
   - One package slot available (keep in mind, there is a package limitation, and COW is an own package)
   - For developers: C# knowledge and NUGET
@@ -26,9 +26,13 @@ Name  | Role | Link
 ------------- | -------------| -------------
 Das Darki  | Project Lead & Dev Lead | [Github](https://github.com/DasDarki/)
 
-### License
+### License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 COW is licensed under the **MIT** License.
-https://github.com/DasDarki/COW/blob/master/LICENSE
+
+## ToDo
+- Client-Side API (*maybe not possible*, workaround?)
+- Async Support
+- Dependency Loading / Prior Loading
 
 ## Documentaion
 *coming soon*
