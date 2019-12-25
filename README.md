@@ -67,7 +67,7 @@ namespace TestPlugin
 }
 ```
 First of all, the using-declaration. You need to use the namespace **Onset.Plugin**. The main namespace is **Onset**.
-Secondly the class must extend OnsetPlugin. Its an abstract class and will force you to override Load and Unload. Load gets called, when your plugin gets loaded and unloaded, when it gets unloaded.
+Secondly the class must extend OnsetPlugin. Its an abstract class and will force you to override Load and Unload. Load gets called, when your plugin gets loaded and Unload, when it gets unloaded.
 Third and also really import, the class must marked with a Meta. The meta defines some important information about your Plugin. The first argument of the meta is the ID of your plugin. Every plugin must have a unique ID. The second is the API version of the current COW API. If the API of one plugin is lower than the current running API, the plugin won't load. Third, the plugin version. You wil need a plugin version, but it won't be a problem, if you fill an empty string.
 
 #### To be continued...
