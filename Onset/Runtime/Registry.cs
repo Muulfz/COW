@@ -7,8 +7,6 @@ namespace Onset.Runtime
 {
     internal class Registry<T> where T : Attribute
     {
-        private static readonly Type LongType = typeof(long);
-
         internal event Action<Item> ItemRegistered;
  
         private readonly List<Item> _items;

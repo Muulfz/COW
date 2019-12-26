@@ -16,6 +16,8 @@ namespace Onset.Runtime
 
         internal static Server Server { get; private set; }
 
+        private static readonly Logger Logger = new Logger("Wrapper");
+
 
         [DllImport(RuntimeName, EntryPoint = "execute_lua", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ExecuteLuaPtr([MarshalAs(UnmanagedType.LPStr)]string name, [MarshalAs(UnmanagedType.LPStr)]string data);
@@ -63,7 +65,17 @@ namespace Onset.Runtime
                 if (name == "trigger-command")
                 {
                     ReturnData data = new ReturnData(json);
+                    if (data.IsFailed)
+                    {
+                        Logger.Fatal("trigger command data failed: " + json);
+                        return false;
+                    }
                     string[] args = data.ValuesAsStrings("args");
+                    if (args == null)
+                    {
+                        Logger.Debug("command args are null");
+                        return false;
+                    }
                     IPlayer player = Server.PlayerPool.GetPlayer(data.Value<int>("player"));
                     foreach (Registry<Command>.Item item in Server.CommandRegistry.GetAll(item => item.Data.Name == data.Value<string>("commandName")))
                     {
@@ -80,16 +92,16 @@ namespace Onset.Runtime
 
         internal static void Load()
         {
-            Server.Logger.Info("Loading Wrapper...");
+            Logger.Info("Loading Wrapper...");
             Server = new Server();
-            Server.Logger.Success("Wrapper loaded!");
+            Logger.Success("Wrapper loaded!");
         }
 
         internal static void Unload()
         {
-            Server.Logger.Warn("Stopping Wrapper...");
+            Logger.Warn("Stopping Wrapper...");
             Server.Stop();
-            Server.Logger.Success("COW: Wrapper stopped");
+            Logger.Success("COW: Wrapper stopped");
         }
 
         internal static string Escape(object obj)
