@@ -6,5 +6,7 @@
     "server/cow.lua",
     "server/library/json.lua"
   ],
-  "client_scripts": []
+  "client_scripts": [
+    "client/testing.lua"
+  ]
 }

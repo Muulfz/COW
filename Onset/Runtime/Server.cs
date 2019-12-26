@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Onset.Convertation;
 using Onset.Entities;
 using Onset.Event;
 using Onset.Helper;
@@ -35,7 +36,16 @@ namespace Onset.Runtime
             PluginManager = new PluginManager(this);
             ServerEventRegistry = new Registry<ServerEvent>();
             RemoteEventRegistry = new Registry<RemoteEvent>();
+            RemoteEventRegistry.ItemRegistered += item =>
+            {
+                Wrapper.ExecuteLua("COW_AddRemoteEvent", new {eventName = item.Data.Key});
+            };
             CommandRegistry = new Registry<Command>();
+            CommandRegistry.ItemRegistered += item =>
+            {
+                Logger.Info("Adding command " + item.Data.Name);
+                Wrapper.ExecuteLua("COW_AddCommand", new {commandName = item.Data.Name});
+            };
             PlayerPool = new PlayerPool();
         }
 
@@ -94,8 +104,14 @@ namespace Onset.Runtime
                         break;
                     case EventType.PlayerChat:
                         string pcText = data.Value<string>("text");
-                        if (ExecuteCommand(associatedPlayer, pcText)) return true;
+                        //if (ExecuteCommand(associatedPlayer, pcText)) return true;
                         args = new object[] { associatedPlayer, pcText };
+                        break;
+                    case EventType.PlayerChatCommand:
+                        args = new object[] { associatedPlayer, data.Value<string>("command"), data.Value<bool>("exists") };
+                        break;
+                    case EventType.PlayerJoin:
+                        args = new object[] { associatedPlayer };
                         break;
                     default:
                         args = new object[0];
@@ -124,11 +140,6 @@ namespace Onset.Runtime
                 Logger.Error("Tried to execute a server event but couldn't", e);
                 return false;
             }
-        }
-
-        private bool ExecuteCommand(IPlayer player, string text)
-        {
-            return false;
         }
     }
 }

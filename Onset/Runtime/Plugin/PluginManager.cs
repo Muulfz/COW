@@ -81,6 +81,7 @@ namespace Onset.Runtime.Plugin
                 Plugins.Add(plugin);
                 _server.CommandRegistry.Register(plugin);
                 _server.ServerEventRegistry.Register(plugin);
+                _server.RemoteEventRegistry.Register(plugin);
                 plugin.State = PluginState.Enabled;
                 plugin.Logger.Success("Loaded Plugin successfully!");
                 plugin.Logger.Warn("This plugin is in DEBUG mode!");

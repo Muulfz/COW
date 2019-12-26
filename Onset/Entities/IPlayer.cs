@@ -24,5 +24,12 @@ namespace Onset.Entities
         /// Is 0, if the player was not yet authenticated.
         /// </summary>
         long SteamID { get; }
+
+        /// <summary>
+        /// Triggers a remote event on the client of this current player.
+        /// </summary>
+        /// <param name="name">The name of the remote event to be triggered</param>
+        /// <param name="args">The arguments which will be sent to the client side</param>
+        void CallRemote(string name, params object[] args);
     }
 }

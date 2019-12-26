@@ -7,6 +7,10 @@ namespace Onset.Runtime
 {
     internal class Registry<T> where T : Attribute
     {
+        private static readonly Type LongType = typeof(long);
+
+        internal event Action<Item> ItemRegistered;
+ 
         private readonly List<Item> _items;
 
         internal Registry()
@@ -39,12 +43,15 @@ namespace Onset.Runtime
         {
             try
             {
+                Wrapper.Server.Logger.Info("register " + typeof(T).FullName + " registry " + obj.GetType().FullName);
                 foreach (MethodInfo info in obj.GetType().GetMethods())
                 {
                     T attribute = info.GetCustomAttribute<T>(false);
                     if (attribute != null)
                     {
-                        _items.Add(new Item(attribute, obj, info));
+                        Item item = new Item(attribute, obj, info);
+                        _items.Add(item);
+                        ItemRegistered?.Invoke(item);
                     }
                 }
             }
@@ -54,7 +61,7 @@ namespace Onset.Runtime
             }
         }
 
-        internal void Register<TO>()
+        internal void Register<TO>(Action<Item> callback = null)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,6 +36,20 @@ namespace Onset.Runtime
                     Wrapper.Server.Logger.Error("An error occurred while JSON deserialize on \"" + data + "\"", ex);
                 }
             }
+        }
+
+        internal T[] Values<T>(string name)
+        {
+            if (IsFailed) return default;
+            JArray array = _content[name] as JArray;
+            return array?.Select(token => token.ToObject<T>()).ToArray();
+        }
+
+        internal string[] ValuesAsStrings(string name)
+        {
+            if (IsFailed) return default;
+            JArray array = _content[name] as JArray;
+            return array?.Select(token => token.ToObject<object>().ToString()).ToArray();
         }
 
         internal T Value<T>(string name = null)

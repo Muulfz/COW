@@ -9,6 +9,11 @@ namespace Onset.Event
     /// </summary>
     public static class EventHelper
     {
+        private static readonly List<EventType> PlayerEvents = new List<EventType>
+        {
+            EventType.PlayerChat, EventType.PlayerChatCommand, EventType.PlayerJoin, EventType.PlayerQuit
+        };
+
         /// <summary>
         /// Returns a boolean whether the given event is a player event - so needs a player as the first argument - or not.
         /// </summary>
@@ -16,7 +21,7 @@ namespace Onset.Event
         /// <returns>True if it is a player event</returns>
         public static bool IsPlayerEvent(this EventType type)
         {
-            return type == EventType.PlayerQuit;
+            return PlayerEvents.Contains(type);
         }
     }
 }

@@ -10,6 +10,21 @@ namespace Onset.Event
     public enum EventType
     {
         //Never change the order of the enum!
-        PlayerQuit, PlayerChat
+        /// <summary>
+        /// (<see cref="Onset.Entities.IPlayer"/> player)
+        /// </summary>
+        PlayerQuit,
+        /// <summary>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="string"/> message)
+        /// </summary> 
+        PlayerChat,
+        /// <summary>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="string"/> command, <see cref="bool"/> exists)
+        /// </summary>
+        PlayerChatCommand,
+        /// <summary>
+        /// (<see cref="Onset.Entities.IPlayer"/> player)
+        /// </summary>
+        PlayerJoin
     }
 }

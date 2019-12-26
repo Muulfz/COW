@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using Newtonsoft.Json;
+using Onset.Convertation;
+using Onset.Entities;
+using Onset.Event;
 
 namespace Onset.Runtime
 {
@@ -17,26 +20,60 @@ namespace Onset.Runtime
         [DllImport(RuntimeName, EntryPoint = "execute_lua", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr ExecuteLuaPtr([MarshalAs(UnmanagedType.LPStr)]string name, [MarshalAs(UnmanagedType.LPStr)]string data);
 
-        internal static ReturnData ExecuteLua(string name, string data = "")
+        internal static ReturnData ExecuteLua(string name, object data = null)
         {
-            return new ReturnData(Marshal.PtrToStringUTF8(ExecuteLuaPtr(name, data)));
+            string json = "";
+            if (data != null)
+            {
+                json = Escape(data);
+            }
+            return new ReturnData(Marshal.PtrToStringUTF8(ExecuteLuaPtr(name, json)));
         }
 
         [DllImport(RuntimeName, EntryPoint = "log_to_console", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void LogConsole([MarshalAs(UnmanagedType.LPStr)]string message);
 
-        internal static bool ExecuteEvent(string name, string data)
+        internal static bool ExecuteEvent(string name, string json)
         {
-            if (name == "finish-wrapper")
+            try
             {
-                Server.Start();
-                LogConsole("COW: Finish-Trigger received! Wrapper has been finished and is now completely functional!");
-                return false;
-            }
+                if (name == "finish-wrapper")
+                {
+                    Server.Start();
+                    LogConsole("COW: Finish-Trigger received! Wrapper has been finished and is now completely functional!");
+                    return false;
+                }
 
-            if (name == "trigger-event")
+                if (name == "trigger-event")
+                {
+                    return Server.ExecuteServerEvent(new ReturnData(json));
+                }
+
+                if (name == "trigger-remote-event")
+                {
+                    ReturnData data = new ReturnData(json);
+                    string[] args = data.Values<string>("args");
+                    IPlayer player = Server.PlayerPool.GetPlayer(data.Value<int>("player"));
+                    foreach (Registry<RemoteEvent>.Item item in Server.RemoteEventRegistry.GetAll(item => item.Data.Key == data.Value<string>("eventName")))
+                    {
+                        item.Invoke(Converts.Convert(args, item.Invoker.GetParameters(), player));
+                    }
+                }
+
+                if (name == "trigger-command")
+                {
+                    ReturnData data = new ReturnData(json);
+                    string[] args = data.ValuesAsStrings("args");
+                    IPlayer player = Server.PlayerPool.GetPlayer(data.Value<int>("player"));
+                    foreach (Registry<Command>.Item item in Server.CommandRegistry.GetAll(item => item.Data.Name == data.Value<string>("commandName")))
+                    {
+                        item.Invoke(Converts.Convert(args, item.Invoker.GetParameters(), player));
+                    }
+                }
+            }
+            catch (Exception e)
             {
-                return Server.ExecuteServerEvent(new ReturnData(data));
+                Server.Logger.Error("An unhandled exception occurred!", e);
             }
             return false;
         }
