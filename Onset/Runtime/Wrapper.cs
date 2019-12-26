@@ -40,7 +40,7 @@ namespace Onset.Runtime
                 if (name == "finish-wrapper")
                 {
                     Server.Start();
-                    LogConsole("COW: Finish-Trigger received! Wrapper has been finished and is now completely functional!");
+                    Server.Logger.Success("Finish-Trigger received! Wrapper has been finished and is now completely functional!");
                     return false;
                 }
 
@@ -80,16 +80,16 @@ namespace Onset.Runtime
 
         internal static void Load()
         {
-            LogConsole("COW: Loading Wrapper...");
+            Server.Logger.Info("Loading Wrapper...");
             Server = new Server();
-            LogConsole("COW: Wrapper loaded!");
+            Server.Logger.Success("Wrapper loaded!");
         }
 
         internal static void Unload()
         {
-            LogConsole("COW: Stopping Wrapper...");
+            Server.Logger.Warn("Stopping Wrapper...");
             Server.Stop();
-            LogConsole("COW: Wrapper stopped");
+            Server.Logger.Success("COW: Wrapper stopped");
         }
 
         internal static string Escape(object obj)
