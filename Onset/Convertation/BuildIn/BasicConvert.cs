@@ -26,42 +26,42 @@ namespace Onset.Convertation.BuildIn
         {
             if (wantedType == IntType)
             {
-                return Converter.ToInt32(givenObject);
+                return int.Parse(givenObject);
             }
             if (wantedType == LongType)
             {
-                return Converter.ToInt64(givenObject);
+                return long.Parse(givenObject);
             }
             if (wantedType == ShortType)
             {
-                return Converter.ToInt16(givenObject);
+                return short.Parse(givenObject);
             }
             if (wantedType == ByteType)
             {
-                return Converter.ToByte(givenObject);
+                return byte.Parse(givenObject);
             }
             if (wantedType == CharType)
             {
-                return Converter.ToChar(givenObject);
+                return char.Parse(givenObject);
             }
             if (wantedType == FloatType)
             {
-                return Converter.ToSingle(givenObject);
+                return float.Parse(givenObject);
             }
             if (wantedType == DoubleType)
             {
-                return Converter.ToDouble(givenObject);
+                return double.Parse(givenObject);
             }
             if (wantedType == DecimalType)
             {
-                return Converter.ToDecimal(givenObject);
+                return decimal.Parse(givenObject);
             }
             if (wantedType == BoolType)
             {
-                return Converter.ToBoolean(givenObject);
+                return bool.Parse(givenObject);
             }
 
-            return wantedType;
+            return givenObject;
         }
     }
 }

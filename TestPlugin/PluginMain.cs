@@ -1,4 +1,5 @@
-﻿using Onset;
+﻿using System;
+using Onset;
 using Onset.Entities;
 using Onset.Event;
 using Onset.Plugin;
@@ -8,24 +9,27 @@ namespace TestPlugin
     [Meta("test-plugin", 1, "1.0", IsDebug = true)]
     public class PluginMain : OnsetPlugin
     {
+        public static PluginMain Instance { get; private set; }
+
         public override void Load()
         {
-            
+            Instance = this;
+            Server.RegisterCommands<TestCommand>();
         }
 
         public override void Unload()
         {
-            
+
         }
 
-        [Command("test")]
-        public void OnTestCommand(IPlayer player, string test, int arg, string test2)
+        [Command("exp")]
+        public void OnPingCommand(IPlayer player, int number, int exp)
         {
-            player.CallRemote("trigger-client-test", test, arg, test2);
+            Logger.Info(player.Name + " -> " + (number * exp));
         }
 
         [RemoteEvent("respond-client-test")]
-        public void OnRespondClientTest(IPlayer player, string arg1, int arg2, string arg3)
+        public void OnRespondClientTest(IPlayer player, string arg1, int arg2, bool arg3)
         {
             Logger.Debug("Received client test for " + player.Name + ": " + arg1 + " " + arg2 + " " + arg3);
         }

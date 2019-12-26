@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace Onset.Runtime
 
         internal static Server Server { get; private set; }
 
-        private static readonly Logger Logger = new Logger("Wrapper");
+        private static readonly Logger Logger = new Logger("Wrapper", true);
 
 
         [DllImport(RuntimeName, EntryPoint = "execute_lua", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -65,22 +66,25 @@ namespace Onset.Runtime
                 if (name == "trigger-command")
                 {
                     ReturnData data = new ReturnData(json);
-                    if (data.IsFailed)
-                    {
-                        Logger.Fatal("trigger command data failed: " + json);
-                        return false;
-                    }
                     string[] args = data.ValuesAsStrings("args");
-                    if (args == null)
+                    IPlayer player = Server.PlayerPool.GetPlayer(data.Value<int>("player"));
+                    Registry<Command>.Item commandItem =
+                        Server.CommandRegistry.GetItem(item => item.Data.Name == data.Value<string>("commandName"));
+                    if (commandItem == null)
                     {
-                        Logger.Debug("command args are null");
+                        //TODO error handling: No command found
                         return false;
                     }
-                    IPlayer player = Server.PlayerPool.GetPlayer(data.Value<int>("player"));
-                    foreach (Registry<Command>.Item item in Server.CommandRegistry.GetAll(item => item.Data.Name == data.Value<string>("commandName")))
+                    //TODO permission handling
+                    int requiredParams = commandItem.Invoker.GetParameters().Count(info => !info.IsOptional) - 1;
+                    if (requiredParams < args.Length)
                     {
-                        item.Invoke(Converts.Convert(args, item.Invoker.GetParameters(), player));
+                        //TODO error handling: To few arguments!
+                        return false;
                     }
+                    object[] arr = Converts.Convert(args, commandItem.Invoker.GetParameters(), player);
+                    if (arr == null) return false;
+                    commandItem.Invoke(arr);
                 }
             }
             catch (Exception e)

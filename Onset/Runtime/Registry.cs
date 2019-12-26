@@ -41,7 +41,6 @@ namespace Onset.Runtime
         {
             try
             {
-                Wrapper.Server.Logger.Info("register " + typeof(T).FullName + " registry " + obj.GetType().FullName);
                 foreach (MethodInfo info in obj.GetType().GetMethods())
                 {
                     T attribute = info.GetCustomAttribute<T>(false);
@@ -90,6 +89,12 @@ namespace Onset.Runtime
             {
                 try
                 {
+                    if (Invoker.GetParameters().Length != args.Length)
+                    {
+                        Wrapper.Server.Logger.Fatal("Could not invoke " + Invoker.Name + " for registry " + typeof(T).FullName + " because the parameters are mismatching (got: " + args.Length + "; needed: " + Invoker.GetParameters().Length + ")!");
+                        return null;
+                    }
+
                     return Invoker.Invoke(Handler, args);
                 }
                 catch(Exception e)

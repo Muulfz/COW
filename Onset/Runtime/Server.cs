@@ -32,7 +32,7 @@ namespace Onset.Runtime
 
         internal Server()
         {
-            Logger = new Logger();
+            Logger = new Logger(null, true);
             PluginManager = new PluginManager(this);
             ServerEventRegistry = new Registry<ServerEvent>();
             RemoteEventRegistry = new Registry<RemoteEvent>();

@@ -47,9 +47,19 @@ namespace Onset.Runtime
 
         internal string[] ValuesAsStrings(string name)
         {
-            if (IsFailed) return default;
-            JArray array = _content[name] as JArray;
-            return array?.Select(token => token.ToObject<object>().ToString()).ToArray();
+            object[] objects = Values<object>(name);
+            if (objects != null)
+            {
+                string[] array = new string[objects.Length];
+                for (int i = 0; i < objects.Length; i++)
+                {
+                    array[i] = objects[i].ToString();
+                }
+
+                return array;
+            }
+
+            return null;
         }
 
         internal T Value<T>(string name = null)

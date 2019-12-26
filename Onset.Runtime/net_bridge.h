@@ -139,10 +139,6 @@ public:
 			last_error = CONSOLE_ERROR;
 			return;
 		}
-		else
-		{
-			printf("Loaded CoreCLR from %s\n", coreClrPath.c_str());
-		}
 		
 #if defined(_WIN32)
 		initializeCoreClr = (coreclr_initialize_ptr)GetProcAddress(coreClr, "coreclr_initialize");
@@ -156,21 +152,21 @@ public:
 
 		if (initializeCoreClr == NULL)
 		{
-			printf("coreclr_initialize not found");
+			printf("ERROR: coreclr_initialize not found");
 			last_error = CONSOLE_ERROR;
 			return;
 		}
 
 		if (createManagedDelegate == NULL)
 		{
-			printf("coreclr_create_delegate not found");
+			printf("ERROR: coreclr_create_delegate not found");
 			last_error = CONSOLE_ERROR;
 			return;
 		}
 
 		if (shutdownCoreClr == NULL)
 		{
-			printf("coreclr_shutdown not found");
+			printf("ERROR: coreclr_shutdown not found");
 			last_error = CONSOLE_ERROR;
 			return;
 		}
@@ -226,8 +222,6 @@ public:
 		const char* propertyValues[] = {
 			tpaList.c_str()
 		};
-
-		printf(wrapperPath.c_str());
 		
 		int hr = initializeCoreClr(
 			wrapperPath.c_str(),        // App base path
@@ -240,11 +234,11 @@ public:
 
 		if (hr >= 0)
 		{
-			printf("CoreCLR started\n");
+			//printf("CoreCLR started\n");
 		}
 		else
 		{
-			printf("coreclr_initialize failed - status: 0x%08x\n", hr);
+			printf("ERROR: coreclr_initialize failed - status: 0x%08x\n", hr);
 			last_error = CONSOLE_ERROR;
 			return;
 		}
@@ -260,11 +254,11 @@ public:
 
 		if (hr >= 0)
 		{
-			printf("Managed delegate created\n");
+			//printf("Managed delegate created\n");
 		}
 		else
 		{
-			printf("load delegate failed - status: 0x%08x\n", hr);
+			printf("ERROR: load delegate failed - status: 0x%08x\n", hr);
 			last_error = CONSOLE_ERROR;
 			return;
 		}
@@ -279,11 +273,11 @@ public:
 
 		if (hr >= 0)
 		{
-			printf("Managed delegate created\n");
+			//printf("Managed delegate created\n");
 		}
 		else
 		{
-			printf("unload delegate failed - status: 0x%08x\n", hr);
+			printf("ERROR: unload delegate failed - status: 0x%08x\n", hr);
 			last_error = CONSOLE_ERROR;
 			return;
 		}
@@ -298,11 +292,11 @@ public:
 
 		if (hr >= 0)
 		{
-			printf("Managed delegate created\n");
+			//printf("Managed delegate created\n");
 		}
 		else
 		{
-			printf("execute_event delegate failed - status: 0x%08x\n", hr);
+			printf("ERROR: execute_event delegate failed - status: 0x%08x\n", hr);
 			last_error = CONSOLE_ERROR;
 			return;
 		}
@@ -326,12 +320,12 @@ public:
 		int hr = shutdownCoreClr(hostHandle, domainId);
 		if (hr >= 0)
 		{
-			printf("CoreCLR successfully shutdown\n");
+			//printf("CoreCLR successfully shutdown\n");
 			last_error = SUCCESS;
 		}
 		else
 		{
-			printf("coreclr_shutdown failed - status: 0x%08x\n", hr);
+			printf("ERROR: coreclr_shutdown failed - status: 0x%08x\n", hr);
 			last_error = CONSOLE_ERROR;
 		}
 	}

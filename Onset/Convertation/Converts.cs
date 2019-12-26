@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Newtonsoft.Json;
 using Onset.Convertation.BuildIn;
 using Onset.Entities;
 using Onset.Helper;
@@ -59,29 +60,37 @@ namespace Onset.Convertation
             return arr;
         }
 
-        internal static object[] Convert(string[] objects, ParameterInfo[] wantedTypes, IPlayer invoker)
+        internal static object[] Convert(string[] objects, ParameterInfo[] wantedTypes, IPlayer invoker, bool withOptional = false)
         {
-            object[] arr = new object[objects.Length + 1];
-            arr[0] = invoker;
-            for (int i = 1; i < objects.Length; i++)
+            try
             {
-                ParameterInfo wantedType = wantedTypes[i];
-                string obj = objects[i - 1];
-                IConvert convert = FindConvert(wantedType.ParameterType);
-                if (convert != null)
+                object[] arr = new object[objects.Length + 1];
+                arr[0] = invoker;
+                int idx = 1;
+                foreach (string obj in objects)
                 {
-                    try
+                    ParameterInfo wantedType = wantedTypes[idx];
+                    if (wantedType.IsOptional)
                     {
-                        arr[i] = convert.Convert(obj, wantedType.ParameterType);
+                        arr[idx] = Type.Missing;
+                        continue;
                     }
-                    catch (Exception e)
+                    IConvert convert = FindConvert(wantedType.ParameterType);
+                    if (convert != null)
                     {
-                        Wrapper.Server.Logger.Error("An error occurred while converting " + obj + " to " + wantedType.ParameterType.FullName + "!", e);
+                        arr[idx] = convert.Convert(obj, wantedType.ParameterType);
                     }
-                }
-            }
 
-            return arr;
+                    idx++;
+                }
+
+                return arr;
+            }
+            catch (Exception e)
+            {
+                Wrapper.Server.Logger.Error("An error occurred in converting process!", e);
+                return null;
+            }
         }
 
         private static IConvert FindConvert(Type wantedType)
