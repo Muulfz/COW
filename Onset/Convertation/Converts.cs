@@ -64,24 +64,23 @@ namespace Onset.Convertation
         {
             try
             {
-                object[] arr = new object[objects.Length + 1];
+                Wrapper.Server.Logger.Info("123451");
+                object[] arr = new object[wantedTypes.Length];
                 arr[0] = invoker;
-                int idx = 1;
-                foreach (string obj in objects)
+                for(int i = 1; i < wantedTypes.Length; i++)
                 {
-                    ParameterInfo wantedType = wantedTypes[idx];
-                    if (wantedType.IsOptional)
+                    ParameterInfo wantedType = wantedTypes[i];
+                    Wrapper.Server.Logger.Info("Wanted Type: " + wantedType.Name + " -> " + wantedType.IsOptional + " -> " + (i - 1) + " >= " + objects.Length);
+                    if (withOptional && wantedType.IsOptional && (i - 1) >= objects.Length)
                     {
-                        arr[idx] = Type.Missing;
+                        arr[i] = Type.Missing;
                         continue;
                     }
                     IConvert convert = FindConvert(wantedType.ParameterType);
                     if (convert != null)
                     {
-                        arr[idx] = convert.Convert(obj, wantedType.ParameterType);
+                        arr[i] = convert.Convert(objects[i - 1], wantedType.ParameterType);
                     }
-
-                    idx++;
                 }
 
                 return arr;

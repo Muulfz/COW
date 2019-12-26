@@ -26,5 +26,10 @@ namespace Onset.Runtime.Entities
         {
             Wrapper.ExecuteLua("COW_CallRemoteEvent", new { eventName = name, player = ID, args = args_ });
         }
+
+        public void SendMessage(string message)
+        {
+            Wrapper.ExecuteLua("COW_AddPlayerChat", new {player = ID, message});
+        }
     }
 }

@@ -22,11 +22,24 @@ namespace TestPlugin
 
         }
 
-        [Command("exp")]
-        public void OnPingCommand(IPlayer player, int number, int exp)
+        [Command("ping")]
+        public void OnPingCommand(IPlayer player, string s = null)
         {
-            Logger.Info(player.Name + " -> " + (number * exp));
+            player.SendMessage(player.Name + " -> " + (s == null ? "Pong" : ReverseString(s)));
         }
+
+        private string ReverseString(string s)
+        {
+            string newString = "";
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                newString += s[i];
+            }
+
+            return newString;
+        }
+
+        #region 
 
         [RemoteEvent("respond-client-test")]
         public void OnRespondClientTest(IPlayer player, string arg1, int arg2, bool arg3)
@@ -45,5 +58,7 @@ namespace TestPlugin
         {
             Logger.Debug("Command executed by " + player.Name + ": " + command + " -> " +  exists);
         }
+
+        #endregion
     }
 }

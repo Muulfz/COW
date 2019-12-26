@@ -31,5 +31,11 @@ namespace Onset.Entities
         /// <param name="name">The name of the remote event to be triggered</param>
         /// <param name="args">The arguments which will be sent to the client side</param>
         void CallRemote(string name, params object[] args);
+
+        /// <summary>
+        /// Sends this player a message to the chat.
+        /// </summary>
+        /// <param name="message">The message to be sent</param>
+        void SendMessage(string message);
     }
 }

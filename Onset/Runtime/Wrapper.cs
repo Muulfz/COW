@@ -73,16 +73,18 @@ namespace Onset.Runtime
                     if (commandItem == null)
                     {
                         //TODO error handling: No command found
+                        Server.Logger.Warn("Tried to execute command \"" + data.Value<string>("commandName") + "\": It is not a command");
                         return false;
                     }
                     //TODO permission handling
                     int requiredParams = commandItem.Invoker.GetParameters().Count(info => !info.IsOptional) - 1;
-                    if (requiredParams < args.Length)
+                    if (requiredParams > args.Length)
                     {
                         //TODO error handling: To few arguments!
+                        Server.Logger.Warn("Tried to execute command \"" + commandItem.Data.Name + "\": To few arguments (got: " + args.Length + "; needed: " + requiredParams + ")");
                         return false;
                     }
-                    object[] arr = Converts.Convert(args, commandItem.Invoker.GetParameters(), player);
+                    object[] arr = Converts.Convert(args, commandItem.Invoker.GetParameters(), player, true);
                     if (arr == null) return false;
                     commandItem.Invoke(arr);
                 }

@@ -25,6 +25,11 @@ function COW_GetPlayerSteamID(data)
     return Json.encode({steamID = GetPlayerName(Json.decode(data)["player"])})
 end
 
+function COW_AddPlayerChat(data)
+    local obj = Json.decode(data);
+    AddPlayerChat(obj["player"], obj["message"])
+end
+
 -- END PLAYER API --
 
 function COW_AddRemoteEvent(data)
