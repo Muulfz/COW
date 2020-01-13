@@ -38,7 +38,7 @@ EXPORT(void) OnPackageLoad(const char* PackageName, lua_State* L)
 		for (auto const& f : Plugin::Get()->GetFunctions())
 			Lua::RegisterPluginFunction(L, std::get<0>(f), std::get<1>(f));
 		Plugin::Get()->startPackage(L);
-		Onset::Plugin::Get()->Log("COW: v1.0:0 successfully loaded.");
+		Onset::Plugin::Get()->Log("[COW: Wrapper] Runtime successfully loaded!");
 	}
 }
 

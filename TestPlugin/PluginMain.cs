@@ -3,6 +3,7 @@ using Onset;
 using Onset.Entities;
 using Onset.Event;
 using Onset.Plugin;
+using Onset.Utils;
 
 namespace TestPlugin
 {
@@ -23,20 +24,25 @@ namespace TestPlugin
         }
 
         [Command("ping")]
-        public void OnPingCommand(IPlayer player, string s = null)
+        public void OnPingCommand(IPlayer player, long calls = 100)
         {
-            player.SendMessage(player.Name + " -> " + (s == null ? "Pong" : ReverseString(s)));
-        }
-
-        private string ReverseString(string s)
-        {
-            string newString = "";
-            for (int i = s.Length - 1; i >= 0; i--)
+            long sum = 0;
+            for (int i = 0; i < calls; i++)
             {
-                newString += s[i];
+                long test = Test(player);
+                sum += test;
+                Logger.Debug("Test nr. " + i + " took " + test + "ns");
             }
 
-            return newString;
+            double avg = sum / (double)calls;
+            player.SendMessage("Ping result with " + calls + " calls: " + avg);
+        }
+
+        private long Test(IPlayer player)
+        {
+            Time.StartTest();
+            player.CallRemote("test-call", "Hallo");
+            return Time.StopTest();
         }
 
         #region 

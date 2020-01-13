@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
+using Onset.Enums;
 
 namespace Onset.Entities
 {
     /// <summary>
     /// This interface represents the players on the server and gives control over them.
     /// </summary>
-    public interface IPlayer
+    public interface IPlayer : IEntity
     {
-        /// <summary>
-        /// The onset server id of this player.
-        /// </summary>
-        int ID { get; }
 
         /// <summary>
         /// The name of this player.
@@ -26,6 +24,16 @@ namespace Onset.Entities
         long SteamID { get; }
 
         /// <summary>
+        /// The players head size between 0.0 and 3.0.
+        /// </summary>
+        float HeadSize { get; set; }
+
+        /// <summary>
+        /// The network stats from this player.
+        /// </summary>
+        NetworkStats NetworkStats { get; }
+
+        /// <summary>
         /// Triggers a remote event on the client of this current player.
         /// </summary>
         /// <param name="name">The name of the remote event to be triggered</param>
@@ -37,5 +45,21 @@ namespace Onset.Entities
         /// </summary>
         /// <param name="message">The message to be sent</param>
         void SendMessage(string message);
+
+        /// <summary>
+        /// Attaches this player a parachute.
+        /// </summary>
+        void AttachParachute();
+
+        /// <summary>
+        /// Detaches this player the parachute.
+        /// </summary>
+        void DetachParachute();
+
+        /// <summary>
+        /// Plays an animation to the given player.
+        /// </summary>
+        /// <param name="animation">The animation to be played</param>
+        void Animate(Animation animation);
     }
 }

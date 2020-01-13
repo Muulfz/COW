@@ -55,19 +55,19 @@ namespace Onset.Runtime
                 if (name == "trigger-remote-event")
                 {
                     ReturnData data = new ReturnData(json);
-                    string[] args = data.Values<string>("args");
-                    IPlayer player = Server.PlayerPool.GetPlayer(data.Value<int>("player"));
-                    foreach (Registry<RemoteEvent>.Item item in Server.RemoteEventRegistry.GetAll(item => item.Data.Key == data.Value<string>("eventName")))
-                    {
-                        item.Invoke(Converts.Convert(args, item.Invoker.GetParameters(), player));
-                    }
+                    string[] args = data.ValuesAsStrings("args");
+                    IPlayer player = Server.PlayerPool.GetEntity(data.Value<int>("player"));
+                    string eventName = data.Value<string>("eventName");
+                    Registry<RemoteEvent>.Item remoteItem = Server.RemoteEventRegistry.GetItem(item => item.Data.Key == eventName);
+                    if (remoteItem == null) return false;
+                    remoteItem.Invoke(Converts.Convert(args, remoteItem.Invoker.GetParameters(), player, false, remoteItem.Invoker.Name + " -> " + remoteItem.Data.Key));
                 }
 
                 if (name == "trigger-command")
                 {
                     ReturnData data = new ReturnData(json);
                     string[] args = data.ValuesAsStrings("args");
-                    IPlayer player = Server.PlayerPool.GetPlayer(data.Value<int>("player"));
+                    IPlayer player = Server.PlayerPool.GetEntity(data.Value<int>("player"));
                     Registry<Command>.Item commandItem =
                         Server.CommandRegistry.GetItem(item => item.Data.Name == data.Value<string>("commandName"));
                     if (commandItem == null)
@@ -84,7 +84,7 @@ namespace Onset.Runtime
                         Server.Logger.Warn("Tried to execute command \"" + commandItem.Data.Name + "\": To few arguments (got: " + args.Length + "; needed: " + requiredParams + ")");
                         return false;
                     }
-                    object[] arr = Converts.Convert(args, commandItem.Invoker.GetParameters(), player, true);
+                    object[] arr = Converts.Convert(args, commandItem.Invoker.GetParameters(), player, true, "Command");
                     if (arr == null) return false;
                     commandItem.Invoke(arr);
                 }

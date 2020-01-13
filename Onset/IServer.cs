@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Onset.Dimension;
 using Onset.Entities;
 using Onset.Plugin;
 
@@ -28,9 +29,64 @@ namespace Onset
         int GameVersion { get; }
 
         /// <summary>
+        /// The global server dimension with the default ID of 0.
+        /// </summary>
+        IDimension Global { get; }
+
+        /// <summary>
         /// The list containing all players on the current running server.
         /// </summary>
-        List<IPlayer> Players { get; }
+        List<IPlayer> AllPlayers { get; }
+
+        /// <summary>
+        /// The list containing all doors on the current running server.
+        /// </summary>
+        List<IDoor> AllDoors { get; }
+
+        /// <summary>
+        /// The list containing all packages running on the current running server.
+        /// </summary>
+        List<string> AllPackages { get; }
+
+        /// <summary>
+        /// The tick rate of the main thread. The rate is variable and depends on the load of the server. For an empty server this is between 500Hz and 1000Hz. For 300 concurrent players the tick rate should be above 150Hz.
+        /// </summary>
+        float TickRate { get; }
+
+        /// <summary>
+        /// The display name of this server.
+        /// </summary>
+        string Name { get; set; }
+
+        /// <summary>
+        /// The player slots count.
+        /// </summary>
+        int MaxPlayers { get; }
+
+        /// <summary>
+        /// Shutdowns the server.
+        /// <param name="reason">The reason with which the server shutdowns</param>
+        /// </summary>
+        void Exit(string reason = "");
+
+        /// <summary>
+        /// Starts the package by the given name.
+        /// </summary>
+        /// <param name="packageName">The package name of the wanted package</param>
+        void StartPackage(string packageName);
+
+        /// <summary>
+        /// Stops the package by the given name.
+        /// </summary>
+        /// <param name="packageName">The package name of the wanted package</param>
+        void StopPackage(string packageName);
+
+        /// <summary>
+        /// Checks if the given package is started or not.
+        /// </summary>
+        /// <param name="packageName">The package name of the wanted package</param>
+        /// <returns>True if the given package by the given name is started</returns>
+        bool IsPackageStarted(string packageName);
 
         /// <summary>
         /// Searches through the given object for <see cref="Onset.Command"/> and registers them in the registry.
@@ -67,5 +123,12 @@ namespace Onset
         /// </summary>
         /// <typeparam name="T">The type which gets created. Make sure the type has a default constructor!</typeparam>
         void RegisterClientEvents<T>();
+
+        /// <summary>
+        /// Returns the dimension object of the given dimension id.
+        /// </summary>
+        /// <param name="id">The id of the wanted dimension</param>
+        /// <returns>The dimension object of the given id</returns>
+        IDimension GetDimension(uint id);
     }
 }

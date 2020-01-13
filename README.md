@@ -32,7 +32,7 @@ COW is licensed under the **MIT** License.
 ## ToDo
 - Client-Side API (*maybe not possible*, workaround?)
 - Async Support
-- Dependency Loading / Prior Loading
+- Hot Reload
 
 ## Documentaion
 *coming soon*

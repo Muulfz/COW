@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Onset.Entities;
+using Onset.Enums;
 
 namespace Onset.Runtime.Entities
 {
-    internal class Player : IPlayer
+    internal class Player : Entity, IPlayer
     {
-        public int ID { get; }
-
         public string Name
         {
             get => Wrapper.ExecuteLua("COW_GetPlayerName", new {player = ID}).Value<string>("playerName");
@@ -17,9 +16,16 @@ namespace Onset.Runtime.Entities
 
         public long SteamID => Wrapper.ExecuteLua("COW_GetPlayerSteamID", new {player = ID}).Value<long>("steamID");
 
-        internal Player(int id)
+        public float HeadSize
         {
-            ID = id;
+            get => Wrapper.ExecuteLua("COW_GetPlayerHeadSize", new {player = ID}).Value<float>("size");
+            set => Wrapper.ExecuteLua("COW_SetPlayerHeadSize", new {player = ID, size = value});
+        }
+
+        public NetworkStats NetworkStats => new NetworkStats(Wrapper.ExecuteLua("COW_GetPlayerNetworkStats", new { player = ID }));
+
+        internal Player(long id) : base(id, "Player")
+        {
         }
 
         public void CallRemote(string name, params object[] args_)
@@ -30,6 +36,21 @@ namespace Onset.Runtime.Entities
         public void SendMessage(string message)
         {
             Wrapper.ExecuteLua("COW_AddPlayerChat", new {player = ID, message});
+        }
+
+        public void AttachParachute()
+        {
+            Wrapper.ExecuteLua("COW_AttachPlayerParachute", new { player = ID, enable = true });
+        }
+
+        public void DetachParachute()
+        {
+            Wrapper.ExecuteLua("COW_AttachPlayerParachute", new { player = ID, enable = false });
+        }
+
+        public void Animate(Animation animation)
+        {
+            Wrapper.ExecuteLua("COW_SetPlayerAnimation", new { player = ID, anim = animation.GetName() });
         }
     }
 }

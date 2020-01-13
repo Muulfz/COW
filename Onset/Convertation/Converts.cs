@@ -60,17 +60,16 @@ namespace Onset.Convertation
             return arr;
         }
 
-        internal static object[] Convert(string[] objects, ParameterInfo[] wantedTypes, IPlayer invoker, bool withOptional = false)
+        internal static object[] Convert(string[] objects, ParameterInfo[] wantedTypes, IPlayer invoker, bool withOptional = false, string debug = "")
         {
             try
             {
-                Wrapper.Server.Logger.Info("123451");
+                Wrapper.Server.Logger.Debug(debug + ": " + JsonConvert.SerializeObject(objects));
                 object[] arr = new object[wantedTypes.Length];
                 arr[0] = invoker;
                 for(int i = 1; i < wantedTypes.Length; i++)
                 {
                     ParameterInfo wantedType = wantedTypes[i];
-                    Wrapper.Server.Logger.Info("Wanted Type: " + wantedType.Name + " -> " + wantedType.IsOptional + " -> " + (i - 1) + " >= " + objects.Length);
                     if (withOptional && wantedType.IsOptional && (i - 1) >= objects.Length)
                     {
                         arr[i] = Type.Missing;

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Onset.Depset;
 using Onset.Plugin;
 
 namespace Onset.Runtime.Plugin
 {
-    internal class Payload
+    internal class Payload : IDepsetHandle
     {
         public string File { get; }
 
@@ -16,6 +17,8 @@ namespace Onset.Runtime.Plugin
         public Meta Meta { get; }
 
         public Type PluginType { get; }
+
+        public string Identifier => Meta.ID;
 
         public List<string> Dependencies { get; }
 

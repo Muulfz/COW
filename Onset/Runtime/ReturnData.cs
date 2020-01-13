@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Onset.Dimension;
 
 namespace Onset.Runtime
 {
@@ -62,9 +63,26 @@ namespace Onset.Runtime
             return null;
         }
 
+        internal Vector ExtractPosition()
+        {
+            if (IsFailed) return null;
+            return new Vector(this);
+        }
+
         internal T Value<T>(string name = null)
         {
             if (IsFailed) return default;
+            return name == null ? _content.Value<T>() : _content.Value<T>(name);
+        }
+
+        internal T Value<T>(string name, out bool fail)
+        {
+            fail = false;
+            if (IsFailed)
+            {
+                fail = true;
+                return default;
+            }
             return name == null ? _content.Value<T>() : _content.Value<T>(name);
         }
 

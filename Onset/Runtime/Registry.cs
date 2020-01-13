@@ -89,6 +89,12 @@ namespace Onset.Runtime
             {
                 try
                 {
+                    if(args == null)
+                    {
+                        Wrapper.Server.Logger.Warn("Could not execute " + Invoker.Name + " for registry " + typeof(T).FullName + " because the arguments were null!");
+                        return null;
+                    }
+
                     if (Invoker.GetParameters().Length != args.Length)
                     {
                         Wrapper.Server.Logger.Fatal("Could not invoke " + Invoker.Name + " for registry " + typeof(T).FullName + " because the parameters are mismatching (got: " + args.Length + "; needed: " + Invoker.GetParameters().Length + ")!");

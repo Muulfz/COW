@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Onset.Depset;
 using Onset.Helper;
 using Onset.Plugin;
 // ReSharper disable ConvertToUsingDeclaration
@@ -15,6 +16,8 @@ namespace Onset.Runtime.Plugin
 
         public List<OnsetPlugin> Plugins { get; }
 
+        internal ISorter<Payload> DepsetPayloadSorter { get; }
+
         public string PluginsPath { get; }
 
         private readonly Server _server;
@@ -22,6 +25,7 @@ namespace Onset.Runtime.Plugin
         internal PluginManager(Server server)
         {
             _server = server;
+            DepsetPayloadSorter = DepsetFactory.CreateSorter<Payload>(Algorithm.PriorValuing);
             Plugins = new List<OnsetPlugin>();
             string currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             PluginsPath = Path.Combine(currentPath, "plugins");
@@ -42,6 +46,7 @@ namespace Onset.Runtime.Plugin
         {
             string[] files = Directory.GetFiles(PluginsPath);
             if (files == null) return;
+            List<Payload> payloads = new List<Payload>();
             foreach (string file in files)
             {
                 if (!Path.GetExtension(file).ToLower().Contains("dll")) continue;
@@ -52,6 +57,12 @@ namespace Onset.Runtime.Plugin
                     continue;
                 }
 
+                payloads.Add(result);
+            }
+
+            payloads = DepsetPayloadSorter.Sort(payloads);
+            foreach (Payload result in payloads)
+            {
                 if (GetPlugin(result.Meta.ID) != null)
                 {
                     Wrapper.Server.Logger.Warn("Found a Plugin with the ID \"" + result.Meta.ID + "\" but there is Plugin loaded with the same ID!");

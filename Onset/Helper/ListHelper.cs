@@ -50,6 +50,26 @@ namespace Onset.Helper
             return value;
         }
 
+        public static T SelectFirst<T>(this IList<T> list, Predicate<T> select, Func<T> factory)
+        {
+            T value = default;
+            list.SafeForEach(obj =>
+            {
+                if (select.Invoke(obj))
+                {
+                    value = obj;
+                    return true;
+                }
+
+                return false;
+            });
+            if (value.Equals(default))
+            {
+                value = factory.Invoke();
+            }
+            return value;
+        }
+
         public static void SafeForEach<T>(this IList<T> list, Action<T> callback)
         {
             for (int i = list.Count - 1; i >= 0; i--)
