@@ -13,6 +13,10 @@ namespace Onset.Runtime
 
         public List<IPlayer> Players => Wrapper.Server.AllPlayers.SelectAll(player => player.Dimension.ID == ID);
 
+        public List<INPC> NPCs => Wrapper.Server.AllNPCs.SelectAll(player => player.Dimension.ID == ID);
+
+        public List<IDoor> Doors => Wrapper.Server.AllDoors.SelectAll(player => player.Dimension.ID == ID);
+
         internal Dimension(uint id)
         {
             ID = id;

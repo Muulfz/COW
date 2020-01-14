@@ -3,7 +3,6 @@ Json = require('packages/'..GetPackageName()..'/server/library/json');
 -- START LUA API --
 
 -- BASE ENTITY FUNCTIONS --
-
 --[[
 function COW_Get%ENTITIY%Dimension(data)
     return Json.encode({dim = Get%ENTITIY%Dimension(Json.decode(data)["entity"])})
@@ -27,6 +26,16 @@ end
 function COW_Get%ENTITIY%Validation(data)
     return Json.encode({state = IsValid%ENTITIY%(Json.decode(data)["entity"])})
 end
+
+function COW_Set%ENTITIY%Property(data)
+    local obj = Json.decode(data);
+    Set%ENTITIY%PropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_Get%ENTITIY%Property(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = Get%ENTITIY%PropertyValue(obj["entity"], obj["key"])})
+end
 ]]--
 
 -- FOR LIFELESS --
@@ -37,6 +46,38 @@ function COW_Destory%ENTITIY%(data)
 end
 ]]--
 -- FOR LIFELESS --
+
+-- FOR LIVING --
+--[[
+function COW_Set%ENTITIY%Ragdoll(data)
+    local obj = Json.decode(data);
+    Set%ENTITIY%Ragdoll(obj["entity"], obj["state"])
+end
+
+function COW_Set%ENTITIY%Animation(data)
+    local obj = Json.decode(data);
+    Set%ENTITIY%Animation(obj["entity"], obj["anim"])
+end
+
+function COW_Set%ENTITIY%Health(data)
+    local obj = Json.decode(data);
+    Set%ENTITIY%Health(obj["entity"], obj["health"])
+end
+
+function COW_Get%ENTITIY%HeadSize(data)
+    return Json.encode({health = Get%ENTITIY%Health(Json.decode(data)["entity"])})
+end
+
+function COW_Set%ENTITIY%Heading(data)
+    local obj = Json.decode(data);
+    Set%ENTITIY%Heading(obj["entity"], obj["heading"])
+end
+
+function COW_Get%ENTITIY%Heading(data)
+    return Json.encode({heading = Get%ENTITIY%Heading(Json.decode(data)["entity"])})
+end
+]]--
+-- FOR LIVING --
 
 -- BASE ENTITY FUNCTIONS --
 
@@ -50,6 +91,44 @@ end
 
 -- START PLAYER API --
 
+function COW_SetPlayerProperty(data)
+    local obj = Json.decode(data);
+    SetPlayerPropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_GetPlayerProperty(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = GetPlayerPropertyValue(obj["entity"], obj["key"])})
+end
+
+function COW_SetPlayerHeading(data)
+    local obj = Json.decode(data);
+    SetPlayerHeading(obj["entity"], obj["heading"])
+end
+
+function COW_GetPlayerHeading(data)
+    return Json.encode({heading = GetPlayerHeading(Json.decode(data)["entity"])})
+end
+
+function COW_SetPlayerHealth(data)
+    local obj = Json.decode(data);
+    SetPlayerHealth(obj["entity"], obj["health"])
+end
+
+function COW_GetPlayerHeadSize(data)
+    return Json.encode({health = GetPlayerHealth(Json.decode(data)["entity"])})
+end
+
+function COW_SetPlayerRagdoll(data)
+    local obj = Json.decode(data);
+    SetPlayerRagdoll(obj["entity"], obj["state"])
+end
+
+function COW_SetPlayerHeadSize(data)
+    local obj = Json.decode(data);
+    SetPlayerHeadSize(obj["player"], obj["size"])
+end
+
 function COW_GetPlayerHeadSize(data)
     return Json.encode({size = GetPlayerHeadSize(Json.decode(data)["player"])})
 end
@@ -61,7 +140,7 @@ end
 
 function COW_SetPlayerAnimation(data)
     local obj = Json.decode(data);
-    SetPlayerAnimation(obj["player"], obj["anim"])
+    SetPlayerAnimation(obj["entity"], obj["anim"])
 end
 
 function COW_GetPlayerName(data)
@@ -165,6 +244,96 @@ function COW_SetDoorPosition(data)
 end
 
 -- END DOOR API --
+
+-- START NPC API --
+
+function COW_IsNPCStreamedIn(data)
+    local obj = Json.decode(data);
+    return Json.encode({state = IsNPCStreamedIn(obj["entity"], obj["player"])})
+end
+
+function COW_SetNPCFollowVehicle(data)
+    local obj = Json.decode(data);
+    SetNPCFollowVehicle(obj["entity"], obj["vehicle"], obj["speed"])
+end
+
+function COW_SetNPCFollowPlayer(data)
+    local obj = Json.decode(data);
+    SetNPCFollowPlayer(obj["entity"], obj["player"], obj["speed"])
+end
+
+function COW_SetNPCTargetLocation(data)
+    local obj = Json.decode(data);
+    SetNPCTargetLocation(obj["entity"], obj["x"], obj["y"], obj["z"], obj["speed"])
+end
+
+function COW_DestoryNPC(data)
+    local obj = Json.decode(data);
+    DestroyNPC(obj["entity"])
+end
+
+function COW_SetNPCRagdoll(data)
+    local obj = Json.decode(data);
+    SetNPCRagdoll(obj["entity"], obj["state"])
+end
+
+function COW_SetNPCAnimation(data)
+    local obj = Json.decode(data);
+    SetNPCAnimation(obj["entity"], obj["anim"])
+end
+
+function COW_SetNPCHealth(data)
+    local obj = Json.decode(data);
+    SetNPCHealth(obj["entity"], obj["health"])
+end
+
+function COW_GetNPCHeadSize(data)
+    return Json.encode({health = GetNPCHealth(Json.decode(data)["entity"])})
+end
+
+function COW_SetNPCHeading(data)
+    local obj = Json.decode(data);
+    SetNPCHeading(obj["entity"], obj["heading"])
+end
+
+function COW_GetNPCHeading(data)
+    return Json.encode({heading = GetNPCHeading(Json.decode(data)["entity"])})
+end
+
+function COW_GetNPCDimension(data)
+    return Json.encode({dim = GetNPCDimension(Json.decode(data)["entity"])})
+end
+
+function COW_SetNPCDimension(data)
+    local obj = Json.decode(data);
+    SetNPCDimension(obj["entity"], obj["dim"])
+end
+
+function COW_GetNPCPosition(data)
+    local x_, y_, z_ = GetNPCLocation(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetNPCPosition(data)
+    local obj = Json.decode(data);
+    SetNPCLocation(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_GetNPCValidation(data)
+    return Json.encode({state = IsValidNPC(Json.decode(data)["entity"])})
+end
+
+function COW_SetNPCProperty(data)
+    local obj = Json.decode(data);
+    SetNPCPropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_GetNPCProperty(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = GetNPCPropertyValue(obj["entity"], obj["key"])})
+end
+
+-- END NPC API --
 
 -- START DIMENSION API --
 

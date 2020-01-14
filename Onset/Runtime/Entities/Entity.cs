@@ -38,6 +38,23 @@ namespace Onset.Runtime.Entities
             Dimension = Wrapper.Server.GetDimension(id);
         }
 
+        public virtual void SetProperty(string key, object value, bool sync = false)
+        {
+            Wrapper.ExecuteLua("COW_Set" + EntityName + "Property", new { key, value, sync, entity = ID });
+        }
+
+        public virtual T GetProperty<T>(string key, T @default = default)
+        {
+            T value = Wrapper.ExecuteLua("COW_Get" + EntityName + "Property", new {key, entity = ID}).Value<T>("value");
+            if (value.Equals(default)) return @default;
+            return value;
+        }
+
+        public virtual bool HasProperty<T>(string key)
+        {
+            return !GetProperty<T>(key).Equals(default);
+        }
+
         protected bool CheckValidation()
         {
             bool state = Wrapper.ExecuteLua("COW_Get" + EntityName + "Validation", new { entity = ID }).Value<bool>("state");

@@ -24,6 +24,8 @@ namespace Onset.Runtime
 
         public List<IDoor> AllDoors => DoorPool.Entities;
 
+        public List<INPC> AllNPCs => NPCPool.Entities;
+
         public List<string> AllPackages => Wrapper.ExecuteLua("COW_GetAllPackages").Value<List<string>>("packages");
 
         public float TickRate => Wrapper.ExecuteLua("COW_GetServerTickRate").Value<float>("val");
@@ -48,6 +50,8 @@ namespace Onset.Runtime
 
         internal EntityPool<IDoor> DoorPool { get; }
 
+        internal EntityPool<INPC> NPCPool { get; }
+
         internal List<IDimension> DimensionPool { get; }
 
         public string GameVersionAsString => Wrapper.ExecuteLua("COW_GetGameVersionString").Value<string>("version");
@@ -67,11 +71,11 @@ namespace Onset.Runtime
             CommandRegistry = new Registry<Command>();
             CommandRegistry.ItemRegistered += item =>
             {
-                Logger.Info("Adding command " + item.Data.Name);
                 Wrapper.ExecuteLua("COW_AddCommand", new {commandName = item.Data.Name});
             };
             PlayerPool = new EntityPool<IPlayer>(id => new Player(id));
             DoorPool = new EntityPool<IDoor>(id => new Door(id));
+            NPCPool = new EntityPool<INPC>(id => new NPC(id));
         }
 
         public IDimension GetDimension(uint id)

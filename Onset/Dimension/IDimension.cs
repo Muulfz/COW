@@ -22,6 +22,16 @@ namespace Onset.Dimension
         List<IPlayer> Players { get; }
 
         /// <summary>
+        /// A list with all npcs currently in this dimension.
+        /// </summary>
+        List<INPC> NPCs { get; }
+
+        /// <summary>
+        /// A list with all doors currently in this dimension.
+        /// </summary>
+        List<IDoor> Doors { get; } 
+
+        /// <summary>
         /// Creates an explosion in this dimension.
         /// </summary>
         /// <param name="id">The number which identifies the explosion</param>

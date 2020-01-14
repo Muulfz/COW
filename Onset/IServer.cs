@@ -44,6 +44,11 @@ namespace Onset
         List<IDoor> AllDoors { get; }
 
         /// <summary>
+        /// The list containing all npcs on the current running server.
+        /// </summary>
+        List<INPC> AllNPCs { get; }
+
+        /// <summary>
         /// The list containing all packages running on the current running server.
         /// </summary>
         List<string> AllPackages { get; }

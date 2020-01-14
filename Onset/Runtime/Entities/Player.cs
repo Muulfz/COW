@@ -6,7 +6,7 @@ using Onset.Enums;
 
 namespace Onset.Runtime.Entities
 {
-    internal class Player : Entity, IPlayer
+    internal class Player : Living, IPlayer
     {
         public string Name
         {
@@ -46,11 +46,6 @@ namespace Onset.Runtime.Entities
         public void DetachParachute()
         {
             Wrapper.ExecuteLua("COW_AttachPlayerParachute", new { player = ID, enable = false });
-        }
-
-        public void Animate(Animation animation)
-        {
-            Wrapper.ExecuteLua("COW_SetPlayerAnimation", new { player = ID, anim = animation.GetName() });
         }
     }
 }

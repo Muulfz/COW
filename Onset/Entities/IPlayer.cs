@@ -9,7 +9,7 @@ namespace Onset.Entities
     /// <summary>
     /// This interface represents the players on the server and gives control over them.
     /// </summary>
-    public interface IPlayer : IEntity
+    public interface IPlayer : ILiving
     {
 
         /// <summary>
@@ -55,11 +55,5 @@ namespace Onset.Entities
         /// Detaches this player the parachute.
         /// </summary>
         void DetachParachute();
-
-        /// <summary>
-        /// Plays an animation to the given player.
-        /// </summary>
-        /// <param name="animation">The animation to be played</param>
-        void Animate(Animation animation);
     }
 }

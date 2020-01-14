@@ -18,5 +18,20 @@ namespace Onset.Runtime.Entities
         internal Door(long id) : base(id, "Door")
         {
         }
+
+        public override void SetProperty(string key, object value, bool sync = false)
+        {
+            throw new NotImplementedException("SetProperty is illegal on Doors!");
+        }
+
+        public override T GetProperty<T>(string key, T @default = default)
+        {
+            throw new NotImplementedException("GetProperty is illegal on Doors!");
+        }
+
+        public override bool HasProperty<T>(string key)
+        {
+            throw new NotImplementedException("HasProperty is illegal on Doors!");
+        }
     }
 }
