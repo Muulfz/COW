@@ -89,7 +89,55 @@ function COW_GetGameVersionString(data)
     return Json.encode({version = GetGameVersionString()})
 end
 
+-- START TEXT3D API --
+
+function COW_SetText3DText(data)
+    local obj = Json.decode(data);
+    SetText3DText(obj["entity"], obj["text"])
+end
+
+function COW_GetText3DDimension(data)
+    return Json.encode({dim = GetText3DDimension(Json.decode(data)["entity"])})
+end
+
+function COW_SetText3DDimension(data)
+    local obj = Json.decode(data);
+    SetText3DDimension(obj["entity"], obj["dim"])
+end
+
+function COW_GetText3DValidation(data)
+    return Json.encode({state = IsValidText3D(Json.decode(data)["entity"])})
+end
+
+function COW_SetText3DProperty(data)
+    local obj = Json.decode(data);
+    SetText3DPropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_GetText3DProperty(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = GetText3DPropertyValue(obj["entity"], obj["key"])})
+end
+
+function COW_DestoryText3D(data)
+    local obj = Json.decode(data);
+    DestroyText3D(obj["entity"])
+end
+
+function COW_SetText3DVisibility(data)
+    local obj = Json.decode(data);
+    SetText3DVisibility(obj["text"], obj["player"], obj["visible"])
+end
+
+-- END TEXT3D API ---
+
+
 -- START PICKUP API --
+
+function COW_SetPickupVisibility(data)
+    local obj = Json.decode(data);
+    SetPickupVisibility(obj["pickup"], obj["player"], obj["visible"])
+end
 
 function COW_GetPickupScale(data)
     local x_, y_, z_ = GetPickupScale(Json.decode(data)["entity"]);
@@ -216,11 +264,6 @@ end
 function COW_AttachPlayerParachute(data)
     local obj = Json.decode(data);
     AttachPlayerParachute(obj["player"], obj["enable"])
-end
-
-function COW_SetPickupVisibility(data)
-    local obj = Json.decode(data);
-    SetPickupVisibility(obj["pickup"], obj["player"], obj["visible"])
 end
 
 function COW_GetPlayerNetworkStats(data)

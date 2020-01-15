@@ -52,6 +52,11 @@ namespace Onset
         List<IPickup> AllPickups { get; }
 
         /// <summary>
+        /// The list containing all 3D texts on the current running server.
+        /// </summary>
+        List<IText3D> AllText3Ds { get; }
+
+        /// <summary>
         /// The list containing all packages running on the current running server.
         /// </summary>
         List<string> AllPackages { get; }

@@ -9,6 +9,11 @@ namespace Onset.Dimension
     public class Vector : IEquatable<Vector>
     {
         /// <summary>
+        /// An empty vector which has 0 on every axis.
+        /// </summary>
+        public static readonly Vector Empty = new Vector();
+
+        /// <summary>
         /// The x-value of the vector.
         /// </summary>
         public double X { get; set; }

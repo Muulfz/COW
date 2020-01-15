@@ -48,5 +48,10 @@ namespace Onset.Runtime.Entities
         {
             Wrapper.ExecuteLua("COW_SetPickupVisibility", new {player = ID, pickup = pickup.ID, visible});
         }
+
+        public void SetText3DVisibility(IText3D text, bool visible = true)
+        {
+            Wrapper.ExecuteLua("COW_SetText3DVisibility", new { player = ID, text = text.ID, visible });
+        }
     }
 }

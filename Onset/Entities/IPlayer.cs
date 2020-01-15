@@ -56,5 +56,12 @@
         /// <param name="pickup">The pickup to which the visibility belongs to</param>
         /// <param name="visible">The visible which will be set</param>
         void SetPickupVisibility(IPickup pickup, bool visible = true);
+
+        /// <summary>
+        /// Sets the 3D text visibility to the given state.
+        /// </summary>
+        /// <param name="text">The 3D text to which the visibility belongs to</param>
+        /// <param name="visible">The visible which will be set</param>
+        void SetText3DVisibility(IText3D text, bool visible = true);
     }
 }
