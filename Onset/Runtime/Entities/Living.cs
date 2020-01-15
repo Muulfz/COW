@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Entities;
+﻿using Onset.Entities;
 using Onset.Enums;
 
 namespace Onset.Runtime.Entities
@@ -10,13 +7,13 @@ namespace Onset.Runtime.Entities
     {
         public bool IsRagdoll
         {
-            set => Wrapper.ExecuteLua("COW_Set" + EntityName + "Ragdoll", new {entity = ID, state = value});
+            set => Wrapper.ExecuteLua("COW_Set" + EntityName + "Ragdoll", new { entity = ID, state = value });
         }
 
         public float Health
         {
-            get => Wrapper.ExecuteLua("COW_Get" + EntityName + "Health").Value<float>("health"); 
-            set => Wrapper.ExecuteLua("COW_Set" + EntityName + "Health", new {entity = ID, health = value});
+            get => Wrapper.ExecuteLua("COW_Get" + EntityName + "Health").Value<float>("health");
+            set => Wrapper.ExecuteLua("COW_Set" + EntityName + "Health", new { entity = ID, health = value });
         }
 
         public float Heading

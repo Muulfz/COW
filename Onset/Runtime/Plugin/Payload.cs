@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Onset.Depset;
+using Onset.Plugin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Onset.Depset;
-using Onset.Plugin;
 
 namespace Onset.Runtime.Plugin
 {
@@ -33,7 +32,7 @@ namespace Onset.Runtime.Plugin
 
         internal OnsetPlugin CreatePlugin()
         {
-            OnsetPlugin plugin = (OnsetPlugin) Activator.CreateInstance(PluginType);
+            OnsetPlugin plugin = (OnsetPlugin)Activator.CreateInstance(PluginType);
             plugin.Meta = Meta;
             plugin.Server = Wrapper.Server;
             plugin.Logger = new Logger(Meta.Name, Meta.IsDebug);

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.Drawing;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace Onset.Utils
 {

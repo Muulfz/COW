@@ -1,0 +1,980 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Onset</name>
+    </assembly>
+    <members>
+        <member name="T:Onset.Convertation.Converts">
+            <summary>
+            This is the convert registry. With it you can request a convertation
+            or register new converts.
+            </summary>
+        </member>
+        <member name="M:Onset.Convertation.Converts.Register(Onset.Convertation.IConvert)">
+            <summary>
+            Registers a new convert in the registry.
+            </summary>
+            <param name="convert">The convert to be registered</param>
+        </member>
+        <member name="M:Onset.Convertation.Converts.Convert(System.String[],System.Type[])">
+            <summary>
+            Converts the given objects into it wanted types.
+            </summary>
+            <param name="objects">The given objects</param>
+            <param name="wantedTypes">The wanted types</param>
+        </member>
+        <member name="T:Onset.Convertation.IConvert">
+            <summary>
+            Converts are meant to convert objects into a specific type. This mostly defined
+            by a parameter.
+            Converts are used in the Command section as well as the Remote Event section to convert
+            the given object array into its specified typed array so it can be used by the
+            registry to trigger the specified trigger.
+            </summary>
+        </member>
+        <member name="M:Onset.Convertation.IConvert.CanConvert(System.Type)">
+            <summary>
+            Checks whether this convert can convert the given object in to the wanted type.
+            </summary>
+            <param name="wantedType">The wanted type</param>
+            <returns>True if the convert can do the convert</returns>
+        </member>
+        <member name="M:Onset.Convertation.IConvert.Convert(System.String,System.Type)">
+            <summary>
+            Converts the given object into the wanted type.
+            </summary>
+            <param name="givenObject">The given object</param>
+            <param name="wantedType">The wanted type</param>
+            <returns>The converted object</returns>
+        </member>
+        <member name="T:Onset.Dimension.IDimension">
+            <summary>
+            Represents every dimension in onset from here you can interact with them
+            or the entities in this dimension. 
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.IDimension.ID">
+            <summary>
+            The id of this dimension.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.IDimension.Players">
+            <summary>
+            A list with all players currently in this dimension.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.IDimension.NPCs">
+            <summary>
+            A list with all npcs currently in this dimension.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.IDimension.Doors">
+            <summary>
+            A list with all doors currently in this dimension.
+            </summary>
+        </member>
+        <member name="M:Onset.Dimension.IDimension.CreateExplosion(System.UInt32,Onset.Dimension.Vector,System.Boolean,System.Double,System.Double)">
+            <summary>
+            Creates an explosion in this dimension.
+            </summary>
+            <param name="id">The number which identifies the explosion</param>
+            <param name="position">The position at which the explosion will be spawned</param>
+            <param name="hasSound">Whether the explosion has a sound or not</param>
+            <param name="camShakeRadius">The radius in which the cam will shake</param>
+            <param name="radialForce">The radial force of the explosion</param>
+            <returns>True on success</returns>
+        </member>
+        <member name="M:Onset.Dimension.IDimension.CreateDoor(System.UInt16,Onset.Dimension.Vector,System.Double,System.Boolean)">
+            <summary>
+            Creates a <see cref="T:Onset.Entities.IDoor"/> in this dimension by the given parameters.
+            </summary>
+            <param name="model">The model of the Door (<see cref="!:https://dev.playonset.com/wiki/Doors">Model List</see>)</param>
+            <param name="position">The position at which the door will be spawned</param>
+            <param name="yaw">The yaw heading of the door</param>
+            <param name="interactable">Whether a player can interact with door or not</param>
+            <returns>The created door</returns>
+        </member>
+        <member name="T:Onset.Dimension.Vector">
+            <summary>
+            This class represents an euclidean vector and gives some functionality.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.Vector.X">
+            <summary>
+            The x-value of the vector.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.Vector.Y">
+            <summary>
+            The y-value of the vector.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.Vector.Z">
+            <summary>
+            The z-value of the vector.
+            </summary>
+        </member>
+        <member name="M:Onset.Dimension.Vector.op_Addition(Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            The overridden addition operator.
+            Adds the vector v2 onto the vector v1.
+            </summary>
+            <returns>The sum vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.op_Subtraction(Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            The overridden subtraction operator.
+            Subtracts the vector v2 from the vector v1.
+            </summary>
+            <returns>The diff vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.op_Division(Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            The overridden division operator.
+            Divides the vector v2 from the vector v1.
+            </summary>
+            <returns>The quotient vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.op_Multiply(Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            The overridden multiplication operator.
+            Multiplies the vector v2 with the vector v1.
+            </summary>
+            <returns>The product vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.op_Modulus(Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            The overridden modulo operator.
+            The modulo calculation is like this: v1 % v2
+            </summary>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Add(System.Double)">
+            <summary>
+            Adds the given value on every value of this vector.
+            </summary>
+            <param name="v">The value to be added</param>
+            <returns>This vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Subtract(System.Double)">
+            <summary>
+            Subtracts the given value from every value of this vector.
+            </summary>
+            <param name="v">The value to be subtracted</param>
+            <returns>This vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Multiply(System.Double)">
+            <summary>
+            Multiplies the given value with every value of this vector.
+            </summary>
+            <param name="v">The value to be multiplied</param>
+            <returns>This vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Divide(System.Double)">
+            <summary>
+            Divides the given value from every value of this vector.
+            </summary>
+            <param name="v">The value to be divided</param>
+            <returns>This vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Mod(System.Double)">
+            <summary>
+            Applies module to all values of this vector.
+            </summary>
+            <param name="v">The modulo value</param>
+            <returns>This vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Add(Onset.Dimension.Vector)">
+            <see cref="M:Onset.Dimension.Vector.Add(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Subtract(Onset.Dimension.Vector)">
+            <see cref="M:Onset.Dimension.Vector.Subtract(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Multiply(Onset.Dimension.Vector)">
+            <see cref="M:Onset.Dimension.Vector.Multiply(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Divide(Onset.Dimension.Vector)">
+            <see cref="M:Onset.Dimension.Vector.Divide(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Mod(Onset.Dimension.Vector)">
+            <see cref="M:Onset.Dimension.Vector.Mod(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Add(System.Double,System.Double,System.Double)">
+            <see cref="M:Onset.Dimension.Vector.Add(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Subtract(System.Double,System.Double,System.Double)">
+            <see cref="M:Onset.Dimension.Vector.Subtract(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Multiply(System.Double,System.Double,System.Double)">
+            <see cref="M:Onset.Dimension.Vector.Multiply(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Divide(System.Double,System.Double,System.Double)">
+            <see cref="M:Onset.Dimension.Vector.Divide(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Mod(System.Double,System.Double,System.Double)">
+            <see cref="M:Onset.Dimension.Vector.Mod(System.Double)"/>
+        </member>
+        <member name="M:Onset.Dimension.Vector.DistanceTo(Onset.Dimension.Vector)">
+            <summary>
+            Calculates the distance to the given vector.
+            </summary>
+            <param name="o">The other vector</param>
+            <returns>The distance in float</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.DistanceTo2D(Onset.Dimension.Vector)">
+            <summary>
+            Calculates the distance to the given vector.
+            Different from <see cref="M:Onset.Dimension.Vector.DistanceTo(Onset.Dimension.Vector)"/> is that it only uses X and Y.
+            </summary>
+            <param name="o">The other vector</param>
+            <returns>The distance in float</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Length">
+            <summary>
+            Calculates the length of this vector.
+            </summary>
+            <returns>The length as double</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Length2D">
+            <summary>
+            Calculates the length of this vector.
+            Different from <see cref="M:Onset.Dimension.Vector.Length"/> is that it only uses X and Y.
+            </summary>
+            <returns>The length as double</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Normalize">
+            <summary>
+            Normalizes the vector (divides the vector with the vector's length).
+            </summary>
+            <returns>This normalized vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Normalize2D">
+            <summary>
+            Normalizes the vector (divides the vector with the vector's length).
+            Different from <see cref="M:Onset.Dimension.Vector.Normalize"/> is that it only uses X and Y.
+            </summary>
+            <returns>This normalized vector</returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.To(Onset.Dimension.Vector)">
+            <summary>
+            Turns this vector into a direction vector which is going TO the given vector.
+            </summary>
+            <param name="o">The vector which defines the point where this vector is going to</param>
+            <returns></returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.From(Onset.Dimension.Vector)">
+            <summary>
+            Turns this vector into a direction vector which is coming FROM the given vector.
+            </summary>
+            <param name="o">The vector which defines the point where this vector is coming from</param>
+            <returns></returns>
+        </member>
+        <member name="M:Onset.Dimension.Vector.Direction(Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            Calculates a direction vector between the given vectors.
+            </summary>
+            <param name="from">The starting vector where the vector will be coming from</param>
+            <param name="to">The end vector where the vector will be going to</param>
+            <returns></returns>
+        </member>
+        <member name="T:Onset.Entities.IDoor">
+            <summary>
+            Represents a door in the world of onset. Players can interact with doors by pressing 'E'.
+            Some of them are physics doors meaning they are pushed open by running against them.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IDoor.Model">
+            <summary>
+            The model of the door (<see cref="!:https://dev.playonset.com/wiki/Doors">Model List</see>).
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IDoor.IsOpen">
+            <summary>
+            The state of the door. Whether the door is open or not.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IEntity.ID">
+            <summary>
+            The onset server id of this entity.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IEntity.Dimension">
+            <summary>
+            The onset world dimension of this entity.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IEntity.Position">
+            <summary>
+            The position of the entity.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IEntity.IsValid">
+            <summary>
+            Checks if the entity is valid or not.
+            If the entity is not valid the COW cleaner will be kicked off
+            causing the entities deletion out of the COW system.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IEntity.SetDimension(System.UInt32)">
+            <summary>
+            Sets this entities dimension via the given dimension id.
+            </summary>
+            <param name="id">The id of the wanted dimension</param>
+        </member>
+        <member name="M:Onset.Entities.IEntity.SetProperty(System.String,System.Object,System.Boolean)">
+            <summary>
+            Sets the given value with the given property key.
+            </summary>
+            <param name="key">The key of the property value to be set</param>
+            <param name="value">The value of the property</param>
+            <param name="sync">Whether the property should be network synced or not</param>
+        </member>
+        <member name="M:Onset.Entities.IEntity.GetProperty``1(System.String,``0)">
+            <summary>
+            Returns the value of the given property key.
+            </summary>
+            <typeparam name="T">The type of the returning value</typeparam>
+            <param name="key">The key of the property</param>
+            <param name="default">The default value which will be returned if none value is set</param>
+            <returns>The property value to the given key or default</returns>
+        </member>
+        <member name="M:Onset.Entities.IEntity.HasProperty``1(System.String)">
+            <summary>
+            Checks if the given property key is set.
+            </summary>
+            <typeparam name="T">The type of the needed value</typeparam>
+            <param name="key">The property key to be checked</param>
+            <returns>True if the key has a value</returns>
+        </member>
+        <member name="T:Onset.Entities.ILifeless">
+            <summary>
+            Represents a non living entity.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.ILifeless.Destroy">
+            <summary>
+            Destroys this entity.
+            </summary>
+        </member>
+        <member name="T:Onset.Entities.ILiving">
+            <summary>
+            Represents a living entity which offers some functionality with interacting.
+            Although it says living entity, the only living entity inheriting this is the player.
+            The NPC is also a child of living but does not live itself.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.ILiving.IsRagdoll">
+            <summary>
+            The state of the ragdoll of the living entity.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.ILiving.Health">
+            <summary>
+            The health of the living entity.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.ILiving.Heading">
+            <summary>
+            The heading (yaw) of the given living entity.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.ILiving.Animate(Onset.Enums.Animation)">
+            <summary>
+            Plays an animation to the given living entity.
+            </summary>
+            <param name="animation">The animation to be played</param>
+        </member>
+        <member name="T:Onset.Entities.INPC">
+            <summary>
+            Represents a NPC in the world of Onset.
+            </summary>
+            ReSharper disable once InconsistentNaming
+        </member>
+        <member name="M:Onset.Entities.INPC.WalkTo(Onset.Dimension.Vector,System.Single)">
+            <summary>
+            Forces the NPC to walk to the given position with the given speed.
+            </summary>
+            <param name="position">The position the NPC should walk to</param>
+            <param name="speed">The speed with which the NPC is walking (in cm)</param>
+        </member>
+        <member name="M:Onset.Entities.INPC.Follow(Onset.Entities.IVehicle,System.Single)">
+            <summary>
+            Forces the NPC to follow the given vehicle with the given speed.
+            </summary>
+            <param name="vehicle">The vehicle to be followed</param>
+            <param name="speed">The speed with which the NPC is walking (in cm)</param>
+        </member>
+        <member name="M:Onset.Entities.INPC.Follow(Onset.Entities.IPlayer,System.Single)">
+            <summary>
+            Forces the NPC to follow the given player with the given speed.
+            </summary>
+            <param name="player">The player to be followed</param>
+            <param name="speed">The speed with which the NPC is walking (in cm)</param>
+        </member>
+        <member name="M:Onset.Entities.INPC.IsStreamedFor(Onset.Entities.IPlayer)">
+            <summary>
+            Checks if the NPC is streamed to the given player.
+            </summary>
+            <param name="player">The player to be checked</param>
+            <returns>True if the NPC is streamed to the given player</returns>
+        </member>
+        <member name="M:Onset.Entities.INPC.Destroy">
+            <summary>
+            Destroys the NPC.
+            </summary>
+        </member>
+        <member name="T:Onset.Entities.IPlayer">
+            <summary>
+            This interface represents the players on the server and gives control over them.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Name">
+            <summary>
+            The name of this player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.SteamID">
+            <summary>
+            The 64-bit steam id of this player.
+            Is 0, if the player was not yet authenticated.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.HeadSize">
+            <summary>
+            The players head size between 0.0 and 3.0.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.NetworkStats">
+            <summary>
+            The network stats from this player.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.CallRemote(System.String,System.Object[])">
+            <summary>
+            Triggers a remote event on the client of this current player.
+            </summary>
+            <param name="name">The name of the remote event to be triggered</param>
+            <param name="args">The arguments which will be sent to the client side</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.SendMessage(System.String)">
+            <summary>
+            Sends this player a message to the chat.
+            </summary>
+            <param name="message">The message to be sent</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.AttachParachute">
+            <summary>
+            Attaches this player a parachute.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.DetachParachute">
+            <summary>
+            Detaches this player the parachute.
+            </summary>
+        </member>
+        <member name="T:Onset.Entities.IVehicle">
+            <summary>
+            Represents a vehicle in the world of onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.Animation">
+            <summary>
+            All animations available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.AttachType">
+            <summary>
+            All attach types available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.EnumHelper">
+            <summary>
+            Represents a helper class for the enums in this "Enums" folder.
+            </summary>
+        </member>
+        <member name="M:Onset.Enums.EnumHelper.GetName(Onset.Enums.Animation)">
+            <summary>
+            Returns the name of the given animation, or null.
+            </summary>
+            <param name="animation">The animation</param>
+            <returns>The animation name or null if it fails</returns>
+        </member>
+        <member name="T:Onset.Enums.HitType">
+            <summary>
+            All hit types available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.PlayerState">
+            <summary>
+            All player state types available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.VehicleModel">
+            <summary>
+            All vehicle models available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.Weapon">
+            <summary>
+            All weapon models available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Event.EventHelper">
+            <summary>
+            The EventHelper has some utility functions for the event section of the onset server.
+            </summary>
+        </member>
+        <member name="M:Onset.Event.EventHelper.IsPlayerEvent(Onset.Event.EventType)">
+            <summary>
+            Returns a boolean whether the given event is a player event - so needs a player as the first argument - or not.
+            </summary>
+            <param name="type">The event type</param>
+            <returns>True if it is a player event</returns>
+        </member>
+        <member name="T:Onset.Event.EventType">
+            <summary>
+            All event types which can be listened to.
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerQuit">
+            <summary>
+            (<see cref="T:Onset.Entities.IPlayer"/> player)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerChat">
+            <summary>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:System.String"/> message)
+            </summary> 
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerChatCommand">
+            <summary>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:System.String"/> command, <see cref="T:System.Boolean"/> exists)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerJoin">
+            <summary>
+            (<see cref="T:Onset.Entities.IPlayer"/> player)
+            </summary>
+        </member>
+        <member name="T:Onset.Event.RemoteEvent">
+            <summary>
+            Methods which have this attribute are marked as handlers for remote events, triggered by a client.
+            The first argument of the method must be the <see cref="T:Onset.Entities.IPlayer"/> of the triggering client.
+            </summary>
+        </member>
+        <member name="P:Onset.Event.RemoteEvent.Key">
+            <summary>
+            The key defines at which point the handler needs to trigger.
+            </summary>
+        </member>
+        <member name="T:Onset.Event.ServerEvent">
+            <summary>
+            Methods which have this attribute are marked as server events
+            handling these events. Every handling method can only handle one event.
+            Some events are cancellable which means they can be cancelled at any time.
+            When events are cancelled the process connected with this event will be immediately cancelled.
+            To cancel an event, the must just have to return true (as a boolean return method). But the method don't need
+            a return type, but when, than the only type allowed is boolean, indicating the cancel.
+            </summary>
+        </member>
+        <member name="P:Onset.Event.ServerEvent.Type">
+            <summary>
+            The event type handled by this marked method.
+            </summary>
+        </member>
+        <member name="T:Onset.Helper.Iterator`1">
+            <summary>
+            The implementation of an java iterator. It iterates step by step through list selecting every item,
+            so that the user can decide want to do with this item.
+            </summary>
+            <typeparam name="T">The type of the list.</typeparam>
+        </member>
+        <member name="M:Onset.ILogger.Info(System.String)">
+            <summary>
+            Prints an info message to the console.
+            </summary>
+            <param name="message">The message to be printed</param>
+        </member>
+        <member name="M:Onset.ILogger.Warn(System.String)">
+            <summary>
+            Prints a warning message to the console.
+            </summary>
+            <param name="message">The message to be printed</param>
+        </member>
+        <member name="M:Onset.ILogger.Success(System.String)">
+            <summary>
+            Prints a success message to the console.
+            </summary>
+            <param name="message">The message to be printed</param>
+        </member>
+        <member name="M:Onset.ILogger.Debug(System.String)">
+            <summary>
+            Prints a debug message to the console.
+            The debug message is only visible as long as the plugin is in debug mode (In the Meta attribute, set the Debug flag to true)
+            </summary>
+            <param name="message">The message to be printed</param>
+        </member>
+        <member name="M:Onset.ILogger.Fatal(System.String)">
+            <summary>
+            Prints a fatal message to the console.
+            </summary>
+            <param name="message">The message to be printed</param>
+        </member>
+        <member name="M:Onset.ILogger.Error(System.String,System.Exception)">
+            <summary>
+            Prints an error message to the console.
+            </summary>
+            <param name="message">The message to be printed</param>
+            <param name="exception">The exception to be appended</param>
+        </member>
+        <member name="T:Onset.IServer">
+            <summary>
+            The server interface is the api for the server functionality of the wrapper.
+            It represents the server of onset and all its functionality.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.PluginManager">
+            <summary>
+            The plugin manage of the current onset wrapper instance.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.Logger">
+            <summary>
+            The main logger of current COW instance.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.GameVersion">
+            <summary>
+            The game version of the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.Global">
+            <summary>
+            The global server dimension with the default ID of 0.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.AllPlayers">
+            <summary>
+            The list containing all players on the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.AllDoors">
+            <summary>
+            The list containing all doors on the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.AllNPCs">
+            <summary>
+            The list containing all npcs on the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.AllPackages">
+            <summary>
+            The list containing all packages running on the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.TickRate">
+            <summary>
+            The tick rate of the main thread. The rate is variable and depends on the load of the server. For an empty server this is between 500Hz and 1000Hz. For 300 concurrent players the tick rate should be above 150Hz.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.Name">
+            <summary>
+            The display name of this server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.MaxPlayers">
+            <summary>
+            The player slots count.
+            </summary>
+        </member>
+        <member name="M:Onset.IServer.Exit(System.String)">
+            <summary>
+            Shutdowns the server.
+            <param name="reason">The reason with which the server shutdowns</param>
+            </summary>
+        </member>
+        <member name="M:Onset.IServer.StartPackage(System.String)">
+            <summary>
+            Starts the package by the given name.
+            </summary>
+            <param name="packageName">The package name of the wanted package</param>
+        </member>
+        <member name="M:Onset.IServer.StopPackage(System.String)">
+            <summary>
+            Stops the package by the given name.
+            </summary>
+            <param name="packageName">The package name of the wanted package</param>
+        </member>
+        <member name="M:Onset.IServer.IsPackageStarted(System.String)">
+            <summary>
+            Checks if the given package is started or not.
+            </summary>
+            <param name="packageName">The package name of the wanted package</param>
+            <returns>True if the given package by the given name is started</returns>
+        </member>
+        <member name="M:Onset.IServer.RegisterCommands(System.Object)">
+            <summary>
+            Searches through the given object for <see cref="T:Onset.Command"/> and registers them in the registry.
+            </summary>
+            <param name="obj">The object to be searched through</param>
+        </member>
+        <member name="M:Onset.IServer.RegisterCommands``1">
+            <summary>
+            Creates an object from the given type and searches through this object for <see cref="T:Onset.Command"/> and registers them in the registry.
+            </summary>
+            <typeparam name="T">The type which gets created. Make sure the type has a default constructor!</typeparam>
+        </member>
+        <member name="M:Onset.IServer.RegisterEvents(System.Object)">
+            <summary>
+            Searches through the given object for <see cref="T:Onset.Event.ServerEvent"/> and registers them in the registry.
+            </summary>
+            <param name="obj">The object to be searched through</param>
+        </member>
+        <member name="M:Onset.IServer.RegisterEvents``1">
+            <summary>
+            Creates an object from the given type and searches through this object for <see cref="T:Onset.Event.ServerEvent"/> and registers them in the registry.
+            </summary>
+            <typeparam name="T">The type which gets created. Make sure the type has a default constructor!</typeparam>
+        </member>
+        <member name="M:Onset.IServer.RegisterClientEvents(System.Object)">
+            <summary>
+            Searches through the given object for <see cref="T:Onset.Event.RemoteEvent"/> and registers them in the registry.
+            </summary>
+            <param name="obj">The object to be searched through</param>
+        </member>
+        <member name="M:Onset.IServer.RegisterClientEvents``1">
+            <summary>
+            Creates an object from the given type and searches through this object for <see cref="T:Onset.Event.RemoteEvent"/> and registers them in the registry.
+            </summary>
+            <typeparam name="T">The type which gets created. Make sure the type has a default constructor!</typeparam>
+        </member>
+        <member name="M:Onset.IServer.GetDimension(System.UInt32)">
+            <summary>
+            Returns the dimension object of the given dimension id.
+            </summary>
+            <param name="id">The id of the wanted dimension</param>
+            <returns>The dimension object of the given id</returns>
+        </member>
+        <member name="T:Onset.Plugin.IPluginManager">
+            <summary>
+            The plugin manager loads and manages all plugins
+            and its dependencies.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.IPluginManager.Plugins">
+            <summary>
+            All plugins which are loaded and managed by this plugin manager instance.
+            </summary>
+        </member>
+        <member name="M:Onset.Plugin.IPluginManager.GetPlugin(System.String)">
+            <summary>
+            Returns the plugin by the given id of the wanted plugin.
+            </summary>
+            <param name="id">The id of the wanted plugin</param>
+            <returns>The plugin instance or null</returns>
+        </member>
+        <member name="M:Onset.Plugin.IPluginManager.GetPlugin(System.Predicate{Onset.Plugin.OnsetPlugin})">
+            <summary>
+            Returns the plugin by a given predicate selector.
+            </summary>
+            <param name="select">The predicate selector</param>
+            <returns>The plugin or null</returns>
+        </member>
+        <member name="M:Onset.Plugin.IPluginManager.StartPlugin(Onset.Plugin.OnsetPlugin)">
+            <summary>
+            Starts and registers the given plugin instance. Please use this method with attention
+            otherwise unexpected behavior could happen.
+            </summary>
+            <param name="plugin">The plugin to be enabled</param>
+        </member>
+        <member name="M:Onset.Plugin.IPluginManager.StopPlugin(Onset.Plugin.OnsetPlugin)">
+            <summary>
+            Stops the given plugin and unregisters it from this plugin manager.
+            </summary>
+            <param name="plugin"></param>
+        </member>
+        <member name="T:Onset.Plugin.Meta">
+            <summary>
+            The meta defines some needed information about the plugin.
+            It also defines which class the main class is and where to start from.
+            Consider reading every property for more information.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.ID">
+            <summary>
+            The id is represents the plugin. The id is required and must be unique.
+            If two plugins have the some id, the first will be loaded and the second won't.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.Name">
+            <summary>
+            The name of the plugins. This is just for representation and is not needed.
+            If the name is not set, the id will be the name.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.Author">
+            <summary>
+            The author of the plugin. This property is also optional
+            and can be empty.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.Version">
+            <summary>
+            The version of the plugin is needed. It can be used to define which version
+            of an specified addon is needed so that the addon can work.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.Description">
+            <summary>
+            The description of the plugin is optional. It defines what the plugin
+            is doing or what it should do.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.ApiVersion">
+            <summary>
+            The api version must be set. The version defines which api is needed minimum to run this plugin.
+            The the current runtime has a lower api version than this plugin, the loader will tell the user to update
+            the runtime and won't load the plugin to avoid errors.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.Dependencies">
+            <summary>
+            The dependencies of the plugin. IDs from other plugins can be entered which this plugin needs to work.
+            If the plugin is loaded and a dependency not, the loader will wait until all its dependencies are loaded
+            and than load this plugin.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.Meta.IsDebug">
+            <summary>
+            This flag defines if the plugin is in debug mode which enables debug messages and some other debug functionality.
+            The Onset Wrapper warns the developer, that plugins with debug modes enabled are active.
+            </summary>
+        </member>
+        <member name="T:Onset.Plugin.OnsetPlugin">
+            <summary>
+            This defines the main entry point for the plugins. It offers the basic functionality and
+            access point to the onset api.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.OnsetPlugin.Server">
+            <summary>
+            The server is the main entry point to the server api of onset.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.OnsetPlugin.Meta">
+            <summary>
+            The meta of this plugin.
+            </summary>
+        </member>
+        <member name="P:Onset.Plugin.OnsetPlugin.State">
+            <summary>
+            The current state of this plugin.
+            </summary>
+        </member>
+        <member name="M:Onset.Plugin.OnsetPlugin.Load">
+            <summary>
+            Loads the plugin and starts it after loading is complete.
+            </summary>
+        </member>
+        <member name="M:Onset.Plugin.OnsetPlugin.Unload">
+            <summary>
+            Unloads the plugin and disables it.
+            </summary>
+        </member>
+        <member name="T:Onset.Utils.Base64">
+            <summary>
+            Represents a helper class for Base64 encoding and decoding.
+            </summary>
+        </member>
+        <member name="T:Onset.Utils.Color">
+            <summary>
+            Represents a RGBA color with the 255 format.
+            </summary>
+        </member>
+        <member name="T:Onset.Utils.Time">
+            <summary>
+            Represents the time functions of onset.
+            </summary>
+        </member>
+        <member name="M:Onset.Utils.Time.StartTest">
+            <summary>
+            Starts a nano test.
+            </summary>
+        </member>
+        <member name="M:Onset.Utils.Time.StopTest">
+            <summary>
+            Stops the nano test and returns the nanoseconds which have been passed
+            since starting the test with <see cref="M:Onset.Utils.Time.StartTest"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Onset.Utils.Time.GetTimeSeconds">
+            <summary>
+            Returns the amount of time since the game started up.
+            </summary>
+            <returns>The time as float</returns>
+        </member>
+        <member name="M:Onset.Utils.Time.GetDeltaSeconds">
+            <summary>
+            Returns the delta seconds of the current game running.
+            </summary>
+            <returns>The delta as float</returns>
+        </member>
+        <member name="M:Onset.Utils.Time.GetTickCount">
+            <summary>
+            Returns the uptime of the actual server (not the Onset server) in milliseconds.
+            </summary>
+            <returns>The tick count as long</returns>
+        </member>
+        <member name="M:Onset.Utils.Time.CurrentTimeMillis">
+            <summary>
+            Returns the current time from January 1st 1970 to now in milliseconds.
+            </summary>
+            <returns>The milliseconds as long</returns>
+        </member>
+        <member name="T:Onset.Command">
+            <summary>
+            The attribute represents a command handling method. Method which are attributed with this attributed
+            will be registered for the specify command and waiting to handle this command.
+            Every command handling method must have the attribute and give a name. The first argument of
+            a command handling method is the <see cref="T:Onset.Entities.IPlayer"/>
+            </summary>
+        </member>
+        <member name="P:Onset.Command.Name">
+            <summary>
+            The name of the command how it will be called.
+            </summary>
+        </member>
+        <member name="P:Onset.Command.Greedy">
+            <summary>
+            When true, the last argument is greedy. Greedy is only available for strings and lists.
+            Greedy means that the rest arguments will be merged together.
+            </summary>
+        </member>
+        <member name="P:Onset.Command.Description">
+            <summary>
+            The description of the command, how to use it and what it does.
+            </summary>
+        </member>
+        <member name="P:Onset.Command.Root">
+             <summary>
+             The root of the command. The root defines the parent of the command, so which command is over this command.
+             For example: A command has the root "tp/player", i.e. the name of this command is
+             only taken when tp is in the first position and player in the second.
+             The name of this command must then be in the third position.
+            
+             The root must have the followed format: FIRST_ROOT/SECOND_ROOT/.../NTH_ROOT
+             </summary>
+        </member>
+        <member name="P:Onset.Command.Permission">
+            <summary>
+            The permission needed for this command to be executed.
+            </summary>
+        </member>
+        <member name="P:Onset.Command.Roots">
+            <summary>
+            The root split into an array.
+            </summary>
+        </member>
+    </members>
+</doc>

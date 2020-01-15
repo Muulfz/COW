@@ -5,6 +5,34 @@
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\Development\OnsetCOW\Onset\Onset.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="build\**" />
+    <Compile Remove="designtime\**" />
+    <Compile Remove="doc\**" />
+    <Compile Remove="flash\**" />
+    <Compile Remove="images\**" />
+    <Compile Remove="scripts\**" />
+    <Compile Remove="script\**" />
+    <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="designtime\**" />
+    <EmbeddedResource Remove="doc\**" />
+    <EmbeddedResource Remove="flash\**" />
+    <EmbeddedResource Remove="images\**" />
+    <EmbeddedResource Remove="scripts\**" />
+    <EmbeddedResource Remove="script\**" />
+    <None Remove="build\**" />
+    <None Remove="designtime\**" />
+    <None Remove="doc\**" />
+    <None Remove="flash\**" />
+    <None Remove="images\**" />
+    <None Remove="scripts\**" />
+    <None Remove="script\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>

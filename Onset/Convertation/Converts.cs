@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Onset.Convertation.BuildIn;
 using Onset.Entities;
 using Onset.Helper;
 using Onset.Runtime;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Onset.Convertation
 {
@@ -18,6 +17,7 @@ namespace Onset.Convertation
     {
         private static readonly List<IConvert> Converters = new List<IConvert>
         {
+            new PlayerConvert()
         };
 
         private static readonly IConvert EndConvert = new BasicConvert();
@@ -44,7 +44,7 @@ namespace Onset.Convertation
                 Type wantedType = wantedTypes[i];
                 string obj = objects[i];
                 IConvert convert = FindConvert(wantedType);
-                if(convert != null)
+                if (convert != null)
                 {
                     try
                     {
@@ -67,7 +67,7 @@ namespace Onset.Convertation
                 Wrapper.Server.Logger.Debug(debug + ": " + JsonConvert.SerializeObject(objects));
                 object[] arr = new object[wantedTypes.Length];
                 arr[0] = invoker;
-                for(int i = 1; i < wantedTypes.Length; i++)
+                for (int i = 1; i < wantedTypes.Length; i++)
                 {
                     ParameterInfo wantedType = wantedTypes[i];
                     if (withOptional && wantedType.IsOptional && (i - 1) >= objects.Length)

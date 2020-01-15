@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Onset.Dimension;
+using System;
+using System.Linq;
 
 namespace Onset.Runtime
 {
@@ -31,7 +29,7 @@ namespace Onset.Runtime
                     IsFailed = false;
                     _content = JObject.Parse(data);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     IsFailed = true;
                     Wrapper.Server.Logger.Error("An error occurred while JSON deserialize on \"" + data + "\"", ex);

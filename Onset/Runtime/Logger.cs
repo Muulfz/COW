@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Plugin;
 
 namespace Onset.Runtime
 {
@@ -40,7 +37,7 @@ namespace Onset.Runtime
 
         public void Debug(string message)
         {
-            if(!_isDebug) return;
+            if (!_isDebug) return;
             Print("DEBUG", message);
         }
 

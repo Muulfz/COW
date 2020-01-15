@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Dimension;
+﻿using Onset.Dimension;
 using Onset.Entities;
 using Onset.Plugin;
+using System.Collections.Generic;
 
 namespace Onset
 {
@@ -47,6 +45,11 @@ namespace Onset
         /// The list containing all npcs on the current running server.
         /// </summary>
         List<INPC> AllNPCs { get; }
+
+        /// <summary>
+        /// The list containing all pickups on the current running server.
+        /// </summary>
+        List<IPickup> AllPickups { get; }
 
         /// <summary>
         /// The list containing all packages running on the current running server.

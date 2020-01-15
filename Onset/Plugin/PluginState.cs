@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Onset.Plugin
+﻿namespace Onset.Plugin
 {
     public enum PluginState
     {

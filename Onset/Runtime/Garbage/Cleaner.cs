@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Onset.Runtime.Garbage
 {
@@ -13,7 +12,7 @@ namespace Onset.Runtime.Garbage
             Type type = typeof(T);
             if (Handlers.ContainsKey(type))
             {
-                ((IGarbageHandler<T>) Handlers[type]).Handle(garbage);
+                ((IGarbageHandler<T>)Handlers[type]).Handle(garbage);
             }
         }
 

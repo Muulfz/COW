@@ -8,6 +8,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+Onset/doc/
+
 # User-specific files
 *.rsuser
 *.suo

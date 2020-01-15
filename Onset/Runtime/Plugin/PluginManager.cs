@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Onset.Depset;
+﻿using Onset.Depset;
 using Onset.Helper;
 using Onset.Plugin;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 // ReSharper disable ConvertToUsingDeclaration
 
 namespace Onset.Runtime.Plugin
@@ -97,7 +96,7 @@ namespace Onset.Runtime.Plugin
                 plugin.Logger.Success("Loaded Plugin successfully!");
                 plugin.Logger.Warn("This plugin is in DEBUG mode!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Wrapper.Server.Logger.Error("An error occurred while starting Plugin \"" + plugin.Meta.ID + "\"!", e);
                 plugin.State = PluginState.Failed;

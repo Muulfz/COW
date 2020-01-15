@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Runtime;
+﻿using Onset.Runtime;
+using System;
 
 namespace Onset.Dimension
 {
@@ -95,7 +93,7 @@ namespace Onset.Dimension
         {
         }
 
-        internal Vector(ReturnData data) : this(data.Value<double>("x"), data.Value<double>("y"), data.Value<double>("z")) 
+        internal Vector(ReturnData data) : this(data.Value<double>("x"), data.Value<double>("y"), data.Value<double>("z"))
         {
         }
 
@@ -313,7 +311,7 @@ namespace Onset.Dimension
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Vector) obj);
+            return Equals((Vector)obj);
         }
 
         public override int GetHashCode()

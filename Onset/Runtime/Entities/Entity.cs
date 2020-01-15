@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Dimension;
+﻿using Onset.Dimension;
 using Onset.Entities;
 using Onset.Runtime.Garbage;
 
@@ -11,8 +8,8 @@ namespace Onset.Runtime.Entities
     {
         public long ID { get; }
 
-        public IDimension Dimension 
-        { 
+        public IDimension Dimension
+        {
             get => Wrapper.Server.GetDimension(Wrapper.ExecuteLua("COW_Get" + EntityName + "Dimension", new { entity = ID }).Value<uint>("dim"));
             set => Wrapper.ExecuteLua("COW_Set" + EntityName + "Dimension", new { dim = value.ID, entity = ID });
         }
@@ -45,7 +42,7 @@ namespace Onset.Runtime.Entities
 
         public virtual T GetProperty<T>(string key, T @default = default)
         {
-            T value = Wrapper.ExecuteLua("COW_Get" + EntityName + "Property", new {key, entity = ID}).Value<T>("value");
+            T value = Wrapper.ExecuteLua("COW_Get" + EntityName + "Property", new { key, entity = ID }).Value<T>("value");
             if (value.Equals(default)) return @default;
             return value;
         }

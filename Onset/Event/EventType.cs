@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Onset.Event
+﻿namespace Onset.Event
 {
     /// <summary>
     /// All event types which can be listened to.
@@ -25,6 +21,14 @@ namespace Onset.Event
         /// <summary>
         /// (<see cref="Onset.Entities.IPlayer"/> player)
         /// </summary>
-        PlayerJoin
+        PlayerJoin,
+        /// <summary>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IPickup"/> pickup)
+        /// </summary>
+        PlayerPickupHit,
+        /// <summary>
+        /// (<see cref="Onset.Entities.IVehicle"/> vehicle, <see cref="Onset.Entities.IPickup"/> pickup)
+        /// </summary>
+        VehiclePickupHit,
     }
 }

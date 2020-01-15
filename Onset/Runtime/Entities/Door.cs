@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Entities;
+﻿using Onset.Entities;
+using System;
 
 namespace Onset.Runtime.Entities
 {
@@ -11,8 +9,8 @@ namespace Onset.Runtime.Entities
 
         public bool IsOpen
         {
-            get => Wrapper.ExecuteLua("COW_IsDoorOpen", new {entity = ID}).Value<bool>("state");
-            set => Wrapper.ExecuteLua("COW_SetDoorOpen", new {entity = ID, state = value});
+            get => Wrapper.ExecuteLua("COW_IsDoorOpen", new { entity = ID }).Value<bool>("state");
+            set => Wrapper.ExecuteLua("COW_SetDoorOpen", new { entity = ID, state = value });
         }
 
         internal Door(long id) : base(id, "Door")

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Onset.Entities
+﻿namespace Onset.Entities
 {
     /// <summary>
     /// Represents a door in the world of onset. Players can interact with doors by pressing 'E'.

@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Onset.Entities;
 using System.Collections.Generic;
-using System.Text;
-using Onset.Entities;
 
 namespace Onset.Dimension
 {
@@ -29,7 +27,12 @@ namespace Onset.Dimension
         /// <summary>
         /// A list with all doors currently in this dimension.
         /// </summary>
-        List<IDoor> Doors { get; } 
+        List<IDoor> Doors { get; }
+
+        /// <summary>
+        /// A list with all picks currently in this dimension.
+        /// </summary>
+        List<IPickup> Pickups { get; }
 
         /// <summary>
         /// Creates an explosion in this dimension.
@@ -51,5 +54,13 @@ namespace Onset.Dimension
         /// <param name="interactable">Whether a player can interact with door or not</param>
         /// <returns>The created door</returns>
         IDoor CreateDoor(ushort model, Vector position, double yaw, bool interactable = true);
+
+        /// <summary>
+        /// Creates a <see cref="IPickup"/> in this dimension by the given parameters.
+        /// </summary>
+        /// <param name="model">The module of the Pickup (<see cref="https://dev.playonset.com/wiki/Objects">Object List</see>)</param>
+        /// <param name="position">The position at which the pickup will be spawned</param>
+        /// <returns>The created pickup</returns>
+        IPickup CreatePickup(ulong model, Vector position);
     }
 }

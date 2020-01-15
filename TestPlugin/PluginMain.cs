@@ -1,5 +1,4 @@
-﻿using System;
-using Onset;
+﻿using Onset;
 using Onset.Entities;
 using Onset.Event;
 using Onset.Plugin;
@@ -62,7 +61,7 @@ namespace TestPlugin
         [ServerEvent(EventType.PlayerChatCommand)]
         public void OnPlayerChatCommand(IPlayer player, string command, bool exists)
         {
-            Logger.Debug("Command executed by " + player.Name + ": " + command + " -> " +  exists);
+            Logger.Debug("Command executed by " + player.Name + ": " + command + " -> " + exists);
         }
 
         #endregion

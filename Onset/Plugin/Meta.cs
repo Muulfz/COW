@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Runtime;
 
 namespace Onset.Plugin
 {
@@ -10,7 +7,7 @@ namespace Onset.Plugin
     /// It also defines which class the main class is and where to start from.
     /// Consider reading every property for more information.
     /// </summary>
-    
+
     [AttributeUsage(AttributeTargets.Class)]
     public class Meta : Attribute
     {

@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Onset.Helper;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Onset.Helper;
 
 namespace Onset.Runtime
 {
     internal class Registry<T> where T : Attribute
     {
         internal event Action<Item> ItemRegistered;
- 
+
         private readonly List<Item> _items;
 
         internal Registry()
@@ -52,7 +52,7 @@ namespace Onset.Runtime
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Wrapper.Server.Logger.Error("Tried to register an Object from \"" + obj.GetType().FullName + "\" to the Registry for \"" + typeof(T).FullName + "\" but there was an exception!", e);
             }
@@ -85,11 +85,11 @@ namespace Onset.Runtime
                 Invoker = invoker;
             }
 
-            internal object Invoke(params object[] args) 
+            internal object Invoke(params object[] args)
             {
                 try
                 {
-                    if(args == null)
+                    if (args == null)
                     {
                         Wrapper.Server.Logger.Warn("Could not execute " + Invoker.Name + " for registry " + typeof(T).FullName + " because the arguments were null!");
                         return null;
@@ -103,7 +103,7 @@ namespace Onset.Runtime
 
                     return Invoker.Invoke(Handler, args);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Wrapper.Server.Logger.Error("Could not execute registry item in Registry for \"" + typeof(T).FullName + "\" because of an Error!", e);
                     return null;

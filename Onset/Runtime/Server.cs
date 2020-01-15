@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Onset.Dimension;
+﻿using Onset.Dimension;
 using Onset.Entities;
 using Onset.Event;
 using Onset.Helper;
@@ -9,6 +7,8 @@ using Onset.Runtime.Entities;
 using Onset.Runtime.Plugin;
 using Onset.Runtime.Pools;
 using Onset.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace Onset.Runtime
 {
@@ -25,6 +25,8 @@ namespace Onset.Runtime
         public List<IDoor> AllDoors => DoorPool.Entities;
 
         public List<INPC> AllNPCs => NPCPool.Entities;
+
+        public List<IPickup> AllPickups => PickupPool.Entities;
 
         public List<string> AllPackages => Wrapper.ExecuteLua("COW_GetAllPackages").Value<List<string>>("packages");
 
@@ -50,6 +52,8 @@ namespace Onset.Runtime
 
         internal EntityPool<IDoor> DoorPool { get; }
 
+        internal EntityPool<IPickup> PickupPool { get; }
+
         internal EntityPool<INPC> NPCPool { get; }
 
         internal List<IDimension> DimensionPool { get; }
@@ -60,22 +64,23 @@ namespace Onset.Runtime
         {
             Logger = new Logger(null, true);
             Global = new Dimension(0);
-            DimensionPool = new List<IDimension> {Global};
+            DimensionPool = new List<IDimension> { Global };
             PluginManager = new PluginManager(this);
             ServerEventRegistry = new Registry<ServerEvent>();
             RemoteEventRegistry = new Registry<RemoteEvent>();
             RemoteEventRegistry.ItemRegistered += item =>
             {
-                Wrapper.ExecuteLua("COW_AddRemoteEvent", new {eventName = item.Data.Key});
+                Wrapper.ExecuteLua("COW_AddRemoteEvent", new { eventName = item.Data.Key });
             };
             CommandRegistry = new Registry<Command>();
             CommandRegistry.ItemRegistered += item =>
             {
-                Wrapper.ExecuteLua("COW_AddCommand", new {commandName = item.Data.Name});
+                Wrapper.ExecuteLua("COW_AddCommand", new { commandName = item.Data.Name });
             };
             PlayerPool = new EntityPool<IPlayer>(id => new Player(id));
             DoorPool = new EntityPool<IDoor>(id => new Door(id));
             NPCPool = new EntityPool<INPC>(id => new NPC(id));
+            PickupPool = new EntityPool<IPickup>(id => new Pickup(id));
         }
 
         public IDimension GetDimension(uint id)
@@ -95,7 +100,7 @@ namespace Onset.Runtime
             long currentTime = Time.CurrentTimeMillis();
             Logger.Debug("Ping test took " + (currentTime - pingTime) + " millis!");
             Logger.Info("Found game version: " + gameVersion);
-            ((PluginManager) PluginManager).LoadPlugins();
+            ((PluginManager)PluginManager).LoadPlugins();
         }
 
         internal void Stop()
@@ -157,7 +162,7 @@ namespace Onset.Runtime
         {
             try
             {
-                EventType type = (EventType) data.Value<int>("type");
+                EventType type = (EventType)data.Value<int>("type");
                 object[] args;
                 IPlayer associatedPlayer = type.IsPlayerEvent() ? PlayerPool.GetEntity(data.Value<int>("player")) : null;
                 switch (type)
@@ -184,7 +189,7 @@ namespace Onset.Runtime
                 foreach (Registry<ServerEvent>.Item item in ServerEventRegistry.GetAll(item => item.Data.Type == type))
                 {
                     object @return = item.Invoke(args);
-                    if (@return != null && (bool) @return)
+                    if (@return != null && (bool)@return)
                     {
                         cancel = true;
                     }
@@ -200,7 +205,7 @@ namespace Onset.Runtime
 
                 return cancel;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.Error("Tried to execute a server event but couldn't", e);
                 return false;

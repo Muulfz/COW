@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Onset.Runtime;
+using System;
 using System.Diagnostics;
-using System.Text;
-using Onset.Runtime;
 
 namespace Onset.Utils
 {

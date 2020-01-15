@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Win32.SafeHandles;
-using Onset.Enums;
-
-namespace Onset.Entities
+﻿namespace Onset.Entities
 {
     /// <summary>
     /// This interface represents the players on the server and gives control over them.
@@ -55,5 +49,12 @@ namespace Onset.Entities
         /// Detaches this player the parachute.
         /// </summary>
         void DetachParachute();
+
+        /// <summary>
+        /// Sets the pickup visibility to the given state.
+        /// </summary>
+        /// <param name="pickup">The pickup to which the visibility belongs to</param>
+        /// <param name="visible">The visible which will be set</param>
+        void SetPickupVisibility(IPickup pickup, bool visible = true);
     }
 }

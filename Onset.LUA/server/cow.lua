@@ -40,7 +40,7 @@ end
 
 -- FOR LIFELESS --
 --[[
-function COW_Destory%ENTITIY%(data)
+function COW_Destroy%ENTITIY%(data)
     local obj = Json.decode(data);
     Destroy%ENTITIY%(obj["entity"])
 end
@@ -88,6 +88,58 @@ end
 function COW_GetGameVersionString(data)
     return Json.encode({version = GetGameVersionString()})
 end
+
+-- START PICKUP API --
+
+function COW_GetPickupScale(data)
+    local x_, y_, z_ = GetPickupScale(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetPickupScale(data)
+    local obj = Json.decode(data);
+    SetPickupScale(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_GetPickupDimension(data)
+    return Json.encode({dim = GetPickupDimension(Json.decode(data)["entity"])})
+end
+
+function COW_SetPickupDimension(data)
+    local obj = Json.decode(data);
+    SetPickupDimension(obj["entity"], obj["dim"])
+end
+
+function COW_GetPickupPosition(data)
+    local x_, y_, z_ = GetPickupLocation(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetPickupPosition(data)
+    local obj = Json.decode(data);
+    SetPickupLocation(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_GetPickupValidation(data)
+    return Json.encode({state = IsValidPickup(Json.decode(data)["entity"])})
+end
+
+function COW_SetPickupProperty(data)
+    local obj = Json.decode(data);
+    SetPickupPropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_GetPickupProperty(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = GetPickupPropertyValue(obj["entity"], obj["key"])})
+end
+
+function COW_DestroyPickup(data)
+    local obj = Json.decode(data);
+    DestroyPickup(obj["entity"])
+end
+
+-- END PICKUP API --
 
 -- START PLAYER API --
 
@@ -166,6 +218,11 @@ function COW_AttachPlayerParachute(data)
     AttachPlayerParachute(obj["player"], obj["enable"])
 end
 
+function COW_SetPickupVisibility(data)
+    local obj = Json.decode(data);
+    SetPickupVisibility(obj["pickup"], obj["player"], obj["visible"])
+end
+
 function COW_GetPlayerNetworkStats(data)
     local obj = Json.decode(data);
     local totalPacketLoss_, lastSecondPacketLoss_, messagesInResendBuffer_, bytesInResendBuffer_, bytesSend_, 
@@ -193,7 +250,7 @@ end
 
 -- START VEHICLE API --
 
-function COW_DestoryVehicle(data)
+function COW_DestroyVehicle(data)
     local obj = Json.decode(data);
     DestroyVehicle(obj["entity"])
 end
@@ -202,7 +259,7 @@ end
 
 -- START DOOR API --
 
-function COW_DestoryDoor(data)
+function COW_DestroyDoor(data)
     local obj = Json.decode(data);
     DestroyDoor(obj["entity"])
 end
@@ -267,7 +324,7 @@ function COW_SetNPCTargetLocation(data)
     SetNPCTargetLocation(obj["entity"], obj["x"], obj["y"], obj["z"], obj["speed"])
 end
 
-function COW_DestoryNPC(data)
+function COW_DestroyNPC(data)
     local obj = Json.decode(data);
     DestroyNPC(obj["entity"])
 end
@@ -345,6 +402,11 @@ end
 function COW_CreateDoor(data)
     local obj = Json.decode(data);
     return Json.encode({door = CreateDoor(obj["model"], obj["x"], obj["y"], obj["z"], obj["yaw"], obj["interactable"]) })
+end
+
+function COW_CreatePickup(data)
+    local obj = Json.decode(data);
+    return Json.encode({pickup = CreatePickup(obj["model"], obj["x"], obj["y"], obj["z"]) })
 end
 
 -- END DIMENSION API --

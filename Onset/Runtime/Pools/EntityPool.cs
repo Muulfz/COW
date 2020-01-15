@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Onset.Entities;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using Onset.Entities;
-using Onset.Runtime.Entities;
 
 namespace Onset.Runtime.Pools
 {
@@ -10,7 +8,7 @@ namespace Onset.Runtime.Pools
     {
         internal List<T> Entities { get; }
 
-        private readonly Func<long, T> _entityFactory; 
+        private readonly Func<long, T> _entityFactory;
 
         internal EntityPool(Func<long, T> entityFactory)
         {
