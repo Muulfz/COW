@@ -9,7 +9,7 @@ namespace Onset.Event
     {
         private static readonly List<EventType> PlayerEvents = new List<EventType>
         {
-            EventType.PlayerChat, EventType.PlayerChatCommand, EventType.PlayerJoin, EventType.PlayerQuit
+            EventType.PlayerChat, EventType.PlayerChatCommand, EventType.PlayerJoin, EventType.PlayerQuit, EventType.PlayerPickupHit
         };
 
         /// <summary>

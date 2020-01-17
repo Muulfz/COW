@@ -1,5 +1,6 @@
 ﻿using Onset.Entities;
 using System.Collections.Generic;
+using Onset.Enums;
 
 namespace Onset.Dimension
 {
@@ -43,6 +44,11 @@ namespace Onset.Dimension
         /// A list with all 3D texts currently in this dimension.
         /// </summary>
         List<IText3D> Text3Ds { get; }
+
+        /// <summary>
+        /// A list with all vehicles currently in this dimension.
+        /// </summary>
+        List<IVehicle> Vehicles { get; }
 
         /// <summary>
         /// Creates an explosion in this dimension.
@@ -92,5 +98,14 @@ namespace Onset.Dimension
         /// <param name="r">The rotation of the text. Default: 0</param>
         /// <returns>The created 3D text</returns>
         IText3D CreateText3D(string text, float size, Vector position, Vector r = null);
+
+        /// <summary>
+        /// Creates a <see cref="IVehicle"/> in this dimension by the given parameters.
+        /// </summary>
+        /// <param name="model">The vehicle model (<see cref="VehicleModel"/>)</param>
+        /// <param name="position">The position the vehicle gets spawned</param>
+        /// <param name="heading">The yaw of the vehicle. Default: 0</param>
+        /// <returns>The created vehicle</returns>
+        IVehicle CreateVehicle(VehicleModel model, Vector position, float heading = 0);
     }
 }

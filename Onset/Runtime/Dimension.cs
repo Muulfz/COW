@@ -2,6 +2,7 @@
 using Onset.Entities;
 using Onset.Helper;
 using System.Collections.Generic;
+using Onset.Enums;
 
 namespace Onset.Runtime
 {
@@ -20,6 +21,8 @@ namespace Onset.Runtime
         public List<IObject> Objects => Wrapper.Server.AllObjects.SelectAll(player => player.Dimension.ID == ID);
 
         public List<IText3D> Text3Ds => Wrapper.Server.AllText3Ds.SelectAll(player => player.Dimension.ID == ID);
+
+        public List<IVehicle> Vehicles => Wrapper.Server.AllVehicles.SelectAll(player => player.Dimension.ID == ID);
 
         internal Dimension(uint id)
         {
@@ -67,6 +70,17 @@ namespace Onset.Runtime
                 }).Value<long>("text"));
             text3D.SetDimension(ID);
             return text3D;
+        }
+
+        public IVehicle CreateVehicle(VehicleModel model, Vector position, float heading = 0)
+        {
+            IVehicle vehicle = Wrapper.Server.VehiclePool.GetEntity(Wrapper.ExecuteLua("COW_CreateVehicle",
+                new
+                {
+                    model = (int) model, x = position.X, y = position.Y, z = position.Z, heading
+                }).Value<long>("vehicle"));
+            vehicle.SetDimension(ID);
+            return vehicle;
         }
     }
 }

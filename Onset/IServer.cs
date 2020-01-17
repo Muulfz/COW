@@ -62,6 +62,11 @@ namespace Onset
         List<IObject> AllObjects { get; }
 
         /// <summary>
+        /// The list containing all vehicles on the current running server.
+        /// </summary>
+        List<IVehicle> AllVehicles { get; }
+
+        /// <summary>
         /// The list containing all packages running on the current running server.
         /// </summary>
         List<string> AllPackages { get; }

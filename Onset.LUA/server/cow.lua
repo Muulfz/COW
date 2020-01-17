@@ -89,6 +89,207 @@ function COW_GetGameVersionString(data)
     return Json.encode({version = GetGameVersionString()})
 end
 
+-- START VEHICLE API --
+
+function COW_GetVehicleDimension(data)
+    return Json.encode({dim = GetVehicleDimension(Json.decode(data)["entity"])})
+end
+
+function COW_SetVehicleDimension(data)
+    local obj = Json.decode(data);
+    SetVehicleDimension(obj["entity"], obj["dim"])
+end
+
+function COW_GetVehiclePosition(data)
+    local x_, y_, z_ = GetVehicleLocation(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetVehiclePosition(data)
+    local obj = Json.decode(data);
+    SetVehicleLocation(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_GetVehicleValidation(data)
+    return Json.encode({state = IsValidVehicle(Json.decode(data)["entity"])})
+end
+
+function COW_SetVehicleProperty(data)
+    local obj = Json.decode(data);
+    SetVehiclePropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_GetVehicleProperty(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = GetVehiclePropertyValue(obj["entity"], obj["key"])})
+end
+
+function COW_DestroyVehicle(data)
+    local obj = Json.decode(data);
+    DestroyVehicle(obj["entity"])
+end
+
+function COW_IsVehicleStreamedIn(data)
+    local obj = Json.decode(data);
+    return Json.encode({state = IsVehicleStreamedIn(obj["entity"], obj["player"])})
+end
+
+function COW_AttachVehicleNitro(data)
+    local obj = Json.decode(data);
+    AttachVehicleNitro(obj["entity"], obj["state"])
+end
+
+function COW_GetVehicleDamage(data)
+    local obj = Json.decode(data);
+    return Json.encode({dmg = GetVehicleDamage(obj["entity"], obj["index"])})
+end
+
+function COW_SetVehicleDamage(data)
+    local obj = Json.decode(data);
+    SetVehicleDamage(obj["entity"], obj["index"], obj["damage"])
+end
+
+function COW_SetVehicleRespawnParams(data)
+    local obj = Json.decode(data);
+    SetVehicleRespawnParams(obj["entity"], obj["state"], obj["time"], obj["repair"])
+end
+
+function COW_SetVehicleLinearVelocity(data)
+    local obj = Json.decode(data);
+    SetVehicleLinearVelocity(obj["entity"], obj["x"], obj["y"], obj["z"], obj["reset"])
+end
+
+function COW_SetVehicleAngularVelocity(data)
+    local obj = Json.decode(data);
+    SetVehicleAngularVelocity(obj["entity"], obj["x"], obj["y"], obj["z"], obj["reset"])
+end
+
+function COW_GetVehicleDamage(data)
+    local obj = Json.decode(data);
+    return Json.encode({dmg = GetVehicleDamage(obj["entity"], obj["index"])})
+end
+
+function COW_GetVehicleModel(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleModel(obj["entity"])})
+end
+
+function COW_GetVehicleVelocity(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleVelocity(obj["entity"])})
+end
+
+function COW_GetVehicleDriver(data)
+    local obj = Json.decode(data);
+    local id = GetVehicleDriver(obj["entity"])
+    if id == nil or id == false then
+        id = 0
+    end
+    return Json.encode({v = id})
+end
+
+function COW_GetVehicleNumberOfSeats(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleNumberOfSeats(obj["entity"])})
+end
+
+function COW_GetVehicleGear(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleGear(obj["entity"])})
+end
+
+function COW_GetVehicleLightColor(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleLightColor(obj["entity"])})
+end
+
+function COW_GetVehicleLicensePlate(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleLicensePlate(obj["entity"])})
+end
+
+function COW_SetVehicleLicensePlate(data)
+    local obj = Json.decode(data);
+    SetVehicleLicensePlate(obj["entity"], obj["v"])
+end
+
+function COW_GetVehicleHealth(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleHealth(obj["entity"])})
+end
+
+function COW_SetVehicleHealth(data)
+    local obj = Json.decode(data);
+    SetVehicleHealth(obj["entity"], obj["v"])
+end
+
+function COW_GetVehicleHeading(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleHeading(obj["entity"])})
+end
+
+function COW_SetVehicleHeading(data)
+    local obj = Json.decode(data);
+    SetVehicleHeading(obj["entity"], obj["v"])
+end
+
+function COW_GetVehicleColor(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleColor(obj["entity"])})
+end
+
+function COW_SetVehicleColor(data)
+    local obj = Json.decode(data);
+    SetVehicleColor(obj["entity"], obj["v"])
+end
+
+function COW_GetVehicleHood(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleHoodRatio(obj["entity"])})
+end
+
+function COW_SetVehicleHood(data)
+    local obj = Json.decode(data);
+    SetVehicleHoodRatio(obj["entity"], obj["v"])
+end
+
+function COW_GetVehicleTrunk(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleTrunkRatio(obj["entity"])})
+end
+
+function COW_SetVehicleHood(data)
+    local obj = Json.decode(data);
+    SetVehicleTrunkRatio(obj["entity"], obj["v"])
+end
+
+function COW_GetVehicleLightState(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleLightState(obj["entity"])})
+end
+
+function COW_SetVehicleLightEnabled(data)
+    local obj = Json.decode(data);
+    SetVehicleLightEnabled(obj["entity"], obj["v"])
+end
+
+function COW_GetVehicleEngineState(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetVehicleEngineState(obj["entity"])})
+end
+
+function COW_StartVehicleEngine(data)
+    local obj = Json.decode(data);
+    StartVehicleEngine(obj["entity"])
+end
+
+function COW_StopVehicleEngine(data)
+    local obj = Json.decode(data);
+    StopVehicleEngine(obj["entity"])
+end
+
+-- END VEHICLE API --
+
 -- START OBJECT API --
 
 function COW_GetObjectDimension(data)
@@ -409,15 +610,6 @@ end
 
 -- END PLAYER API --
 
--- START VEHICLE API --
-
-function COW_DestroyVehicle(data)
-    local obj = Json.decode(data);
-    DestroyVehicle(obj["entity"])
-end
-
--- END VEHICLE API --
-
 -- START DOOR API --
 
 function COW_DestroyDoor(data)
@@ -580,6 +772,10 @@ function COW_CreateObject(data)
     return Json.encode({obje = CreateObject(obj["model"], obj["x"], obj["y"], obj["z"], obj["rx"], obj["ry"], obj["rz"], obj["sx"], obj["sy"], obj["sz"]) })
 end
 
+function COW_CreateVehicle(data)
+    local obj = Json.decode(data);
+    return Json.encode({vehicle = CreateVehicle(obj["model"], obj["x"], obj["y"], obj["z"], obj["heading"]) })
+end
 
 -- END DIMENSION API --
 
@@ -690,19 +886,19 @@ end
 
 -- START SERVER EVENTS --
 AddEvent("OnPlayerQuit", function(playerId)
-    ExecuteNET('trigger-event', Json.encode({type = 0, player = playerId}))
+    return ExecuteNET('trigger-event', Json.encode({type = 0, player = playerId}))
 end)
 
 AddEvent("OnPlayerChat", function(playerId, text_)
-    ExecuteNET('trigger-event', Json.encode({type = 1, player = playerId, text = text_}))
+    return ExecuteNET('trigger-event', Json.encode({type = 1, player = playerId, text = text_}))
 end)
 
 AddEvent("OnPlayerChatCommand", function(playerId, command_, exists_)
-    ExecuteNET('trigger-event', Json.encode({type = 2, player = playerId, command = command_, exists = exists_}))
+    return ExecuteNET('trigger-event', Json.encode({type = 2, player = playerId, command = command_, exists = exists_}))
 end)
 
 AddEvent("OnPlayerJoin", function(playerId)
-    ExecuteNET('trigger-event', Json.encode({type = 3, player = playerId}))
+    return ExecuteNET('trigger-event', Json.encode({type = 3, player = playerId}))
 end)
 
 -- END SERVER EVENTS --
