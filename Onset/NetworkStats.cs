@@ -2,6 +2,9 @@
 
 namespace Onset
 {
+    /// <summary>
+    /// Containing information about the Onset networking.
+    /// </summary>
     public struct NetworkStats
     {
         public int TotalPacketLoss { get; }

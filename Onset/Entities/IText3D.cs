@@ -33,12 +33,11 @@ namespace Onset.Entities
         /// <summary>
         /// Attaches the 3D text to the given entity.
         /// </summary>
-        /// <param name="type">The attach type</param>
-        /// <param name="entityTo">The entity the 3D text gets attached to</param>
+        /// <param name="entityTo">The entity the 3D text gets attached to. The only entities allowed are defined by the <see cref="AttachType"/></param>
         /// <param name="position">The vector the 3D text gets positioned by</param>
-        /// <param name="r">The r vector for rx, ry, rz</param>
+        /// <param name="r">The rotation of the attachment</param>
         /// <param name="socketName">The name of the attaching socket</param>
         /// <returns>True on success</returns>
-        bool AttachTo(AttachType type, IEntity entityTo, Vector position, Vector r = null, string socketName = "");
+        bool AttachTo(IEntity entityTo, Vector position, Vector r = null, string socketName = "");
     }
 }

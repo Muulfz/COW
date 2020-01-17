@@ -30,9 +30,19 @@ namespace Onset.Dimension
         List<IDoor> Doors { get; }
 
         /// <summary>
-        /// A list with all picks currently in this dimension.
+        /// A list with all pickups currently in this dimension.
         /// </summary>
         List<IPickup> Pickups { get; }
+
+        /// <summary>
+        /// A list with all objects currently in this dimension.
+        /// </summary>
+        List<IObject> Objects { get; }
+
+        /// <summary>
+        /// A list with all 3D texts currently in this dimension.
+        /// </summary>
+        List<IText3D> Text3Ds { get; }
 
         /// <summary>
         /// Creates an explosion in this dimension.
@@ -58,9 +68,29 @@ namespace Onset.Dimension
         /// <summary>
         /// Creates a <see cref="IPickup"/> in this dimension by the given parameters.
         /// </summary>
-        /// <param name="model">The module of the Pickup (<see cref="https://dev.playonset.com/wiki/Objects">Object List</see>)</param>
+        /// <param name="model">The module of the pickup (<see cref="https://dev.playonset.com/wiki/Objects">Object List</see>)</param>
         /// <param name="position">The position at which the pickup will be spawned</param>
         /// <returns>The created pickup</returns>
         IPickup CreatePickup(ulong model, Vector position);
+
+        /// <summary>
+        /// Creates an <see cref="IObject"/> in this dimension by the given parameters.
+        /// </summary>
+        /// <param name="model">The module of the object (<see cref="https://dev.playonset.com/wiki/Objects">Object List</see>)</param>
+        /// <param name="position">The position at which the object will be spawned</param>
+        /// <param name="rotation">The rotation of the object. Default: 0</param>
+        /// <param name="scale">The scale of the object. Default: 1</param>
+        /// <returns>The created pickup</returns>
+        IObject CreateObject(ulong model, Vector position, Vector rotation = null, Vector scale = null);
+
+        /// <summary>
+        /// Creates a <see cref="IText3D"/> in this dimension by the given parameters.
+        /// </summary>
+        /// <param name="text">The text to be shown</param>
+        /// <param name="size">The size of the text</param>
+        /// <param name="position">The position of the text</param>
+        /// <param name="r">The rotation of the text. Default: 0</param>
+        /// <returns>The created 3D text</returns>
+        IText3D CreateText3D(string text, float size, Vector position, Vector r = null);
     }
 }

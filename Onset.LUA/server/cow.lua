@@ -89,7 +89,125 @@ function COW_GetGameVersionString(data)
     return Json.encode({version = GetGameVersionString()})
 end
 
+-- START OBJECT API --
+
+function COW_GetObjectDimension(data)
+    return Json.encode({dim = GetObjectDimension(Json.decode(data)["entity"])})
+end
+
+function COW_SetObjectDimension(data)
+    local obj = Json.decode(data);
+    SetObjectDimension(obj["entity"], obj["dim"])
+end
+
+function COW_GetObjectPosition(data)
+    local x_, y_, z_ = GetObjectLocation(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetObjectPosition(data)
+    local obj = Json.decode(data);
+    SetObjectLocation(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_GetObjectValidation(data)
+    return Json.encode({state = IsValidObject(Json.decode(data)["entity"])})
+end
+
+function COW_SetObjectProperty(data)
+    local obj = Json.decode(data);
+    SetObjectPropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_GetObjectProperty(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = GetObjectPropertyValue(obj["entity"], obj["key"])})
+end
+
+function COW_DestroyObject(data)
+    local obj = Json.decode(data);
+    DestroyObject(obj["entity"])
+end
+
+function COW_SetObjectAttached(data)
+    local obj = Json.decode(data);
+    return Json.encode({state = SetObjectAttached(obj["entity"], obj["type"], obj["attach"], obj["x"], obj["y"], obj["z"], obj["rx"], obj["ry"], obj["rz"], obj["socketName"])})
+end
+
+function COW_DetachObject(data) 
+    local obj = Json.decode(data)
+    SetObjectDetached(obj["entity"])
+end
+
+function COW_IsObjectStreamedIn(data)
+    local obj = Json.decode(data);
+    return Json.encode({state = IsObjectStreamedIn(obj["entity"], obj["player"])})
+end
+
+function COW_SetObjectStreamDistance(data)
+    local obj = Json.decode(data);
+    return Json.encode({state = SetObjectStreamDistance(obj["entity"], obj["dist"])})
+end
+
+function COW_GetObjectAttachmentInfo(data)
+    local obj = Json.decode(data);
+    local atype_, attach_ = GetObjectAttachmentInfo(obj["entity"])
+    return Json.encode({atype = atype_, attach = attach_})
+end
+
+function COW_StopObjectMove(data) 
+    local obj = Json.decode(data)
+    StopObjectMove(obj["entity"])
+end
+
+function COW_SetObjectMoveTo(data)
+    local obj = Json.decode(data)
+    SetObjectMoveTo(obj["entity"], obj["x"], obj["y"], obj["z"], obj["speed"])
+end
+
+function COW_SetObjectRotationAxis(data)
+    local obj = Json.decode(data)
+    SetObjectRotateAxis(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_IsObjectMoving(data)
+    local obj = Json.decode(data);
+    return Json.encode({state = IsObjectMoving(obj["entity"])})
+end
+
+function COW_GetObjectModel(data)
+    local obj = Json.decode(data);
+    return Json.encode({model = GetObjectModel(obj["entity"])})
+end
+
+function COW_GetObjectScale(data)
+    local x_, y_, z_ = GetObjectScale(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetObjectScale(data)
+    local obj = Json.decode(data);
+    SetObjectScale(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_GetObjectRotation(data)
+    local x_, y_, z_ = GetObjectRotation(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetObjectRotation(data)
+    local obj = Json.decode(data);
+    SetObjectRotation(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+-- END OBJECT API --
+
 -- START TEXT3D API --
+
+function COW_SetText3DAttached(data)
+    local obj = Json.decode(data);
+    return Json.encode({state = SetText3DAttached(obj["entity"], obj["type"], obj["attach"], obj["x"], obj["y"], obj["z"], obj["rx"], obj["ry"], obj["rz"], obj["socketName"])})
+end
 
 function COW_SetText3DText(data)
     local obj = Json.decode(data);
@@ -451,6 +569,17 @@ function COW_CreatePickup(data)
     local obj = Json.decode(data);
     return Json.encode({pickup = CreatePickup(obj["model"], obj["x"], obj["y"], obj["z"]) })
 end
+
+function COW_CreateText3D(data)
+    local obj = Json.decode(data);
+    return Json.encode({text = CreateText3D(obj["text"], obj["size"], obj["x"], obj["y"], obj["z"], obj["rx"], obj["ry"], obj["rz"]) })
+end
+
+function COW_CreateObject(data)
+    local obj = Json.decode(data);
+    return Json.encode({obje = CreateObject(obj["model"], obj["x"], obj["y"], obj["z"], obj["rx"], obj["ry"], obj["rz"], obj["sx"], obj["sy"], obj["sz"]) })
+end
+
 
 -- END DIMENSION API --
 

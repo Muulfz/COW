@@ -37,10 +37,17 @@ namespace Onset.Runtime.Entities
             SetVisibilityFor(true, players);
         }
 
-        public bool AttachTo(AttachType type, IEntity entityTo, Vector position, Vector r = null, string socketName = "")
+        public bool AttachTo(IEntity entityTo, Vector position, Vector r = null, string socketName = "")
         {
             r = r ?? Vector.Empty;
-            throw new NotImplementedException(); //TODO Implement attaching
+            return Wrapper.ExecuteLua("COW_Set" + EntityName + "Attached",
+                new
+                {
+                    entity = ID, type = (int)Wrapper.GetAttachType(entityTo), attach = entityTo.ID, 
+                    x = position.X, y = position.Y, z = position.Z,
+                    rx = r.X, ry = r.Y, rz = r.Z,
+                    socketName
+                }).Value<bool>("state");
         }
     }
 }

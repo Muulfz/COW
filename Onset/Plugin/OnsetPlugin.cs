@@ -16,6 +16,9 @@
         /// </summary>
         public Meta Meta { get; internal set; }
 
+        /// <summary>
+        /// The logger of this plugin.
+        /// </summary>
         public ILogger Logger { get; internal set; }
 
         /// <summary>

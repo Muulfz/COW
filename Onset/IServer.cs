@@ -57,6 +57,11 @@ namespace Onset
         List<IText3D> AllText3Ds { get; }
 
         /// <summary>
+        /// The list containing all objects on the current running server.
+        /// </summary>
+        List<IObject> AllObjects { get; }
+
+        /// <summary>
         /// The list containing all packages running on the current running server.
         /// </summary>
         List<string> AllPackages { get; }

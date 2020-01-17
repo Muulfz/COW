@@ -5,6 +5,7 @@ using Onset.Event;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Onset.Enums;
 
 namespace Onset.Runtime
 {
@@ -111,6 +112,50 @@ namespace Onset.Runtime
         internal static string Escape(object obj)
         {
             return JsonConvert.SerializeObject(obj);
+        }
+
+        internal static IEntity GetEntityByAttach(long entity, AttachType type)
+        {
+            switch (type)
+            {
+                case AttachType.None:
+                    return null;
+                case AttachType.Player:
+                    return Server.PlayerPool.GetEntity(entity);
+                case AttachType.Vehicle:
+                    return null; //TODO
+                case AttachType.Object:
+                    return Server.ObjectPool.GetEntity(entity);
+                case AttachType.NPC:
+                    return Server.NPCPool.GetEntity(entity);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        internal static AttachType GetAttachType(IEntity entity)
+        {
+            if (entity is IPlayer)
+            {
+                return AttachType.Player;
+            }
+
+            if (entity is INPC)
+            {
+                return AttachType.NPC;
+            }
+
+            if (entity is IVehicle)
+            {
+                return AttachType.Vehicle;
+            }
+
+            if (entity is IObject)
+            {
+                return AttachType.Object;
+            }
+
+            return AttachType.None;
         }
     }
 }

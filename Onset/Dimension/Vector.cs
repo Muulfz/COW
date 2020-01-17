@@ -5,6 +5,8 @@ namespace Onset.Dimension
 {
     /// <summary>
     /// This class represents an euclidean vector and gives some functionality.
+    /// <br/><br/>
+    /// <b>!IMPORTANT NOTE!</b><i> When setting an axis, the vector won't synced to the given entities. You need to set the complete vector, to sync the values with Onset.</i>
     /// </summary>
     public class Vector : IEquatable<Vector>
     {
@@ -12,6 +14,11 @@ namespace Onset.Dimension
         /// An empty vector which has 0 on every axis.
         /// </summary>
         public static readonly Vector Empty = new Vector();
+
+        /// <summary>
+        /// An vector containing only 1 on every axis.
+        /// </summary>
+        public static readonly Vector One = new Vector(1, 1, 1);
 
         /// <summary>
         /// The x-value of the vector.

@@ -17,6 +17,10 @@ namespace Onset.Runtime
 
         public List<IPickup> Pickups => Wrapper.Server.AllPickups.SelectAll(player => player.Dimension.ID == ID);
 
+        public List<IObject> Objects => Wrapper.Server.AllObjects.SelectAll(player => player.Dimension.ID == ID);
+
+        public List<IText3D> Text3Ds => Wrapper.Server.AllText3Ds.SelectAll(player => player.Dimension.ID == ID);
+
         internal Dimension(uint id)
         {
             ID = id;
@@ -42,6 +46,27 @@ namespace Onset.Runtime
                 new { model, x = position.X, y = position.Y, z = position.Z }).Value<long>("pickup"));
             pickup.SetDimension(ID);
             return pickup;
+        }
+
+        public IObject CreateObject(ulong model, Vector position, Vector rotation = null, Vector scale = null)
+        {
+            IObject obj = Wrapper.Server.ObjectPool.GetEntity(Wrapper.ExecuteLua("COW_CreateObject",
+                new { model, x = position.X, y = position.Y, z = position.Z, rx = position.X, ry = position.Y, rz = position.Z, 
+                    sx = position.X, sy = position.Y, sz = position.Z }).Value<long>("obje"));
+            obj.SetDimension(ID);
+            return obj;
+        }
+
+        public IText3D CreateText3D(string text, float size, Vector position, Vector r = null)
+        {
+            r = r ?? Vector.Empty;
+            IText3D text3D = Wrapper.Server.Text3DPool.GetEntity(Wrapper.ExecuteLua("COW_CreateText3D", 
+                new
+                {
+                    text, size, x = position.X, y = position.Y, z = position.Z, rx = r.X, ry = r.Y, rz = r.Z
+                }).Value<long>("text"));
+            text3D.SetDimension(ID);
+            return text3D;
         }
     }
 }

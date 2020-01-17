@@ -30,6 +30,8 @@ namespace Onset.Runtime
 
         public List<IText3D> AllText3Ds => Text3DPool.Entities;
 
+        public List<IObject> AllObjects => ObjectPool.Entities;
+
         public List<string> AllPackages => Wrapper.ExecuteLua("COW_GetAllPackages").Value<List<string>>("packages");
 
         public float TickRate => Wrapper.ExecuteLua("COW_GetServerTickRate").Value<float>("val");
@@ -57,6 +59,8 @@ namespace Onset.Runtime
         internal EntityPool<IPickup> PickupPool { get; }
 
         internal EntityPool<INPC> NPCPool { get; }
+
+        public EntityPool<IObject> ObjectPool { get; }
 
         internal EntityPool<IText3D> Text3DPool { get; }
 
@@ -86,6 +90,7 @@ namespace Onset.Runtime
             NPCPool = new EntityPool<INPC>(id => new NPC(id));
             PickupPool = new EntityPool<IPickup>(id => new Pickup(id));
             Text3DPool = new EntityPool<IText3D>(id => new Text3D(id));
+            ObjectPool = new EntityPool<IObject>(id => new Entities.Object(id));
         }
 
         public IDimension GetDimension(uint id)
