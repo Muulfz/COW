@@ -72,10 +72,55 @@ First of all, the using-declaration. You need to use the namespace **Onset.Plugi
 Secondly the class must extend OnsetPlugin. Its an abstract class and will force you to override Load and Unload. Load gets called, when your plugin gets loaded and Unload, when it gets unloaded.
 Third and also really import, the class must marked with a Meta. The meta defines some important information about your Plugin. The first argument of the meta is the ID of your plugin. Every plugin must have a unique ID. The second is the API version of the current COW API. If the API of one plugin is lower than the current running API, the plugin won't load. Third, the plugin version. You wil need a plugin version, but it won't be a problem, if you fill an empty string.
 
-#### To be continued...
+### Creating Commands
+Creating commands with COW is quite simple. When you are coming from the RageMP community, it is just as simple as create commands in this framework.
+```csharp
+[Command("vehicle")]
+public void OnVehicleCommand(IPlayer player, VehicleModel model)
+{
+     IVehicle vehicle = Server.Global.CreateVehicle(model, player.Position, player.Heading);
+     vehicle.Enter(player, 1);
+     player.SendMessage("[TestPlugin] Vehicle spawning successful!");
+}
+```
+Mark a method as **Command**, enter a command name, place the **IPlayer** interface to the first argument and place your other parameters behind. They also can be optional. You just need to register the class as command holder class by using
+```csharp
+Server.RegisterCommands<ClassNameHere>();
+```
+
+### Using Server Events
+Create a command is simple, using events to. You just need a method and the wanted **EventType**:
+```csharp
+[ServerEvent(EventType.PlayerJoin)]
+public void OnPlayerJoin(IPlayer player)
+{
+     player.SendMessage("Welcome to this Server!");
+}
+```
+All event types have their own documentation which will inform you which event has which parameters. Now just registering the class as follows:
+```csharp
+Server.RegisterEvents<ClassNameHere>();
+```
+
+### Using Remote Calling
+One big part is to call the client-side and take the respond of the request. To call a player's client-side just use
+```csharp
+player.CallRemote("event-name", "parameters", ...);
+```
+And taking response by registering the class as holder:
+```csharp
+Server.RegisterClientEvents<ClassNameHere>();
+```
+and marking methods as their handler:
+```csharp
+[RemoteEvent("event-name")]
+public void OnEventName(IPlayer player, ...)
+{
+}
+```
 
 ### Advanced Topics
-### LUA Interop
+#### LUA Interop
 LUA Interop or just LUAop stands for LUA interoperating which means you can interact with LUA from C# and vice versa without even to touch C++. Right now it is just a really basic interoping without any returning of data through the layers. But in the future it will be more complex.    
      
 To call a C# method from LUA you need to mark the method as lua export.    
@@ -112,3 +157,6 @@ and execute it from C# via the interop layer:
 ```csharp
 LuaInterop.Execute("someFunction", "one parameter", "another parameter");
 ```
+
+### Need more help?
+If you have any question and the documenation our the little guides here aren't enough, ask your question [here](https://github.com/DasDarki/COW/issues)
