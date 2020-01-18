@@ -81,6 +81,13 @@ namespace Onset.Entities
         Color LightColor { get; }
 
         /// <summary>
+        /// Forces the player to enter this vehicle.
+        /// </summary>
+        /// <param name="player">The player to force</param>
+        /// <param name="seat">The seat the player should be forced to sit</param>
+        void Enter(IPlayer player, int seat = 0);
+
+        /// <summary>
         /// Checks if the vehicle is streamed to the given player.
         /// </summary>
         /// <param name="player">The player to be checked</param>

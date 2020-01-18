@@ -57,14 +57,115 @@
         /// </summary>
         ClientConnectionRequest = 9,
         /// <summary>
-        /// Called when a <see cref="Onset.Entities.INPC"/> reached its target.
+        /// Called when a <see cref="Onset.Entities.INPC"/> reached its target.<br/>
         /// (<see cref="Onset.Entities.INPC"/> npc)
         /// </summary>
         NPCReachTarget = 10,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.INPC"/> is damaged.<br/>
+        /// (<see cref="Onset.Entities.INPC"/> npc, <see cref="Onset.Enums.DamageType"/> damageType, <see cref="float"/> amount)
+        /// </summary>
         NPCDamage = 11,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.INPC"/> is spawned.<br/>
+        /// (<see cref="Onset.Entities.INPC"/> npc)
+        /// </summary>
         NPCSpawn = 12,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.INPC"/> dies.<br/>
+        /// (<see cref="Onset.Entities.INPC"/> npc)
+        /// </summary>
         NPCDeath = 13,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.INPC"/> is streamed for a player.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.INPC"/> npc)
+        /// </summary>
         NPCStreamIn = 14,
-        NPCStreamOut = 15
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.INPC"/> is no longer streamed for a player.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.INPC"/> npc)
+        /// </summary>
+        NPCStreamOut = 15,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> enters a <see cref="Onset.Entities.IVehicle"/>.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IVehicle"/> vehicle, <see cref="int"/> seat)
+        /// </summary>
+        PlayerEnterVehicle = 16,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> leaves a <see cref="Onset.Entities.IVehicle"/>.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IVehicle"/> vehicle, <see cref="int"/> seat)
+        /// </summary>
+        PlayerLeaveVehicle = 17,
+        /// <summary>
+        /// Called when a <see cref="Onset.Enums.PlayerState"/> changes for a <see cref="Onset.Entities.IPlayer"/>.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Enums.PlayerState"/> newState, <see cref="Onset.Enums.PlayerState"/> oldState)
+        /// </summary>
+        PlayerStateChange = 18,
+        /// <summary>
+        /// Called when a vehicle respawns.<br/>
+        /// (<see cref="Onset.Entities.IVehicle"/> vehicle)
+        /// </summary>
+        VehicleRespawn = 19,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IVehicle"/> is streamed for a player.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IVehicle"/> vehicle)
+        /// </summary>
+        VehicleStreamIn = 20,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IVehicle"/> is no longer streamed for a player.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IVehicle"/> vehicle)
+        /// </summary>
+        VehicleStreamOut = 21,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> has been authorized by the server and is called after <see cref="ClientConnectionRequest"/> and before <see cref="PlayerJoin"/><br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IPlayer"/> other)
+        /// </summary>
+        PlayerServerAuth = 22,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> has been authorized by Steam. After this call <see cref="Onset.Entities.IPlayer.SteamID"/> is available.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player)
+        /// </summary>
+        PlayerSteamAuth = 23,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> finished downloading.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="string"/> fileName, <see cref="string"/> checksum)
+        /// </summary>
+        PlayerDownloadFile = 24,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> is streamed for a player.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IPlayer"/> other)
+        /// </summary>
+        PlayerStreamIn = 25,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> is no longer streamed for a player.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IPlayer"/> other)
+        /// </summary>
+        PlayerStreamOut = 26,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> is respawning.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player)
+        /// </summary>
+        PlayerSpawn = 27,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> dies.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IPlayer"/> killer)
+        /// </summary>
+        PlayerDeath = 28,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> has shot their weapon.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Enums.Weapon"/> weapon, <see cref="Onset.Enums.HitType"/> hitType, <see cref="Onset.Entities.IEntity"/> target, <see cref="Onset.Dimension.Vector"/> hitPos, <see cref="Onset.Dimension.Vector"/> startPos, <see cref="Onset.Dimension.Vector"/> impactPos)<br/>
+        /// <returns>Returning false results in preventing the hit from further processing</returns>
+        /// </summary>
+        PlayerWeaponShot = 29,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> is damaged.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Enums.DamageType"/> damageType, <see cref="float"/> amount)
+        /// </summary>
+        PlayerDamage = 30,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> interacts with a door.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IDoor"/> door, <see cref="bool"/> isBeingOpened)
+        /// </summary>
+        PlayerInteractDoor = 31
     }
 }

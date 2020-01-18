@@ -17,6 +17,7 @@
     <Compile Remove="images\**" />
     <Compile Remove="scripts\**" />
     <Compile Remove="script\**" />
+    <Compile Remove="x64\**" />
     <EmbeddedResource Remove="build\**" />
     <EmbeddedResource Remove="designtime\**" />
     <EmbeddedResource Remove="doc\**" />
@@ -24,6 +25,7 @@
     <EmbeddedResource Remove="images\**" />
     <EmbeddedResource Remove="scripts\**" />
     <EmbeddedResource Remove="script\**" />
+    <EmbeddedResource Remove="x64\**" />
     <None Remove="build\**" />
     <None Remove="designtime\**" />
     <None Remove="doc\**" />
@@ -31,6 +33,7 @@
     <None Remove="images\**" />
     <None Remove="scripts\**" />
     <None Remove="script\**" />
+    <None Remove="x64\**" />
   </ItemGroup>
 
   <ItemGroup>

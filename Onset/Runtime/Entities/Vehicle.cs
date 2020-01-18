@@ -10,7 +10,7 @@ namespace Onset.Runtime.Entities
         public string LicensePlate
         {
             get => Wrapper.ExecuteLua("COW_GetVehicleLicensePlate", new {entity = ID}).Value<string>("v");
-            set => Wrapper.ExecuteLua("COW_GetVehicleLicensePlate", new { entity = ID, v = value });
+            set => Wrapper.ExecuteLua("COW_SetVehicleLicensePlate", new { entity = ID, v = value });
         }
 
         public VehicleModel Model => (VehicleModel)Wrapper.ExecuteLua("COW_GetVehicleModel", new { entity = ID }).Value<int>("v");
@@ -18,13 +18,13 @@ namespace Onset.Runtime.Entities
         public float Health
         {
             get => Wrapper.ExecuteLua("COW_GetVehicleHealth", new { entity = ID }).Value<float>("v");
-            set => Wrapper.ExecuteLua("COW_GetVehicleHealth", new { entity = ID, v = value });
+            set => Wrapper.ExecuteLua("COW_SetVehicleHealth", new { entity = ID, v = value });
         }
 
         public float Heading
         {
             get => Wrapper.ExecuteLua("COW_GetVehicleHeading", new { entity = ID }).Value<float>("v");
-            set => Wrapper.ExecuteLua("COW_GetVehicleHeading", new { entity = ID, v = value });
+            set => Wrapper.ExecuteLua("COW_SetVehicleHeading", new { entity = ID, v = value });
         }
 
         public float Velocity => Wrapper.ExecuteLua("COW_GetVehicleVelocity", new { entity = ID }).Value<float>("v");
@@ -44,7 +44,7 @@ namespace Onset.Runtime.Entities
         public Color Color
         {
             get => new Color(Wrapper.ExecuteLua("COW_GetVehicleColor", new { entity = ID }).Value<string>("v"));
-            set => Wrapper.ExecuteLua("COW_GetVehicleColor", new { entity = ID, v = value.ToHtmlHex() });
+            set => Wrapper.ExecuteLua("COW_SetVehicleColor", new { entity = ID, v = value.ToHtmlHex() });
         }
 
         public int Gear => Wrapper.ExecuteLua("COW_GetVehicleGear", new {entity = ID}).Value<int>("v");
@@ -52,7 +52,7 @@ namespace Onset.Runtime.Entities
         public float Hood
         {
             get => Wrapper.ExecuteLua("COW_GetVehicleHood", new { entity = ID }).Value<float>("v");
-            set => Wrapper.ExecuteLua("COW_GetVehicleHood", new { entity = ID, v = value });
+            set => Wrapper.ExecuteLua("COW_SetVehicleHood", new { entity = ID, v = value });
         }
 
         public float Trunk
@@ -77,6 +77,16 @@ namespace Onset.Runtime.Entities
 
         public Vehicle(long id) : base(id, "Vehicle")
         {
+        }
+
+        public void Enter(IPlayer player, int seat = 0)
+        {
+            player.SetIntoVehicle(this, seat);
+        }
+
+        public void Leave(IPlayer player)
+        {
+            player.RemoveFromVehicle();
         }
 
         public bool IsStreamedFor(IPlayer player)

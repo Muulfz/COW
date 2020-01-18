@@ -9,6 +9,7 @@ using Onset.Runtime.Pools;
 using Onset.Utils;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Onset.Runtime
 {
@@ -108,6 +109,43 @@ namespace Onset.Runtime
             });
         }
 
+        public void Broadcast(string message)
+        {
+            Multicast(message, AllPlayers);
+        }
+
+        public void Broadcast(string message, Vector position, float range)
+        {
+            foreach (IPlayer player in AllPlayers)
+            {
+                if (player.Position.DistanceTo(position) <= range)
+                {
+                    player.SendMessage(message);
+                }
+            }
+        }
+
+        public void Multicast(string message, IEnumerable<IPlayer> players)
+        {
+            foreach (IPlayer player in players)
+            {
+                player.SendMessage(message);
+            }
+        }
+
+        public void Multicast(string message, params IPlayer[] players)
+        {
+            foreach (IPlayer player in players)
+            {
+                player.SendMessage(message);
+            }
+        }
+
+        public void ExecuteTask(Action task)
+        {
+            Task.Run(task);
+        }
+
         internal void Start()
         {
             long pingTime = Time.CurrentTimeMillis();
@@ -200,13 +238,13 @@ namespace Onset.Runtime
                         break;
                 }
 
-                bool cancel = false;
+                bool cancel = true;
                 foreach (Registry<ServerEvent>.Item item in ServerEventRegistry.GetAll(item => item.Data.Type == type))
                 {
                     object @return = item.Invoke(args);
-                    if (@return != null && (bool)@return)
+                    if (@return != null && !(bool)@return)
                     {
-                        cancel = true;
+                        cancel = false;
                     }
                 }
 

@@ -1,4 +1,5 @@
-﻿using Onset.Dimension;
+﻿using System;
+using Onset.Dimension;
 using Onset.Entities;
 using Onset.Plugin;
 using System.Collections.Generic;
@@ -153,5 +154,39 @@ namespace Onset
         /// <param name="id">The id of the wanted dimension</param>
         /// <returns>The dimension object of the given id</returns>
         IDimension GetDimension(uint id);
+
+        /// <summary>
+        /// Broadcasts the given message to all players.
+        /// </summary>
+        /// <param name="message">The message to be sent</param>
+        void Broadcast(string message);
+
+        /// <summary>
+        /// Broadcasts the given message to all players in the range around the given position.
+        /// </summary>
+        /// <param name="message">The message to be sent</param>
+        /// <param name="position">The position defining the center</param>
+        /// <param name="range">The radius in which the message gets sent</param>
+        void Broadcast(string message, Vector position, float range);
+
+        /// <summary>
+        /// Multicasts the given message to all given players.
+        /// </summary>
+        /// <param name="message">The message to be sent</param>
+        /// <param name="players">All players which should receive the message</param>
+        void Multicast(string message, IEnumerable<IPlayer> players);
+
+        /// <summary>
+        /// Multicasts the given message to all given players.
+        /// </summary>
+        /// <param name="message">The message to be sent</param>
+        /// <param name="players">All players which should receive the message</param>
+        void Multicast(string message, params IPlayer[] players);
+
+        /// <summary>
+        /// Executes the given action in the main thread.
+        /// </summary>
+        /// <param name="task">The action which represents the wanted task</param>
+        void ExecuteTask(Action task);
     }
 }

@@ -89,6 +89,273 @@ function COW_GetGameVersionString(data)
     return Json.encode({version = GetGameVersionString()})
 end
 
+-- START PLAYER API --
+
+function COW_GetPlayerDimension(data)
+    return Json.encode({dim = GetPlayerDimension(Json.decode(data)["entity"])})
+end
+
+function COW_SetPlayerDimension(data)
+    local obj = Json.decode(data);
+    SetPlayerDimension(obj["entity"], obj["dim"])
+end
+
+function COW_GetPlayerPosition(data)
+    local x_, y_, z_ = GetPlayerLocation(Json.decode(data)["entity"]);
+    return Json.encode({x = x_, y = y_, z = z_})
+end
+
+function COW_SetPlayerPosition(data)
+    local obj = Json.decode(data);
+    SetPlayerLocation(obj["entity"], obj["x"], obj["y"], obj["z"])
+end
+
+function COW_SetPlayerProperty(data)
+    local obj = Json.decode(data);
+    SetPlayerPropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
+end
+
+function COW_GetPlayerProperty(data)
+    local obj = Json.decode(data);
+    return Json.encode({value = GetPlayerPropertyValue(obj["entity"], obj["key"])})
+end
+
+function COW_SetPlayerHeading(data)
+    local obj = Json.decode(data);
+    SetPlayerHeading(obj["entity"], obj["heading"])
+end
+
+function COW_GetPlayerHeading(data)
+    return Json.encode({heading = GetPlayerHeading(Json.decode(data)["entity"])})
+end
+
+function COW_SetPlayerHealth(data)
+    local obj = Json.decode(data);
+    SetPlayerHealth(obj["entity"], obj["health"])
+end
+
+function COW_GetPlayerHealth(data)
+    return Json.encode({health = GetPlayerHealth(Json.decode(data)["entity"])})
+end
+
+function COW_SetPlayerRagdoll(data)
+    local obj = Json.decode(data);
+    SetPlayerRagdoll(obj["entity"], obj["state"])
+end
+
+function COW_GetPlayerHeadSize(data)
+    return Json.encode({size = GetPlayerHeadSize(Json.decode(data)["player"])})
+end
+
+function COW_SetPlayerHeadSize(data)
+    local obj = Json.decode(data);
+    SetPlayerHeadSize(obj["player"], obj["size"])
+end
+
+function COW_SetPlayerAnimation(data)
+    local obj = Json.decode(data);
+    SetPlayerAnimation(obj["entity"], obj["anim"])
+end
+
+function COW_GetPlayerName(data)
+    return Json.encode({playerName = GetPlayerName(Json.decode(data)["player"])})
+end
+
+function COW_SetPlayerName(data)
+    local obj = Json.decode(data);
+    SetPlayerName(obj["player"], obj["playerName"])
+end
+
+function COW_GetPlayerSteamID(data)
+    return Json.encode({steamID = GetPlayerSteamId(Json.decode(data)["player"])})
+end
+
+function COW_AddPlayerChat(data)
+    local obj = Json.decode(data);
+    AddPlayerChat(obj["player"], obj["message"])
+end
+
+function COW_AttachPlayerParachute(data)
+    local obj = Json.decode(data);
+    AttachPlayerParachute(obj["player"], obj["enable"])
+end
+
+function COW_GetPlayerNetworkStats(data)
+    local obj = Json.decode(data);
+    local totalPacketLoss_, lastSecondPacketLoss_, messagesInResendBuffer_, bytesInResendBuffer_, bytesSend_, 
+    bytesReceived_, bytesResend_, totalBytesSend_, totalBytesReceived_, isLimitedByCongestionControl_, 
+    isLimitedByOutgoingBandwidthLimit_ = GetPlayerNetworkStats(obj["player"])
+    return Json.encode(
+        {
+            totalPacketLoss = totalPacketLoss_, 
+            lastSecondPacketLoss = lastSecondPacketLoss_, 
+            messagesInResendBuffer = messagesInResendBuffer_,
+            bytesInResendBuffer = bytesInResendBuffer_,
+            bytesSend = bytesSend_, bytesReceived = bytesReceived_,
+            bytesResend = bytesResend_, totalBytesSend = totalBytesSend_,
+            totalBytesReceived = totalBytesReceived_, 
+            isLimitedByCongestionControl = isLimitedByCongestionControl_,
+            isLimitedByOutgoingBandwidthLimit = isLimitedByOutgoingBandwidthLimit_
+        })
+end
+
+function COW_GetPlayerValidation(data)
+    return Json.encode({state = IsValidPlayer(Json.decode(data)["entity"])})
+end
+
+function COW_IsPlayerTalking(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = IsPlayerTalking(obj["entity"])})
+end
+
+function COW_GetPlayerEquippedWeapon(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerEquippedWeapon(obj["entity"])})
+end
+
+function COW_IsPlayerDead(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = IsPlayerDead(obj["entity"])})
+end
+
+function COW_GetPlayerIP(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerIP(obj["entity"])})
+end
+
+function COW_GetPlayerPing(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerPing(obj["entity"])})
+end
+
+function COW_GetPlayerLocale(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerLocale(obj["entity"])})
+end
+
+function COW_GetPlayerGUID(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerGUID(obj["entity"])})
+end
+
+function COW_GetPlayerGameVersion(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = tostring(GetPlayerGameVersion(obj["entity"]))})
+end
+
+function COW_GetPlayerVehicleSeat(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerVehicleSeat(obj["entity"])})
+end
+
+function COW_GetPlayerVehicle(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerVehicle(obj["entity"])})
+end
+
+function COW_IsPlayerReloading(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = IsPlayerReloading(obj["entity"])})
+end
+
+function COW_IsPlayerAiming(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = IsPlayerAiming(obj["entity"])})
+end
+
+function COW_GetPlayerSpeed(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerMovementSpeed(obj["entity"])})
+end
+
+function COW_GetPlayerMovementMode(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerMovementMode(obj["entity"])})
+end
+
+function COW_GetPlayerState(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerState(obj["entity"])})
+end
+
+function COW_SetPlayerVoiceDimension(data)
+    local obj = Json.decode(data);
+    SetPlayerVoiceDimension(obj["entity"], obj["v"])
+end
+
+function COW_GetPlayerRespawnTime(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerRespawnTime(obj["entity"])})
+end
+
+function COW_SetPlayerRespawnTime(data)
+    local obj = Json.decode(data);
+    SetPlayerRespawnTime(obj["entity"], obj["v"])
+end
+
+function COW_GetPlayerArmor(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerArmor(obj["entity"])})
+end
+
+function COW_SetPlayerArmor(data)
+    local obj = Json.decode(data);
+    SetPlayerArmor(obj["entity"], obj["v"])
+end
+
+function COW_GetPlayerEquippedWeaponSlot(data)
+    local obj = Json.decode(data);
+    return Json.encode({v = GetPlayerEquippedWeaponSlot(obj["entity"])})
+end
+
+function COW_EquipPlayerWeaponSlot(data)
+    local obj = Json.decode(data);
+    EquipPlayerWeaponSlot(obj["entity"], obj["v"])
+end
+
+function COW_SetPlayerSpawnLocation(data)
+    local obj = Json.decode(data);
+    SetPlayerSpawnLocation(obj["player"], obj["x"], obj["y"], obj["z"], obj["heading"])
+end
+
+function COW_SetPlayerSpectate(data)
+    local obj = Json.decode(data);
+    SetPlayerSpectate(obj["player"], obj["enable"])
+end
+
+function COW_KickPlayer(data)
+    local obj = Json.decode(data);
+    KickPlayer(obj["player"], obj["reason"])
+end
+
+function COW_RemovePlayerFromVehicle(data)
+    local obj = Json.decode(data);
+    RemovePlayerFromVehicle(obj["player"])
+end
+
+function COW_SetPlayerIntoVehicle(data)
+    local obj = Json.decode(data);
+    SetPlayerInVehicle(obj["player"], obj["vehicle"], obj["seat"])
+end
+
+function COW_SetPlayerWeaponStat(data)
+    local obj = Json.decode(data);
+    SetPlayerWeaponStat(obj["player"], obj["weapon"], obj["stat"], obj["value"])
+end
+
+function COW_GetPlayerWeapon(data)
+    local obj = Json.decode(data);
+    local weapon_, ammo_ = GetPlayerWeapon(obj["player"], obj["slot"])
+    return Json.encode({weapon = weapon_, ammo = ammo_})
+end
+
+function COW_SetPlayerWeapon(data)
+    local obj = Json.decode(data);
+    SetPlayerWeapon(obj["player"], obj["weapon"], obj["ammo"], obj["equip"], obj["slot"], obj["loaded"])
+end
+
+-- END PLAYER API --
+
 -- START VEHICLE API --
 
 function COW_GetVehicleDimension(data)
@@ -508,108 +775,6 @@ end
 
 -- END PICKUP API --
 
--- START PLAYER API --
-
-function COW_SetPlayerProperty(data)
-    local obj = Json.decode(data);
-    SetPlayerPropertyValue(obj["entity"], obj["key"], obj["value"], obj["sync"])
-end
-
-function COW_GetPlayerProperty(data)
-    local obj = Json.decode(data);
-    return Json.encode({value = GetPlayerPropertyValue(obj["entity"], obj["key"])})
-end
-
-function COW_SetPlayerHeading(data)
-    local obj = Json.decode(data);
-    SetPlayerHeading(obj["entity"], obj["heading"])
-end
-
-function COW_GetPlayerHeading(data)
-    return Json.encode({heading = GetPlayerHeading(Json.decode(data)["entity"])})
-end
-
-function COW_SetPlayerHealth(data)
-    local obj = Json.decode(data);
-    SetPlayerHealth(obj["entity"], obj["health"])
-end
-
-function COW_GetPlayerHeadSize(data)
-    return Json.encode({health = GetPlayerHealth(Json.decode(data)["entity"])})
-end
-
-function COW_SetPlayerRagdoll(data)
-    local obj = Json.decode(data);
-    SetPlayerRagdoll(obj["entity"], obj["state"])
-end
-
-function COW_SetPlayerHeadSize(data)
-    local obj = Json.decode(data);
-    SetPlayerHeadSize(obj["player"], obj["size"])
-end
-
-function COW_GetPlayerHeadSize(data)
-    return Json.encode({size = GetPlayerHeadSize(Json.decode(data)["player"])})
-end
-
-function COW_SetPlayerHeadSize(data)
-    local obj = Json.decode(data);
-    SetPlayerHeadSize(obj["player"], obj["size"])
-end
-
-function COW_SetPlayerAnimation(data)
-    local obj = Json.decode(data);
-    SetPlayerAnimation(obj["entity"], obj["anim"])
-end
-
-function COW_GetPlayerName(data)
-    return Json.encode({playerName = GetPlayerName(Json.decode(data)["player"])})
-end
-
-function COW_SetPlayerName(data)
-    local obj = Json.decode(data);
-    SetPlayerName(obj["player"], obj["playerName"])
-end
-
-function COW_GetPlayerSteamID(data)
-    return Json.encode({steamID = GetPlayerName(Json.decode(data)["player"])})
-end
-
-function COW_AddPlayerChat(data)
-    local obj = Json.decode(data);
-    AddPlayerChat(obj["player"], obj["message"])
-end
-
-function COW_AttachPlayerParachute(data)
-    local obj = Json.decode(data);
-    AttachPlayerParachute(obj["player"], obj["enable"])
-end
-
-function COW_GetPlayerNetworkStats(data)
-    local obj = Json.decode(data);
-    local totalPacketLoss_, lastSecondPacketLoss_, messagesInResendBuffer_, bytesInResendBuffer_, bytesSend_, 
-    bytesReceived_, bytesResend_, totalBytesSend_, totalBytesReceived_, isLimitedByCongestionControl_, 
-    isLimitedByOutgoingBandwidthLimit_ = GetPlayerNetworkStats(obj["player"])
-    return Json.encode(
-        {
-            totalPacketLoss = totalPacketLoss_, 
-            lastSecondPacketLoss = lastSecondPacketLoss_, 
-            messagesInResendBuffer = messagesInResendBuffer_,
-            bytesInResendBuffer = bytesInResendBuffer_,
-            bytesSend = bytesSend_, bytesReceived = bytesReceived_,
-            bytesResend = bytesResend_, totalBytesSend = totalBytesSend_,
-            totalBytesReceived = totalBytesReceived_, 
-            isLimitedByCongestionControl = isLimitedByCongestionControl_,
-            isLimitedByOutgoingBandwidthLimit = isLimitedByOutgoingBandwidthLimit_
-        })
-end
-
-function COW_GetPlayerValidation(data)
-    return Json.encode({state = IsValidPlayer(Json.decode(data)["entity"])})
-end
-
--- END PLAYER API --
-
 -- START DOOR API --
 
 function COW_DestroyDoor(data)
@@ -695,10 +860,6 @@ end
 function COW_SetNPCHealth(data)
     local obj = Json.decode(data);
     SetNPCHealth(obj["entity"], obj["health"])
-end
-
-function COW_GetNPCHeadSize(data)
-    return Json.encode({health = GetNPCHealth(Json.decode(data)["entity"])})
 end
 
 function COW_SetNPCHeading(data)

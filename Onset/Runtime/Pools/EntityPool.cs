@@ -18,6 +18,7 @@ namespace Onset.Runtime.Pools
 
         internal T GetEntity(long id)
         {
+            if (id <= 0) return default;
             lock (Entities)
             {
                 T entity = SearchEntity(id);

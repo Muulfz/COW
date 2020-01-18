@@ -4,6 +4,39 @@
         <name>Onset</name>
     </assembly>
     <members>
+        <member name="T:Onset.AttachInfo">
+            <summary>
+            Containing information about an attachment.
+            </summary>
+        </member>
+        <member name="P:Onset.AttachInfo.Type">
+            <summary>
+            The type of the attachment.
+            </summary>
+        </member>
+        <member name="P:Onset.AttachInfo.Entity">
+            <summary>
+            The entity on which the attachment got attached to.
+            </summary>
+        </member>
+        <member name="T:Onset.Command">
+            <summary>
+            Methods marked with this command attribute are marked as command handlers.
+            Each handling method must have a <see cref="T:Onset.Entities.IPlayer"/> as first argument
+            followed by the arguments of the command. Arguments can be optional.
+            </summary>
+        </member>
+        <member name="P:Onset.Command.Name">
+            <summary>
+            The name of the command defining the chat root.
+            </summary>
+        </member>
+        <member name="M:Onset.Command.#ctor(System.String)">
+            <summary>
+            The main constructor requiring the command's name.
+            </summary>
+            <param name="name">The name of the command</param>
+        </member>
         <member name="T:Onset.Convertation.Converts">
             <summary>
             This is the convert registry. With it you can request a convertation
@@ -73,6 +106,26 @@
             A list with all doors currently in this dimension.
             </summary>
         </member>
+        <member name="P:Onset.Dimension.IDimension.Pickups">
+            <summary>
+            A list with all pickups currently in this dimension.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.IDimension.Objects">
+            <summary>
+            A list with all objects currently in this dimension.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.IDimension.Text3Ds">
+            <summary>
+            A list with all 3D texts currently in this dimension.
+            </summary>
+        </member>
+        <member name="P:Onset.Dimension.IDimension.Vehicles">
+            <summary>
+            A list with all vehicles currently in this dimension.
+            </summary>
+        </member>
         <member name="M:Onset.Dimension.IDimension.CreateExplosion(System.UInt32,Onset.Dimension.Vector,System.Boolean,System.Double,System.Double)">
             <summary>
             Creates an explosion in this dimension.
@@ -94,9 +147,58 @@
             <param name="interactable">Whether a player can interact with door or not</param>
             <returns>The created door</returns>
         </member>
+        <member name="M:Onset.Dimension.IDimension.CreatePickup(System.UInt64,Onset.Dimension.Vector)">
+            <summary>
+            Creates a <see cref="T:Onset.Entities.IPickup"/> in this dimension by the given parameters.
+            </summary>
+            <param name="model">The module of the pickup (<see cref="!:https://dev.playonset.com/wiki/Objects">Object List</see>)</param>
+            <param name="position">The position at which the pickup will be spawned</param>
+            <returns>The created pickup</returns>
+        </member>
+        <member name="M:Onset.Dimension.IDimension.CreateObject(System.UInt64,Onset.Dimension.Vector,Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            Creates an <see cref="T:Onset.Entities.IObject"/> in this dimension by the given parameters.
+            </summary>
+            <param name="model">The module of the object (<see cref="!:https://dev.playonset.com/wiki/Objects">Object List</see>)</param>
+            <param name="position">The position at which the object will be spawned</param>
+            <param name="rotation">The rotation of the object. Default: 0</param>
+            <param name="scale">The scale of the object. Default: 1</param>
+            <returns>The created pickup</returns>
+        </member>
+        <member name="M:Onset.Dimension.IDimension.CreateText3D(System.String,System.Single,Onset.Dimension.Vector,Onset.Dimension.Vector)">
+            <summary>
+            Creates a <see cref="T:Onset.Entities.IText3D"/> in this dimension by the given parameters.
+            </summary>
+            <param name="text">The text to be shown</param>
+            <param name="size">The size of the text</param>
+            <param name="position">The position of the text</param>
+            <param name="r">The rotation of the text. Default: 0</param>
+            <returns>The created 3D text</returns>
+        </member>
+        <member name="M:Onset.Dimension.IDimension.CreateVehicle(Onset.Enums.VehicleModel,Onset.Dimension.Vector,System.Single)">
+            <summary>
+            Creates a <see cref="T:Onset.Entities.IVehicle"/> in this dimension by the given parameters.
+            </summary>
+            <param name="model">The vehicle model (<see cref="T:Onset.Enums.VehicleModel"/>)</param>
+            <param name="position">The position the vehicle gets spawned</param>
+            <param name="heading">The yaw of the vehicle. Default: 0</param>
+            <returns>The created vehicle</returns>
+        </member>
         <member name="T:Onset.Dimension.Vector">
             <summary>
             This class represents an euclidean vector and gives some functionality.
+            <br/><br/>
+            <b>!IMPORTANT NOTE!</b><i> When setting an axis, the vector won't synced to the given entities. You need to set the complete vector, to sync the values with Onset.</i>
+            </summary>
+        </member>
+        <member name="F:Onset.Dimension.Vector.Empty">
+            <summary>
+            An empty vector which has 0 on every axis.
+            </summary>
+        </member>
+        <member name="F:Onset.Dimension.Vector.One">
+            <summary>
+            An vector containing only 1 on every axis.
             </summary>
         </member>
         <member name="P:Onset.Dimension.Vector.X">
@@ -292,6 +394,12 @@
             The state of the door. Whether the door is open or not.
             </summary>
         </member>
+        <member name="T:Onset.Entities.IEntity">
+            <summary>
+            Represents the main base class for all entities. Everything which can be spawned, or which spawns
+            automatically and stays as long as it gets destroys, is an entity.
+            </summary>
+        </member>
         <member name="P:Onset.Entities.IEntity.ID">
             <summary>
             The onset server id of this entity.
@@ -306,6 +414,7 @@
             <summary>
             The position of the entity.
             </summary>
+            <exception cref="T:System.NotImplementedException">When using Position on <see cref="T:Onset.Entities.IText3D"/></exception>
         </member>
         <member name="P:Onset.Entities.IEntity.IsValid">
             <summary>
@@ -327,6 +436,7 @@
             <param name="key">The key of the property value to be set</param>
             <param name="value">The value of the property</param>
             <param name="sync">Whether the property should be network synced or not</param>
+            <exception cref="T:System.NotImplementedException">When using SetProperty on <see cref="T:Onset.Entities.IDoor"/></exception>
         </member>
         <member name="M:Onset.Entities.IEntity.GetProperty``1(System.String,``0)">
             <summary>
@@ -336,6 +446,7 @@
             <param name="key">The key of the property</param>
             <param name="default">The default value which will be returned if none value is set</param>
             <returns>The property value to the given key or default</returns>
+            <exception cref="T:System.NotImplementedException">When using GetProperty on <see cref="T:Onset.Entities.IDoor"/></exception>
         </member>
         <member name="M:Onset.Entities.IEntity.HasProperty``1(System.String)">
             <summary>
@@ -344,6 +455,7 @@
             <typeparam name="T">The type of the needed value</typeparam>
             <param name="key">The property key to be checked</param>
             <returns>True if the key has a value</returns>
+            <exception cref="T:System.NotImplementedException">When using HasProperty on <see cref="T:Onset.Entities.IDoor"/></exception>
         </member>
         <member name="T:Onset.Entities.ILifeless">
             <summary>
@@ -422,6 +534,109 @@
             Destroys the NPC.
             </summary>
         </member>
+        <member name="T:Onset.Entities.IObject">
+            <summary>
+            Represents an object in the world of Onset.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IObject.Model">
+            <summary>
+            The model of the object.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IObject.Rotation">
+            <summary>
+            The rotation of the object.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IObject.Scale">
+            <summary>
+            The scale of the object.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IObject.IsMoving">
+            <summary>
+            Whether the object is moving or not.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IObject.RotationAxis">
+            <summary>
+            The rotation axis of the object.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IObject.IsStreamedFor(Onset.Entities.IPlayer)">
+            <summary>
+            Checks if the object is streamed to the given player.
+            </summary>
+            <param name="player">The player to be checked</param>
+            <returns>True if the object is streamed to the given player</returns>
+        </member>
+        <member name="M:Onset.Entities.IObject.SetStreamDistance(System.Double)">
+            <summary>
+            Sets the given distance as streaming distance for this object.
+            </summary>
+            <param name="dist">The distance to be set</param>
+            <returns>True on success</returns>
+        </member>
+        <member name="M:Onset.Entities.IObject.GetAttachmentInfo">
+            <summary>
+            Returns the <see cref="T:Onset.AttachInfo"/> of the attachment of this object.
+            </summary>
+            <returns>The attach info</returns>
+        </member>
+        <member name="M:Onset.Entities.IObject.AttachTo(Onset.Entities.IEntity,Onset.Dimension.Vector,Onset.Dimension.Vector,System.String)">
+            <summary>
+            Attaches the object to the given entity.
+            </summary>
+            <param name="entityTo">The entity the 3D text gets attached to. The only entities allowed are defined by the <see cref="T:Onset.Enums.AttachType"/></param>
+            <param name="position">The vector the 3D text gets positioned by</param>
+            <param name="r">The rotation of the attachment</param>
+            <param name="socketName">The name of the attaching socket</param>
+            <returns>True on success</returns>
+        </member>
+        <member name="M:Onset.Entities.IObject.Detach">
+            <summary>
+            Detaches this object if it got attached before.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IObject.WalkTo(Onset.Dimension.Vector,System.Single)">
+            <summary>
+            Moves the object to the given position with the given speed.
+            </summary>
+            <param name="position">The position the object walks to</param>
+            <param name="speed">The speed of the walking</param>
+        </member>
+        <member name="M:Onset.Entities.IObject.StopWalking">
+            <summary>
+            Stops the object from walking.
+            </summary>
+        </member>
+        <member name="T:Onset.Entities.IPickup">
+            <summary>
+            Represents an object which can be picked up. When a vehicle or a player picks the object up, the
+            belonging event <see cref="F:Onset.Event.EventType.PlayerPickupHit"/> (player) or <see cref="F:Onset.Event.EventType.VehiclePickupHit"/> (vehicle)
+            gets called.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPickup.Scale">
+            <summary>
+            The scale of the pickup.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IPickup.SetVisibilityFor(System.Boolean,Onset.Entities.IPlayer[])">
+            <summary>
+            Sets the visibility of the pickup for the given players to the given visible state.
+            </summary>
+            <param name="visible">The visible state to be set</param>
+            <param name="players">The players for which the setting will be applied</param>
+        </member>
+        <member name="M:Onset.Entities.IPickup.SetVisibleFor(Onset.Entities.IPlayer[])">
+            <summary>
+            Sets the pickup visibility for the given players to true.
+            <see cref="M:Onset.Entities.IPickup.SetVisibilityFor(System.Boolean,Onset.Entities.IPlayer[])"/>
+            </summary>
+            <param name="players">The players for which the setting will be applied</param>
+        </member>
         <member name="T:Onset.Entities.IPlayer">
             <summary>
             This interface represents the players on the server and gives control over them.
@@ -448,6 +663,166 @@
             The network stats from this player.
             </summary>
         </member>
+        <member name="P:Onset.Entities.IPlayer.IsVoiceEnabled">
+            <summary>
+            The activation state of the player's voice chat.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.IsTalking">
+            <summary>
+            The state if the player is currently taking or not.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.VoiceDimension">
+            <summary>
+            The dimension which is needed for the voice chat calculation.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.State">
+            <summary>
+            The current state of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Movement">
+            <summary>
+            The current <see cref="T:Onset.Enums.MoveMode"/> of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Speed">
+            <summary>
+            The current movement speed of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.IsAiming">
+            <summary>
+            The state if the player is currently aiming.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.IsReloading">
+            <summary>
+            The state if the player is currently reloading.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Vehicle">
+            <summary>
+            The vehicle the player is currently in, or null if in none.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.VehicleSeat">
+            <summary>
+            The current vehicle seat the player sits on.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.GameVersion">
+            <summary>
+            The game version of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.GUID">
+            <summary>
+            The global unique identifier of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Locale">
+            <summary>
+            The locale of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Ping">
+            <summary>
+            The network ping of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Hostname">
+            <summary>
+            The hostname of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.RespawnTime">
+            <summary>
+            The delay of the respawning of the player in milliseconds.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.Armor">
+            <summary>
+            The armor of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.IsDead">
+            <summary>
+            The state if the player is dead or alive.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.EquippedWeapon">
+            <summary>
+            The currently equipped weapon of the player.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IPlayer.SelectedSlot">
+            <summary>
+            The currently selected weapon equip slot of the player.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.Unspectate">
+            <summary>
+            Disables the spectate mode.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.Spectate">
+            <summary>
+            Enables the spectate mode.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.SetSpectate(System.Boolean)">
+            <summary>
+            Sets the player's spectate mode enabled or disabled.
+            </summary>
+            <param name="enable">True means the spectate mode is enabled</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.Kick(System.String)">
+            <summary>
+            Kicks the player with the given reason
+            </summary>
+            <param name="reason">The reason of the kick</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.SetWeaponStat(Onset.Enums.Weapon,Onset.Enums.WeaponStat,System.Single)">
+            <summary>
+            Sets the given weapon stat for the given weapon to the given value.
+            </summary>
+            <param name="weapon">The weapon id to be set</param>
+            <param name="stat">The weapon stat to be set</param>
+            <param name="value">The new value of the stat</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.SetWeapon(Onset.Enums.Weapon,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Sets the given equip slot to the given weapon by the given parameters.
+            </summary>
+            <param name="weapon">The weapon model to be set</param>
+            <param name="ammo">The ammo of the weapon</param>
+            <param name="slot">The equip slot to be set (1 - 3)</param>
+            <param name="equip">True if the weapon should be equipped after giving</param>
+            <param name="loaded">True if the weapon should be loaded with a magazine after giving</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.GetWeapon(System.Int32,System.Int32@)">
+            <summary>
+            Returns the weapon currently equipped at the given equip slot.
+            </summary>
+            <param name="slot">The equip slot to check</param>
+            <param name="ammo">The ammo of the weapon</param>
+            <returns>The weapon model</returns>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.SetIntoVehicle(Onset.Entities.IVehicle,System.Int32)">
+            <summary>
+            Sets the player into the given vehicle on the given seat.
+            </summary>
+            <param name="vehicle">The vehicle in which the player will be sit in</param>
+            <param name="seat">The new seat of the player</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.RemoveFromVehicle">
+            <summary>
+            Removes the player from the vehicle he is sitting in.
+            </summary>
+        </member>
         <member name="M:Onset.Entities.IPlayer.CallRemote(System.String,System.Object[])">
             <summary>
             Triggers a remote event on the client of this current player.
@@ -471,10 +846,209 @@
             Detaches this player the parachute.
             </summary>
         </member>
+        <member name="M:Onset.Entities.IPlayer.SetPickupVisibility(Onset.Entities.IPickup,System.Boolean)">
+            <summary>
+            Sets the pickup visibility to the given state.
+            </summary>
+            <param name="pickup">The pickup to which the visibility belongs to</param>
+            <param name="visible">The visible which will be set</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.SetText3DVisibility(Onset.Entities.IText3D,System.Boolean)">
+            <summary>
+            Sets the 3D text visibility to the given state.
+            </summary>
+            <param name="text">The 3D text to which the visibility belongs to</param>
+            <param name="visible">The visible which will be set</param>
+        </member>
+        <member name="M:Onset.Entities.IPlayer.SetSpawnLocation(Onset.Dimension.Vector,System.Single)">
+            <summary>
+            Sets the spawn location of the player.
+            </summary>
+            <param name="position">The x/y/z coordinates how the player spawns</param>
+            <param name="heading">The heading (yaw) how the player spawns</param>
+        </member>
+        <member name="T:Onset.Entities.IText3D">
+            <summary>
+            Represents a 3D text in the world of Onset.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IText3D.Text">
+            <summary>
+            The text content of the 3D text.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IText3D.SetVisibilityFor(System.Boolean,Onset.Entities.IPlayer[])">
+            <summary>
+            Sets the visibility of the 3D text for the given players to the given visible state.
+            </summary>
+            <param name="visible">The visible state to be set</param>
+            <param name="players">The players for which the setting will be applied</param>
+        </member>
+        <member name="M:Onset.Entities.IText3D.SetVisibleFor(Onset.Entities.IPlayer[])">
+            <summary>
+            Sets the 3D text visibility for the given players to true.
+            <see cref="M:Onset.Entities.IText3D.SetVisibilityFor(System.Boolean,Onset.Entities.IPlayer[])"/>
+            </summary>
+            <param name="players">The players for which the setting will be applied</param>
+        </member>
+        <member name="M:Onset.Entities.IText3D.AttachTo(Onset.Entities.IEntity,Onset.Dimension.Vector,Onset.Dimension.Vector,System.String)">
+            <summary>
+            Attaches the 3D text to the given entity.
+            </summary>
+            <param name="entityTo">The entity the 3D text gets attached to. The only entities allowed are defined by the <see cref="T:Onset.Enums.AttachType"/></param>
+            <param name="position">The vector the 3D text gets positioned by</param>
+            <param name="r">The rotation of the attachment</param>
+            <param name="socketName">The name of the attaching socket</param>
+            <returns>True on success</returns>
+        </member>
         <member name="T:Onset.Entities.IVehicle">
             <summary>
             Represents a vehicle in the world of onset.
             </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.LicensePlate">
+            <summary>
+            Teh license plate of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Model">
+            <summary>
+            The model of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Health">
+            <summary>
+            The health of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Heading">
+            <summary>
+            The heading (yaw) of the given vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Velocity">
+            <summary>
+            The velocity of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Driver">
+            <summary>
+            The driver of the vehicle.
+            Null when no one is driving.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Seats">
+            <summary>
+            The number of seats in the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Color">
+            <summary>
+            The color of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Gear">
+            <summary>
+            The current gear of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Hood">
+            <summary>
+            The open ratio of the hood in degrees. 0 is closed.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.Trunk">
+            <summary>
+            The open ratio of the trunk in degrees. 0 is closed.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.EngineState">
+            <summary>
+            The engine state of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.LightState">
+            <summary>
+            The light state of the vehicle.
+            </summary>
+        </member>
+        <member name="P:Onset.Entities.IVehicle.LightColor">
+            <summary>
+            The color of the light of the vehicle.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.Enter(Onset.Entities.IPlayer,System.Int32)">
+            <summary>
+            Forces the player to enter this vehicle.
+            </summary>
+            <param name="player">The player to force</param>
+            <param name="seat">The seat the player should be forced to sit</param>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.IsStreamedFor(Onset.Entities.IPlayer)">
+            <summary>
+            Checks if the vehicle is streamed to the given player.
+            </summary>
+            <param name="player">The player to be checked</param>
+            <returns>True if the vehicle is streamed to the given player</returns>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.SetRespawnParams(System.Boolean,System.Int64,System.Boolean)">
+            <summary>
+            Sets the pre-vehicle respawn parameters.
+            </summary>
+            <param name="enable">When true the respawning for this vehicle is enabled</param>
+            <param name="time">The respawn time in milliseconds</param>
+            <param name="repairOnRespawn">When true the vehicle gets repaired on respawn</param>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.SetLinearVelocity(Onset.Dimension.Vector,System.Boolean)">
+            <summary>
+            Sets the linear velocity of the vehicle.
+            </summary>
+            <param name="vector">The vector describing the axis velocity</param>
+            <param name="reset">If the vehicle should be reset</param>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.SetAngularVelocity(Onset.Dimension.Vector,System.Boolean)">
+            <summary>
+            Sets the angular velocity of the vehicle.
+            </summary>
+            <param name="vector">The vector describing the axis velocity</param>
+            <param name="reset">If the vehicle should be reset</param>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.AttachNitro">
+            <summary>
+            Attaches nitro to the vehicle.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.GetPassenger(System.Int32)">
+            <summary>
+            Returns the passenger on the given seat.
+            </summary>
+            <param name="seat">The seat to be selected</param>
+            <returns>The player on the seat or null if none is sitting on the seat</returns>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.SetNitro(System.Boolean)">
+            <summary>
+            Sets the vehicle nitro enabled state.
+            </summary>
+            <param name="enabled">The nitro state</param>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.DetachNitro">
+            <summary>
+            Detaches nitro from the vehicle.
+            </summary>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.GetDamage(System.Int32)">
+            <summary>
+            Returns the damage on the given vehicle part.
+            </summary>
+            <param name="index">The vehicle part index between 1 and 8</param>
+            <returns>The damage between 0 (no damage) and 1 (full damage)</returns>
+        </member>
+        <member name="M:Onset.Entities.IVehicle.Damage(System.Int32,System.Single)">
+            <summary>
+            Damages the given vehicle part with the given damage value.
+            </summary>
+            <param name="index">The vehicle part index between 1 and 8</param>
+            <param name="damage">The damage between 0 (no damage) and 1 (full damage)</param>
         </member>
         <member name="T:Onset.Enums.Animation">
             <summary>
@@ -484,6 +1058,36 @@
         <member name="T:Onset.Enums.AttachType">
             <summary>
             All attach types available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.DamageType">
+            <summary>
+            The type of damage that can being dealt.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.DamageType.Weapon">
+            <summary>
+            Defines damage dealt by <see cref="T:Onset.Enums.Weapon"/>
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.DamageType.Explosion">
+            <summary>
+            Defines damage dealt by explosion.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.DamageType.Fire">
+            <summary>
+            Defines damage dealt by fire.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.DamageType.Fall">
+            <summary>
+            Defines damage dealt by falling from high places.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.DamageType.Vehicle">
+            <summary>
+            Defines damage dealt by vehicle collisions.
             </summary>
         </member>
         <member name="T:Onset.Enums.EnumHelper">
@@ -501,6 +1105,56 @@
         <member name="T:Onset.Enums.HitType">
             <summary>
             All hit types available in Onset.
+            </summary>
+        </member>
+        <member name="T:Onset.Enums.MoveMode">
+            <summary>
+            Defines the player's move mode and state.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.StandingStill">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> is standing still.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.AimWalking">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> aims with e.g. a gun while walking.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.Walking">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> is just walking.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.Running">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> is running.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.Crouched">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> is crouching
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.Falling">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> is falling.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.Skydiving">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> is sky diving.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.Parachuting">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> has its parachute open.
+            </summary>
+        </member>
+        <member name="F:Onset.Enums.MoveMode.Swimming">
+            <summary>
+            A <see cref="T:Onset.Entities.IPlayer"/> is swimming.
             </summary>
         </member>
         <member name="T:Onset.Enums.PlayerState">
@@ -537,22 +1191,196 @@
         </member>
         <member name="F:Onset.Event.EventType.PlayerQuit">
             <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> quits the server.<br/>
             (<see cref="T:Onset.Entities.IPlayer"/> player)
             </summary>
         </member>
         <member name="F:Onset.Event.EventType.PlayerChat">
             <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> writes something in the chat.<br/>
             (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:System.String"/> message)
             </summary> 
         </member>
         <member name="F:Onset.Event.EventType.PlayerChatCommand">
             <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> starts executing a command.<br/>
             (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:System.String"/> command, <see cref="T:System.Boolean"/> exists)
             </summary>
         </member>
         <member name="F:Onset.Event.EventType.PlayerJoin">
             <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> joins the server.<br/>
             (<see cref="T:Onset.Entities.IPlayer"/> player)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerPickupHit">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> pickups a <see cref="T:Onset.Entities.IPickup"/>.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IPickup"/> pickup)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.VehiclePickupHit">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IVehicle"/> pickups a <see cref="T:Onset.Entities.IPickup"/>.<br/>
+            (<see cref="T:Onset.Entities.IVehicle"/> vehicle, <see cref="T:Onset.Entities.IPickup"/> pickup)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PackageStart">
+            <summary>
+            Called when the package was started.<br/>
+            ()
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PackageStop">
+            <summary>
+            Called when the package is being stopped.<br/>
+            ()
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.GameTick">
+            <summary>
+            Called on execution of the main thread.<br/>
+            (<see cref="T:System.Single"/> deltaSeconds)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.ClientConnectionRequest">
+            <summary>
+            Called when a client tries to connect to the server.<br/>
+            (<see cref="T:System.String"/> ip, <see cref="T:System.Int32"/> port)<br/>
+            <returns>Returning false results in denying the connection request and kicking the client</returns>
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.NPCReachTarget">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.INPC"/> reached its target.<br/>
+            (<see cref="T:Onset.Entities.INPC"/> npc)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.NPCDamage">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.INPC"/> is damaged.<br/>
+            (<see cref="T:Onset.Entities.INPC"/> npc, <see cref="T:Onset.Enums.DamageType"/> damageType, <see cref="T:System.Single"/> amount)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.NPCSpawn">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.INPC"/> is spawned.<br/>
+            (<see cref="T:Onset.Entities.INPC"/> npc)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.NPCDeath">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.INPC"/> dies.<br/>
+            (<see cref="T:Onset.Entities.INPC"/> npc)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.NPCStreamIn">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.INPC"/> is streamed for a player.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.INPC"/> npc)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.NPCStreamOut">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.INPC"/> is no longer streamed for a player.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.INPC"/> npc)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerEnterVehicle">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> enters a <see cref="T:Onset.Entities.IVehicle"/>.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IVehicle"/> vehicle, <see cref="T:System.Int32"/> seat)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerLeaveVehicle">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> leaves a <see cref="T:Onset.Entities.IVehicle"/>.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IVehicle"/> vehicle, <see cref="T:System.Int32"/> seat)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerStateChange">
+            <summary>
+            Called when a <see cref="T:Onset.Enums.PlayerState"/> changes for a <see cref="T:Onset.Entities.IPlayer"/>.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Enums.PlayerState"/> newState, <see cref="T:Onset.Enums.PlayerState"/> oldState)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.VehicleRespawn">
+            <summary>
+            Called when a vehicle respawns.<br/>
+            (<see cref="T:Onset.Entities.IVehicle"/> vehicle)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.VehicleStreamIn">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IVehicle"/> is streamed for a player.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IVehicle"/> vehicle)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.VehicleStreamOut">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IVehicle"/> is no longer streamed for a player.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IVehicle"/> vehicle)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerServerAuth">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> has been authorized by the server and is called after <see cref="F:Onset.Event.EventType.ClientConnectionRequest"/> and before <see cref="F:Onset.Event.EventType.PlayerJoin"/><br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IPlayer"/> other)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerSteamAuth">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> has been authorized by Steam. After this call <see cref="P:Onset.Entities.IPlayer.SteamID"/> is available.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerDownloadFile">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> finished downloading.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:System.String"/> fileName, <see cref="T:System.String"/> checksum)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerStreamIn">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> is streamed for a player.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IPlayer"/> other)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerStreamOut">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> is no longer streamed for a player.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IPlayer"/> other)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerSpawn">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> is respawning.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerDeath">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> dies.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IPlayer"/> killer)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerWeaponShot">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> has shot their weapon.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Enums.Weapon"/> weapon, <see cref="T:Onset.Enums.HitType"/> hitType, <see cref="T:Onset.Entities.IEntity"/> target, <see cref="T:Onset.Dimension.Vector"/> hitPos, <see cref="T:Onset.Dimension.Vector"/> startPos, <see cref="T:Onset.Dimension.Vector"/> impactPos)<br/>
+            <returns>Returning false results in preventing the hit from further processing</returns>
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerDamage">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> is damaged.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Enums.DamageType"/> damageType, <see cref="T:System.Single"/> amount)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerInteractDoor">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> interacts with a door.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IDoor"/> door, <see cref="T:System.Boolean"/> isBeingOpened)
             </summary>
         </member>
         <member name="T:Onset.Event.RemoteEvent">
@@ -572,7 +1400,7 @@
             handling these events. Every handling method can only handle one event.
             Some events are cancellable which means they can be cancelled at any time.
             When events are cancelled the process connected with this event will be immediately cancelled.
-            To cancel an event, the must just have to return true (as a boolean return method). But the method don't need
+            To cancel an event, the must just have to return false (as a boolean return method). But the method don't need
             a return type, but when, than the only type allowed is boolean, indicating the cancel.
             </summary>
         </member>
@@ -667,6 +1495,26 @@
             The list containing all npcs on the current running server.
             </summary>
         </member>
+        <member name="P:Onset.IServer.AllPickups">
+            <summary>
+            The list containing all pickups on the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.AllText3Ds">
+            <summary>
+            The list containing all 3D texts on the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.AllObjects">
+            <summary>
+            The list containing all objects on the current running server.
+            </summary>
+        </member>
+        <member name="P:Onset.IServer.AllVehicles">
+            <summary>
+            The list containing all vehicles on the current running server.
+            </summary>
+        </member>
         <member name="P:Onset.IServer.AllPackages">
             <summary>
             The list containing all packages running on the current running server.
@@ -754,6 +1602,45 @@
             </summary>
             <param name="id">The id of the wanted dimension</param>
             <returns>The dimension object of the given id</returns>
+        </member>
+        <member name="M:Onset.IServer.Broadcast(System.String)">
+            <summary>
+            Broadcasts the given message to all players.
+            </summary>
+            <param name="message">The message to be sent</param>
+        </member>
+        <member name="M:Onset.IServer.Broadcast(System.String,Onset.Dimension.Vector,System.Single)">
+            <summary>
+            Broadcasts the given message to all players in the range around the given position.
+            </summary>
+            <param name="message">The message to be sent</param>
+            <param name="position">The position defining the center</param>
+            <param name="range">The radius in which the message gets sent</param>
+        </member>
+        <member name="M:Onset.IServer.Multicast(System.String,System.Collections.Generic.IEnumerable{Onset.Entities.IPlayer})">
+            <summary>
+            Multicasts the given message to all given players.
+            </summary>
+            <param name="message">The message to be sent</param>
+            <param name="players">All players which should receive the message</param>
+        </member>
+        <member name="M:Onset.IServer.Multicast(System.String,Onset.Entities.IPlayer[])">
+            <summary>
+            Multicasts the given message to all given players.
+            </summary>
+            <param name="message">The message to be sent</param>
+            <param name="players">All players which should receive the message</param>
+        </member>
+        <member name="M:Onset.IServer.ExecuteTask(System.Action)">
+            <summary>
+            Executes the given action in the main thread.
+            </summary>
+            <param name="task">The action which represents the wanted task</param>
+        </member>
+        <member name="T:Onset.NetworkStats">
+            <summary>
+            Containing information about the Onset networking.
+            </summary>
         </member>
         <member name="T:Onset.Plugin.IPluginManager">
             <summary>
@@ -866,6 +1753,11 @@
             The meta of this plugin.
             </summary>
         </member>
+        <member name="P:Onset.Plugin.OnsetPlugin.Logger">
+            <summary>
+            The logger of this plugin.
+            </summary>
+        </member>
         <member name="P:Onset.Plugin.OnsetPlugin.State">
             <summary>
             The current state of this plugin.
@@ -931,50 +1823,6 @@
             Returns the current time from January 1st 1970 to now in milliseconds.
             </summary>
             <returns>The milliseconds as long</returns>
-        </member>
-        <member name="T:Onset.Command">
-            <summary>
-            The attribute represents a command handling method. Method which are attributed with this attributed
-            will be registered for the specify command and waiting to handle this command.
-            Every command handling method must have the attribute and give a name. The first argument of
-            a command handling method is the <see cref="T:Onset.Entities.IPlayer"/>
-            </summary>
-        </member>
-        <member name="P:Onset.Command.Name">
-            <summary>
-            The name of the command how it will be called.
-            </summary>
-        </member>
-        <member name="P:Onset.Command.Greedy">
-            <summary>
-            When true, the last argument is greedy. Greedy is only available for strings and lists.
-            Greedy means that the rest arguments will be merged together.
-            </summary>
-        </member>
-        <member name="P:Onset.Command.Description">
-            <summary>
-            The description of the command, how to use it and what it does.
-            </summary>
-        </member>
-        <member name="P:Onset.Command.Root">
-             <summary>
-             The root of the command. The root defines the parent of the command, so which command is over this command.
-             For example: A command has the root "tp/player", i.e. the name of this command is
-             only taken when tp is in the first position and player in the second.
-             The name of this command must then be in the third position.
-            
-             The root must have the followed format: FIRST_ROOT/SECOND_ROOT/.../NTH_ROOT
-             </summary>
-        </member>
-        <member name="P:Onset.Command.Permission">
-            <summary>
-            The permission needed for this command to be executed.
-            </summary>
-        </member>
-        <member name="P:Onset.Command.Roots">
-            <summary>
-            The root split into an array.
-            </summary>
         </member>
     </members>
 </doc>
