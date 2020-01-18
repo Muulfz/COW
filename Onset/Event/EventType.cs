@@ -31,11 +31,6 @@
         /// </summary>
         PlayerPickupHit = 4,
         /// <summary>
-        /// Called when a <see cref="Onset.Entities.IVehicle"/> pickups a <see cref="Onset.Entities.IPickup"/>.<br/>
-        /// (<see cref="Onset.Entities.IVehicle"/> vehicle, <see cref="Onset.Entities.IPickup"/> pickup)
-        /// </summary>
-        VehiclePickupHit = 5,
-        /// <summary>
         /// Called when the package was started.<br/>
         /// ()
         /// </summary>
@@ -118,7 +113,7 @@
         VehicleStreamOut = 21,
         /// <summary>
         /// Called when a <see cref="Onset.Entities.IPlayer"/> has been authorized by the server and is called after <see cref="ClientConnectionRequest"/> and before <see cref="PlayerJoin"/><br/>
-        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IPlayer"/> other)
+        /// (<see cref="Onset.Entities.IPlayer"/> player)
         /// </summary>
         PlayerServerAuth = 22,
         /// <summary>

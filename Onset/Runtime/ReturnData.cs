@@ -61,10 +61,9 @@ namespace Onset.Runtime
             return null;
         }
 
-        internal Vector ExtractPosition()
+        internal Vector ExtractPosition(string extra = "")
         {
-            if (IsFailed) return null;
-            return new Vector(this);
+            return IsFailed ? null : new Vector(this, extra);
         }
 
         internal T Value<T>(string name = null)

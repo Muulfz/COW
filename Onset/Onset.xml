@@ -614,7 +614,7 @@
         <member name="T:Onset.Entities.IPickup">
             <summary>
             Represents an object which can be picked up. When a vehicle or a player picks the object up, the
-            belonging event <see cref="F:Onset.Event.EventType.PlayerPickupHit"/> (player) or <see cref="F:Onset.Event.EventType.VehiclePickupHit"/> (vehicle)
+            belonging event <see cref="F:Onset.Event.EventType.PlayerPickupHit"/> (player) or <see cref="!:EventType.VehiclePickupHit"/> (vehicle)
             gets called.
             </summary>
         </member>
@@ -1219,12 +1219,6 @@
             (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IPickup"/> pickup)
             </summary>
         </member>
-        <member name="F:Onset.Event.EventType.VehiclePickupHit">
-            <summary>
-            Called when a <see cref="T:Onset.Entities.IVehicle"/> pickups a <see cref="T:Onset.Entities.IPickup"/>.<br/>
-            (<see cref="T:Onset.Entities.IVehicle"/> vehicle, <see cref="T:Onset.Entities.IPickup"/> pickup)
-            </summary>
-        </member>
         <member name="F:Onset.Event.EventType.PackageStart">
             <summary>
             Called when the package was started.<br/>
@@ -1325,7 +1319,7 @@
         <member name="F:Onset.Event.EventType.PlayerServerAuth">
             <summary>
             Called when a <see cref="T:Onset.Entities.IPlayer"/> has been authorized by the server and is called after <see cref="F:Onset.Event.EventType.ClientConnectionRequest"/> and before <see cref="F:Onset.Event.EventType.PlayerJoin"/><br/>
-            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IPlayer"/> other)
+            (<see cref="T:Onset.Entities.IPlayer"/> player)
             </summary>
         </member>
         <member name="F:Onset.Event.EventType.PlayerSteamAuth">

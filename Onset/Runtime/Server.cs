@@ -10,6 +10,7 @@ using Onset.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Onset.Enums;
 
 namespace Onset.Runtime
 {
@@ -233,6 +234,93 @@ namespace Onset.Runtime
                     case EventType.PlayerJoin:
                         args = new object[] { associatedPlayer };
                         break;
+                    case EventType.PlayerPickupHit:
+                        args = new object[] { associatedPlayer, PickupPool.GetEntity(data.Value<long>("pickup")) };
+                        break;
+                    case EventType.PackageStart:
+                        args = new object[0];
+                        break;
+                    case EventType.PackageStop:
+                        args = new object[0];
+                        break;
+                    case EventType.GameTick:
+                        args = new object[] { data.Value<float>("delta") };
+                        break;
+                    case EventType.ClientConnectionRequest:
+                        args = new object[] { data.Value<string>("ip"), data.Value<int>("port") };
+                        break;
+                    case EventType.NPCReachTarget:
+                        args = new object[] { NPCPool.GetEntity(data.Value<long>("npc")) };
+                        break;
+                    case EventType.NPCDamage:
+                        args = new object[] { NPCPool.GetEntity(data.Value<long>("npc")), (DamageType)data.Value<int>("damagetype"), data.Value<int>("amount") };
+                        break;
+                    case EventType.NPCSpawn:
+                        args = new object[] { NPCPool.GetEntity(data.Value<long>("npc")) };
+                        break;
+                    case EventType.NPCDeath:
+                        args = new object[] { NPCPool.GetEntity(data.Value<long>("npc")) };
+                        break;
+                    case EventType.NPCStreamIn:
+                        args = new object[] { associatedPlayer, NPCPool.GetEntity(data.Value<long>("npc")) };
+                        break;
+                    case EventType.NPCStreamOut:
+                        args = new object[] { associatedPlayer, NPCPool.GetEntity(data.Value<long>("npc")) };
+                        break;
+                    case EventType.PlayerEnterVehicle:
+                        args = new object[] { associatedPlayer, VehiclePool.GetEntity(data.Value<long>("vehicle")), data.Value<int>("seat") };
+                        break;
+                    case EventType.PlayerLeaveVehicle:
+                        args = new object[] { associatedPlayer, VehiclePool.GetEntity(data.Value<long>("vehicle")), data.Value<int>("seat") };
+                        break;
+                    case EventType.PlayerStateChange:
+                        args = new object[] { associatedPlayer, (PlayerState) data.Value<int>("newstate"), (PlayerState)data.Value<int>("oldstate") };
+                        break;
+                    case EventType.VehicleRespawn:
+                        args = new object[] { VehiclePool.GetEntity(data.Value<long>("vehicle")) };
+                        break;
+                    case EventType.VehicleStreamIn:
+                        args = new object[] { associatedPlayer, VehiclePool.GetEntity(data.Value<long>("vehicle")) };
+                        break;
+                    case EventType.VehicleStreamOut:
+                        args = new object[] { associatedPlayer, VehiclePool.GetEntity(data.Value<long>("vehicle")) };
+                        break;
+                    case EventType.PlayerServerAuth:
+                        args = new object[] { associatedPlayer };
+                        break;
+                    case EventType.PlayerSteamAuth:
+                        args = new object[] { associatedPlayer };
+                        break;
+                    case EventType.PlayerDownloadFile:
+                        args = new object[] { associatedPlayer, data.Value<string>("file"), data.Value<string>("checksum") };
+                        break;
+                    case EventType.PlayerStreamIn:
+                        args = new object[] { associatedPlayer, PlayerPool.GetEntity(data.Value<long>("other")) };
+                        break;
+                    case EventType.PlayerStreamOut:
+                        args = new object[] { associatedPlayer, PlayerPool.GetEntity(data.Value<long>("other")) };
+                        break;
+                    case EventType.PlayerSpawn:
+                        args = new object[] { associatedPlayer };
+                        break;
+                    case EventType.PlayerDeath:
+                        args = new object[] { associatedPlayer, PlayerPool.GetEntity(data.Value<long>("killer")) };
+                        break;
+                    case EventType.PlayerWeaponShot:
+                        HitType hitType = (HitType) data.Value<int>("hittype");
+                        args = new object[]
+                        {
+                            associatedPlayer, (Weapon) data.Value<int>("weapon"), hitType,
+                            GetEntityByHitType(hitType, data.Value<long>("entity")), data.ExtractPosition("hit"),
+                            data.ExtractPosition("start"), data.ExtractPosition("normal")
+                        };
+                        break;
+                    case EventType.PlayerDamage:
+                        args = new object[] { associatedPlayer, (DamageType) data.Value<int>("damagetype"), data.Value<int>("amount") };
+                        break;
+                    case EventType.PlayerInteractDoor:
+                        args = new object[] { associatedPlayer, DoorPool.GetEntity(data.Value<long>("door")), data.Value<bool>("state") };
+                        break;
                     default:
                         args = new object[0];
                         break;
@@ -262,6 +350,29 @@ namespace Onset.Runtime
             {
                 Logger.Error("Tried to execute a server event but couldn't", e);
                 return false;
+            }
+        }
+
+        private IEntity GetEntityByHitType(HitType type, long id)
+        {
+            switch (type)
+            {
+                case HitType.Air:
+                    return null;
+                case HitType.Player:
+                    return PlayerPool.GetEntity(id);
+                case HitType.Vehicle:
+                    return VehiclePool.GetEntity(id);
+                case HitType.NPC:
+                    return NPCPool.GetEntity(id);
+                case HitType.Object:
+                    return ObjectPool.GetEntity(id);
+                case HitType.Landscape:
+                    return null;
+                case HitType.Water:
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
     }

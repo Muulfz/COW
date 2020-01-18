@@ -1062,6 +1062,114 @@ AddEvent("OnPlayerJoin", function(playerId)
     return ExecuteNET('trigger-event', Json.encode({type = 3, player = playerId}))
 end)
 
+AddEvent("OnPlayerPickupHit", function(playerId, pickup_)
+    return ExecuteNET('trigger-event', Json.encode({type = 4, player = playerId, pickup = pickup_}))
+end)
+
+AddEvent("OnPackageStart", function()
+    return ExecuteNET('trigger-event', Json.encode({type = 6}))
+end)
+
+AddEvent("OnPackageStop", function()
+    return ExecuteNET('trigger-event', Json.encode({type = 7}))
+end)
+
+AddEvent("OnGameTick", function(delta_)
+    return ExecuteNET('trigger-event', Json.encode({type = 8, delta = delta_}))
+end)
+
+AddEvent("OnClientConnectionRequest", function(ip_, port_)
+    return ExecuteNET('trigger-event', Json.encode({type = 9, ip = ip_, port = port_}))
+end)
+
+AddEvent("OnNPCReachTarget", function(npc_)
+    return ExecuteNET('trigger-event', Json.encode({type = 10, npc = npc_}))
+end)
+
+AddEvent("OnNPCDamage", function(npc_, type_, amount_)
+    return ExecuteNET('trigger-event', Json.encode({type = 11, npc = npc_, damagetype = type_, amount = amount_}))
+end)
+
+AddEvent("OnNPCSpawn", function(npc_)
+    return ExecuteNET('trigger-event', Json.encode({type = 12, npc = npc_}))
+end)
+
+AddEvent("OnNPCDeath", function(npc_)
+    return ExecuteNET('trigger-event', Json.encode({type = 13, npc = npc_}))
+end)
+
+AddEvent("OnNPCStreamIn", function(npc_, player_)
+    return ExecuteNET('trigger-event', Json.encode({type = 14, npc = npc_, player = player_}))
+end)
+
+AddEvent("OnNPCStreamOut", function(npc_, player_)
+    return ExecuteNET('trigger-event', Json.encode({type = 15, npc = npc_, player = player_}))
+end)
+
+AddEvent("OnPlayerEnterVehicle", function(player_, vehicle_, seat_)
+    return ExecuteNET('trigger-event', Json.encode({type = 16, player = player_, vehicle = vehicle_, seat = seat_}))
+end)
+
+AddEvent("OnPlayerLeaveVehicle", function(player_, vehicle_, seat_)
+    return ExecuteNET('trigger-event', Json.encode({type = 17, player = player_, vehicle = vehicle_, seat = seat_}))
+end)
+
+AddEvent("OnPlayerStateChange", function(player_, newstate_, oldstate_)
+    return ExecuteNET('trigger-event', Json.encode({type = 18, player = player_, newstate = newstate_, oldstate = oldstate_}))
+end)
+
+AddEvent("OnVehicleRespawn", function(vehicle_)
+    return ExecuteNET('trigger-event', Json.encode({type = 19, vehicle = vehicle_}))
+end)
+
+AddEvent("OnVehicleStreamIn", function(vehicle_, player_)
+    return ExecuteNET('trigger-event', Json.encode({type = 20, vehicle = vehicle_, player = player_}))
+end)
+
+AddEvent("OnVehicleStreamOut", function(vehicle_, player_)
+    return ExecuteNET('trigger-event', Json.encode({type = 21, vehicle = vehicle_, player = player_}))
+end)
+
+AddEvent("OnPlayerServerAuth", function(player_)
+    return ExecuteNET('trigger-event', Json.encode({type = 22, player = player_}))
+end)
+
+AddEvent("OnPlayerSteamAuth", function(player_)
+    return ExecuteNET('trigger-event', Json.encode({type = 23, player = player_}))
+end)
+
+AddEvent("OnPlayerDownloadFile", function(player_, file_, checksum_)
+    return ExecuteNET('trigger-event', Json.encode({type = 24, player = player_, file = file_, checksum = checksum_}))
+end)
+
+AddEvent("OnPlayerStreamIn", function(player_, other_)
+    return ExecuteNET('trigger-event', Json.encode({type = 25, other = other_, player = player_}))
+end)
+
+AddEvent("OnPlayerStreamOut", function(player_, other_)
+    return ExecuteNET('trigger-event', Json.encode({type = 26, other = other_, player = player_}))
+end)
+
+AddEvent("OnPlayerSpawn", function(player_)
+    return ExecuteNET('trigger-event', Json.encode({type = 27, player = player_}))
+end)
+
+AddEvent("OnPlayerDeath", function(player_, killer_)
+    return ExecuteNET('trigger-event', Json.encode({type = 28, player = player_, killer = killer_}))
+end)
+
+AddEvent("OnPlayerDamage", function(player_, type_, amount_)
+    return ExecuteNET('trigger-event', Json.encode({type = 30, player = player_, damagetype = type_, amount = amount_}))
+end)
+
+AddEvent("OnPlayerInteractDoor", function(player_, door_, bWantsOpen)
+    return ExecuteNET('trigger-event', Json.encode({type = 31, player = player_, door = door_, state = bWantsOpen}))
+end)
+
+AddEvent("OnPlayerWeaponShot", function(player_, weapon_, hittype_, hitid, hitX, hitY, hitZ, startX, startY, startZ, normalX, normalY, normalZ)
+    return ExecuteNET('trigger-event', Json.encode({type = 29, player = player_, weapon = weapon_, hittype = hittype_, entity = hitid, hitx = hitX, hity = hitY, hitz = hitZ, startx = startX, starty = startY, startz = startZ, normalx = normalX, normaly = normalY, normalz = normalZ}))
+end)
+
 -- END SERVER EVENTS --
 
 -- END LUA API --

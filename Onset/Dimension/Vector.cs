@@ -105,7 +105,7 @@ namespace Onset.Dimension
         {
         }
 
-        internal Vector(ReturnData data) : this(data.Value<double>("x"), data.Value<double>("y"), data.Value<double>("z"))
+        internal Vector(ReturnData data, string extra = "") : this(data.Value<double>(extra + "x"), data.Value<double>(extra + "y"), data.Value<double>(extra + "z"))
         {
         }
 
