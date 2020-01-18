@@ -3,7 +3,7 @@
 COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wrapper for the LUA API for Onset Servers.
 
 ## Features
-  - Create Plugins in .NET Core 3.0 with out limitations
+  - Create Plugins in .NET Core 3.1 with out limitations
   - Cross-Platform compatibility (Windows and Linux are tested)
   - Use the full spectrum of the Server-Side LUA API in C#
   - Load other C# Libraries by simply let it load by the COW Runtime
@@ -13,7 +13,7 @@ COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wr
 
 
 ## Requirements
-  - .NET Core =3.0
+  - .NET Core =3.1
   - Onset Server
   - One package slot available (keep in mind, there is a package limitation, and COW is an own package)
   - For developers: C# knowledge and NUGET
