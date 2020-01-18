@@ -71,3 +71,42 @@ Secondly the class must extend OnsetPlugin. Its an abstract class and will force
 Third and also really import, the class must marked with a Meta. The meta defines some important information about your Plugin. The first argument of the meta is the ID of your plugin. Every plugin must have a unique ID. The second is the API version of the current COW API. If the API of one plugin is lower than the current running API, the plugin won't load. Third, the plugin version. You wil need a plugin version, but it won't be a problem, if you fill an empty string.
 
 #### To be continued...
+
+### Advanced Topics
+### LUA Interop
+LUA Interop or just LUAop stands for LUA interoperating which means you can interact with LUA from C# and vice versa without even to touch C++. Right now it is just a really basic interoping without any returning of data through the layers. But in the future it will be more complex.    
+     
+To call a C# method from LUA you need to mark the method as lua export.    
+```csharp
+[LuaExport(Name = "add")]
+public void Add(int o1, int o2)
+{
+    Logger.Debug("Result: " + (o1 + o2));
+}
+```
+The **Name** is optional. If you do not set any name, the method name is the name of the export.     
+Now you need to register the function in the interop layer:    
+```csharp
+LuaInterop.RegisterExports(this);
+```
+At **this** you need to place the class the lua export method is in.     
+     
+Now in LUA you can just call it via the COW LUA package. Therefore you need to import the package:
+```lua
+local cow = ImportPackage("cow_lua")
+```
+Then just use the executing method to execute the export:
+```lua
+cow.ExecuteLuaExport("add", 1, 2)
+```
+And it should work.    
+    
+**Vice versa**    
+The other way around is as simple as the the one way. Register your wanted function as lua import:
+```lua
+cow.AddLuaImport("someFunction", SomeFunctionInThisLuaFile)
+```
+and execute it from C# via the interop layer:
+```csharp
+LuaInterop.Execute("someFunction", "one parameter", "another parameter");
+```
