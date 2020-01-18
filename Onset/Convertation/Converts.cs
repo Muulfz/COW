@@ -17,7 +17,7 @@ namespace Onset.Convertation
     {
         private static readonly List<IConvert> Converters = new List<IConvert>
         {
-            new PlayerConvert()
+            new PlayerConvert(), new EnumConvert()
         };
 
         private static readonly IConvert EndConvert = new BasicConvert();

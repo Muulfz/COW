@@ -184,7 +184,7 @@ namespace Onset.Entities
         /// </summary>
         /// <param name="vehicle">The vehicle in which the player will be sit in</param>
         /// <param name="seat">The new seat of the player</param>
-        void SetIntoVehicle(IVehicle vehicle, int seat = 0);
+        void SetIntoVehicle(IVehicle vehicle, int seat = 1);
 
         /// <summary>
         /// Removes the player from the vehicle he is sitting in.

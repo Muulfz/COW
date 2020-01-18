@@ -85,7 +85,7 @@ namespace Onset.Entities
         /// </summary>
         /// <param name="player">The player to force</param>
         /// <param name="seat">The seat the player should be forced to sit</param>
-        void Enter(IPlayer player, int seat = 0);
+        void Enter(IPlayer player, int seat = 1);
 
         /// <summary>
         /// Checks if the vehicle is streamed to the given player.
