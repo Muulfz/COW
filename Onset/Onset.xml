@@ -1448,6 +1448,47 @@
             <param name="message">The message to be printed</param>
             <param name="exception">The exception to be appended</param>
         </member>
+        <member name="T:Onset.Interop.LuaExport">
+            <summary>
+            Marks a method as lua exported function for interoping with C# from LUA.
+            Valid types are <see cref="T:System.String"/>, any kind of number, <see cref="T:System.Boolean"/> and any kind of <see cref="T:Onset.Entities.IEntity"/>.
+            </summary>
+        </member>
+        <member name="P:Onset.Interop.LuaExport.Name">
+            <summary>
+            The name of the function, if not set, it takes the method name as function name.
+            </summary>
+        </member>
+        <member name="M:Onset.Interop.LuaExport.#ctor(System.String)">
+            <summary>
+            The default constructor which can take a name.
+            </summary>
+            <param name="name">The name of the function, leaving null results in method name taking</param>
+        </member>
+        <member name="T:Onset.Interop.LuaInterop">
+            <summary>
+            The main interoping entry point. From here all interops will be managed.
+            </summary>
+        </member>
+        <member name="M:Onset.Interop.LuaInterop.RegisterExports``1">
+            <summary>
+            Creates an object from the given type and searches through this object for <see cref="T:Onset.Interop.LuaExport"/> and registers them in the registry.
+            </summary>
+            <typeparam name="T">The type which gets created. Make sure the type has a default constructor!</typeparam>
+        </member>
+        <member name="M:Onset.Interop.LuaInterop.RegisterExports(System.Object)">
+            <summary>
+            Searches through the given object for <see cref="T:Onset.Interop.LuaExport"/> and registers them in the registry.
+            </summary>
+            <param name="obj">The object to be searched through</param>
+        </member>
+        <member name="M:Onset.Interop.LuaInterop.Execute(System.String,System.Object[])">
+            <summary>
+            Executes a lua function marked as lua import.
+            </summary>
+            <param name="function">The function name to be called</param>
+            <param name="args">The arguments to send with. Valid types are <see cref="T:System.String"/>, any kind of number, <see cref="T:System.Boolean"/> and any kind of <see cref="T:Onset.Entities.IEntity"/></param>
+        </member>
         <member name="T:Onset.IServer">
             <summary>
             The server interface is the api for the server functionality of the wrapper.

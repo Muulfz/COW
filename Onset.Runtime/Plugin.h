@@ -68,6 +68,7 @@ public:
 	
 public:
 	void startPackage(lua_State* lua);
+	void initInterop(lua_State* lua);
 	void stopPackage();
 
 };

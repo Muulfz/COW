@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Onset.Enums;
+using Onset.Interop;
 
 namespace Onset.Runtime
 {
@@ -49,6 +50,11 @@ namespace Onset.Runtime
                 if (name == "trigger-event")
                 {
                     return Server.ExecuteServerEvent(new ReturnData(json));
+                }
+
+                if (name == "interop-luaexp")
+                {
+                    LuaInterop.CallInterop(json);
                 }
 
                 if (name == "trigger-remote-event")

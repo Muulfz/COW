@@ -1172,6 +1172,32 @@ end)
 
 -- END SERVER EVENTS --
 
+-- START INTEROP API --
+
+local imports = {}
+
+--[[
+    Marks this function as lua import for interoping with C#.
+]]--
+AddFunctionExport("AddLuaImport", function (name, callback)
+    imports[name] = callback 
+end)
+
+AddFunctionExport("ExecuteLuaExport", function (name_, ...)
+    ExecuteNET('interop-luaexp', Json.encode({name = tostring(name_), args = {...}}))
+end)
+
+
+function COW_ExecuteLuaImport(data)
+    local obj = Json.decode(data);
+    local import = imports[obj["name"]]
+    if import ~= nil then
+        import(obj["args"])
+    end
+end
+
+-- END INTEROP API --
+
 -- END LUA API --
 print('COW: LUA Backend loaded!')
 print('COW: Trigger Wrapper to finish!')

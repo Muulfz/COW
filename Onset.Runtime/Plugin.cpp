@@ -59,3 +59,8 @@ void Plugin::stopPackage()
 	bridge->stop();
 }
 
+void Plugin::initInterop(lua_State* lua)
+{
+	
+}
+

@@ -40,6 +40,10 @@ EXPORT(void) OnPackageLoad(const char* PackageName, lua_State* L)
 		Plugin::Get()->startPackage(L);
 		Onset::Plugin::Get()->Log("[COW: Wrapper] Runtime successfully loaded!");
 	}
+	else
+	{
+		Plugin::Get()->initInterop(L);
+	}
 }
 
 EXPORT(void) OnPackageUnload(const char* PackageName)
