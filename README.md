@@ -13,6 +13,8 @@ COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wr
   - A powerfull API which offers the newest standards
   - No need to interact with C++ or the Runtime itself
 
+## Preview
+![](examples/cow_preview.gif)
 
 ## Requirements
   - .NET Core =3.1
