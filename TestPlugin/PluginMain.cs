@@ -24,6 +24,12 @@ namespace TestPlugin
             
         }
 
+        [ServerEvent(EventType.PlayerJoin)]
+        public void OnPlayerJoin(IPlayer player)
+        {
+            player.SendMessage("Welcome to this Server!");
+        }
+
         [Command("vehicle")]
         public void OnVehicleCommand(IPlayer player, VehicleModel model)
         {
