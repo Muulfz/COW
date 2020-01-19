@@ -21,7 +21,14 @@ COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wr
   - For developers: C# knowledge and NUGET
 
 ## Installation
-*coming soon*
+1. Download the latest installer from the release page [here](https://github.com/OnsetCOW/COW/releases)
+2. Extract the zip to your server directory
+3. To use the installer make sure you have Java 8 or higher 
+4. Start the installer by executing the start_installer.bat (on Windows) or the start_installer.sh (on Linux). Mac is not supported.
+5. After the installer has been started you have to select the server directory, if the current directory is the server directory, just press enter.
+6. Now the installation process starts and is installing COW. Make sure the Server is offline!
+7. After installation has been finished you can close the installer and are ready to go.
+8. To install COW plugins, just drag them into the *SERVER_DIRECTORY/cow/plugins* folder.
 
 ## Team
 Name  | Role | Link
