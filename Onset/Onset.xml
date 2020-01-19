@@ -37,6 +37,21 @@
             </summary>
             <param name="name">The name of the command</param>
         </member>
+        <member name="T:Onset.CommandError">
+            <summary>
+            An enum representing the errors which can happen when failing a command execution.
+            </summary>
+        </member>
+        <member name="F:Onset.CommandError.NotExisting">
+            <summary>
+            Occurs when the requested command is none registered command.
+            </summary>
+        </member>
+        <member name="F:Onset.CommandError.TooFewArguments">
+            <summary>
+            Occurs when the player did not enter the required number of arguments.
+            </summary>
+        </member>
         <member name="T:Onset.Convertation.Converts">
             <summary>
             This is the convert registry. With it you can request a convertation
@@ -1375,6 +1390,19 @@
             <summary>
             Called when a <see cref="T:Onset.Entities.IPlayer"/> interacts with a door.<br/>
             (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:Onset.Entities.IDoor"/> door, <see cref="T:System.Boolean"/> isBeingOpened)
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerCommandFailed">
+            <summary>
+            Called when a <see cref="T:Onset.Entities.IPlayer"/> wants to execute a command, but it fails with a <see cref="T:Onset.CommandError"/>.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:System.String"/> commandName, <see cref="T:System.String"/>[] args, <see cref="T:Onset.CommandError"/> error)<br/>
+            </summary>
+        </member>
+        <member name="F:Onset.Event.EventType.PlayerPreCommand">
+            <summary>
+            Called before the command is being processed.<br/>
+            (<see cref="T:Onset.Entities.IPlayer"/> player, <see cref="T:System.String"/> commandName, <see cref="T:System.String"/>[] args)
+            /// <returns>Returning false results in preventing the further processing</returns>
             </summary>
         </member>
         <member name="T:Onset.Event.RemoteEvent">

@@ -161,6 +161,17 @@
         /// Called when a <see cref="Onset.Entities.IPlayer"/> interacts with a door.<br/>
         /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IDoor"/> door, <see cref="bool"/> isBeingOpened)
         /// </summary>
-        PlayerInteractDoor = 31
+        PlayerInteractDoor = 31,
+        /// <summary>
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> wants to execute a command, but it fails with a <see cref="Onset.CommandError"/>.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="string"/> commandName, <see cref="string"/>[] args, <see cref="Onset.CommandError"/> error)<br/>
+        /// </summary>
+        PlayerCommandFailed = 32,
+        /// <summary>
+        /// Called before the command is being processed.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="string"/> commandName, <see cref="string"/>[] args)
+        /// /// <returns>Returning false results in preventing the further processing</returns>
+        /// </summary>
+        PlayerPreCommand = 32,
     }
 }

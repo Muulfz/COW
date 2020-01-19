@@ -353,6 +353,21 @@ namespace Onset.Runtime
             }
         }
 
+        internal bool ExecuteInternalServerEvent(EventType @event, params object[] args)
+        {
+            bool cancel = true;
+            foreach (Registry<ServerEvent>.Item item in ServerEventRegistry.GetAll(item => item.Data.Type == @event))
+            {
+                object @return = item.Invoke(args);
+                if (@return != null && !(bool)@return)
+                {
+                    cancel = false;
+                }
+            }
+
+            return cancel;
+        }
+
         private IEntity GetEntityByHitType(HitType type, long id)
         {
             switch (type)

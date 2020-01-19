@@ -77,21 +77,26 @@ namespace Onset.Runtime
                         Server.CommandRegistry.GetItem(item => item.Data.Name == data.Value<string>("commandName"));
                     if (commandItem == null)
                     {
-                        //TODO error handling: No command found
-                        Server.Logger.Warn("Tried to execute command \"" + data.Value<string>("commandName") + "\": It is not a command");
+                        Server.ExecuteInternalServerEvent(EventType.PlayerCommandFailed, player,
+                            data.Value<string>("commandName"), args, CommandError.NotExisting);
                         return false;
                     }
-                    //TODO permission handling
-                    int requiredParams = commandItem.Invoker.GetParameters().Count(info => !info.IsOptional) - 1;
-                    if (requiredParams > args.Length)
+
+                    if (Server.ExecuteInternalServerEvent(EventType.PlayerPreCommand, player, data.Value<string>("commandName"), args))
                     {
-                        //TODO error handling: To few arguments!
-                        Server.Logger.Warn("Tried to execute command \"" + commandItem.Data.Name + "\": To few arguments (got: " + args.Length + "; needed: " + requiredParams + ")");
-                        return false;
+                        int requiredParams = commandItem.Invoker.GetParameters().Count(info => !info.IsOptional) - 1;
+                        if (requiredParams > args.Length)
+                        {
+                            Server.ExecuteInternalServerEvent(EventType.PlayerCommandFailed, player,
+                                data.Value<string>("commandName"), args, CommandError.TooFewArguments);
+                            return false;
+                        }
+
+                        object[] arr = Converts.Convert(args, commandItem.Invoker.GetParameters(), player, true,
+                            "Command");
+                        if (arr == null) return false;
+                        commandItem.Invoke(arr);
                     }
-                    object[] arr = Converts.Convert(args, commandItem.Invoker.GetParameters(), player, true, "Command");
-                    if (arr == null) return false;
-                    commandItem.Invoke(arr);
                 }
             }
             catch (Exception e)
