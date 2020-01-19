@@ -2,6 +2,8 @@
 
 > :warning: This Project is in the absolute Alpha. Please report any bugs to the issue page [here](https://github.com/DasDarki/COW/issues). Thanks in advanced!
 
+> :no_entry: Linux isn't built yet and so it is not supported! Please be patient. Linux support will follow soon!
+
 COW stands for **C**Sharp **O**nset **W**rapper and is - as the name says - a Wrapper for the LUA API for Onset Servers.
 
 ## Features
