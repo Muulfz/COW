@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<Authors>DasDarki</Authors>
+	<Company>DasDarki, Onset by BlueMountainsIO</Company>
+	<Description>This Package is the main Class Library for the Onset COW Runtime.</Description>
+	<Copyright>(c) DasDarki 2020.</Copyright>
+	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	<PackageProjectUrl>https://onsetcow.github.io/Onset.html</PackageProjectUrl>
+	<PackageIconUrl>https://gameserver.4players.de/wp-content/uploads/2019/12/onset_logo_4net_300x300.png</PackageIconUrl>
+	<RepositoryUrl>https://github.com/OnsetCOW/COW</RepositoryUrl>
+	<PackageTags>Onset, Development</PackageTags>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,6 +45,10 @@
     <None Remove="scripts\**" />
     <None Remove="script\**" />
     <None Remove="x64\**" />
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
