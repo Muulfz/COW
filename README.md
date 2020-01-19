@@ -37,7 +37,7 @@ COW is licensed under the **MIT** License.
 - Hot Reload
 
 ## Documentaion
-*coming soon*
+https://onsetcow.github.io/Onset.html
 
 ### Getting Started
 This is a guide that shows you how to start writing with the COW plugin. We will go through all the steps step by step and explain the absolute basic structure. There will not be a complete tutorial for the complete API, because it is much too big. For more information after this guide, we recommend the documentation of the API itself (see HERE)
