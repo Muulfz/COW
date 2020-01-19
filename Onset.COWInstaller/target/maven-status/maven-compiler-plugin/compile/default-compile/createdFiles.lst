@@ -1,0 +1,4 @@
+com\github\teamcow\cowinstaller\OS.class
+com\github\teamcow\cowinstaller\Zip.class
+com\github\teamcow\cowinstaller\UpdateData.class
+com\github\teamcow\cowinstaller\CowInstaller.class
