@@ -52,7 +52,7 @@ https://onsetcow.github.io/Onset.html
 This is a guide that shows you how to start writing with the COW plugin. We will go through all the steps step by step and explain the absolute basic structure. There will not be a complete tutorial for the complete API, because it is much too big. For more information after this guide, we recommend the documentation of the API itself (see HERE)
 
 #### Step 1: Setup IDE
-To use the API you need a .NET Core 3.0 project. We won't go through the steps how to create a project. After the project is created, go to NUGET and search for *TODO PLEASE ENTER NUGET HERE* and install the latest version.
+To use the API you need a .NET Core 3.0 project. We won't go through the steps how to create a project. After the project is created, go to NUGET and search for [Onset](https://www.nuget.org/packages/Onset/) and install the latest version.
 
 #### Step 2: Create Main Class
 Now we can create the main class. Every plugin must have a main class. The plugin manager of COW will than use this class as entry point and will manage your plugin from that point. There are some important which are required, so that there are no problemes with the plugin.
