@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Onset.Convertation
+namespace Onset.Converter
 {
     /// <summary>
     /// Converts are meant to convert objects into a specific type. This mostly defined

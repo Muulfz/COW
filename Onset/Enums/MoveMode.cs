@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Onset.Enums
+﻿namespace Onset.Enums
 {
     /// <summary>
     /// Defines the player's move mode and state.

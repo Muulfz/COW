@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Onset.Entities;
 using Onset.Helper;
 using Onset.Runtime;
 
-namespace Onset.Convertation.BuildIn
+namespace Onset.Converter.BuildIn
 {
     internal class PlayerConvert : IConvert
     {

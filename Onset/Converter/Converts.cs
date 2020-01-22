@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Onset.Convertation.BuildIn;
+using Onset.Converter.BuildIn;
 using Onset.Entities;
 using Onset.Helper;
 using Onset.Runtime;
@@ -7,10 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Onset.Convertation
+namespace Onset.Converter
 {
     /// <summary>
-    /// This is the convert registry. With it you can request a convertation
+    /// This is the convert registry. With it you can request a converter
     /// or register new converts.
     /// </summary>
     public class Converts

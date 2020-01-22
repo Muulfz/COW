@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Onset
+﻿namespace Onset
 {
     /// <summary>
     /// An enum representing the errors which can happen when failing a command execution.

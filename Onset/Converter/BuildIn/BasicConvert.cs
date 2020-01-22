@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Onset.Convertation.BuildIn
+namespace Onset.Converter.BuildIn
 {
     internal class BasicConvert : IConvert
     {

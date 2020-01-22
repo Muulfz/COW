@@ -2,9 +2,7 @@
 using Onset.Entities;
 using Onset.Enums;
 using Onset.Event;
-using Onset.Interop;
 using Onset.Plugin;
-using Onset.Utils;
 
 namespace TestPlugin
 {

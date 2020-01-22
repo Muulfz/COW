@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Onset.Dimension;
+﻿using Onset.Dimension;
 using Onset.Event;
 
 namespace Onset.Entities
