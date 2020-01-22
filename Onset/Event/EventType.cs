@@ -1,7 +1,5 @@
 ﻿namespace Onset.Event
 {
-    using Entities;
-
     /// <summary>
     /// All event types which can be listened to.
     /// </summary>
@@ -28,8 +26,8 @@
         /// </summary>
         PlayerJoin = 3,
         /// <summary>
-        /// Called when a <see cref="Onset.Entities.IPlayer"/> pickups a <see cref="IPickup"/>.<br/>
-        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="IPickup"/> pickup)
+        /// Called when a <see cref="Onset.Entities.IPlayer"/> pickups a <see cref="Onset.Entities.IPickup"/>.<br/>
+        /// (<see cref="Onset.Entities.IPlayer"/> player, <see cref="Onset.Entities.IPickup"/> pickup)
         /// </summary>
         PlayerPickupHit = 4,
         /// <summary>
